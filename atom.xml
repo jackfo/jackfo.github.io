@@ -73,7 +73,7 @@
     <link href="/child/2017/12/09/%20The%20introduce%20of%20NIO/"/>
     <id>/child/2017/12/09/ The introduce of NIO/</id>
     <published>2017-12-09T01:34:14.000Z</published>
-    <updated>2017-12-10T15:11:22.000Z</updated>
+    <updated>2017-12-11T15:02:12.000Z</updated>
     
     <content type="html"><![CDATA[<h1><span id="the-introduce-of-nio">The introduce of NIO</span></h1><h2><span id="what-is-nio">What is NIO？</span></h2><p>          java.nio (non-blocking I/O) is a collection of Java programming language APIs that offer features for intensive I/O operations. It was introduced with the J2SE 1.4 release of Java by Sun Microsystems to complement an existing standard I/O<br>&lt;p style=&quot;text-align: right;&quot;&gt;---reference wiki&lt;/p&gt;</p><h2><span id="the-compare-between-nio-and-io">The compare between NIO and IO</span></h2><table><thead><tr><th>IO</th><th>NIO</th></tr></thead><tbody><tr><td>Stream Oriented</td><td>Buffer Oriented</td></tr><tr><td>Blocking IO</td><td>Non Blocking IO</td></tr><tr><td></td><td>Selectors</td></tr></tbody></table><h2><span id="the-function-of-nio">The function of NIO</span></h2><p>   When it comes to NIO, we should what is IO. In the traditional IO, we read or store data in the form of stream, so it is easy to cause obstruction that we difficult calls in multiple threads.But in NIO,The problem has a good way to solve it, the way is that we convey information by channel. in the channel, we can construct the corresponding buffer to transfer data. so we can say it is base on <strong>Buffer Oriented</strong>.</p>]]></content>
     
