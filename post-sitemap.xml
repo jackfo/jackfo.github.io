@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>/child/2017/12/12/media/test/</loc>
+        <lastmod>2017-12-12T01:37:36.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>/child/2017/12/11/java%20NIO%20selector/</loc>
         <lastmod>2017-12-11T15:34:13.000Z</lastmod>
         <changefreq>weekly</changefreq>
