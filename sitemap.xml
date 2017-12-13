@@ -2,22 +2,22 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <sitemap>
-        <loc>/child/post-sitemap.xml</loc>
+        <loc>http://www.cfad.tech/post-sitemap.xml</loc>
         <lastmod>2017-12-12T15:45:14.000Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>/child/page-sitemap.xml</loc>
+        <loc>http://www.cfad.tech/page-sitemap.xml</loc>
         <lastmod>2017-12-11T15:12:30.000Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>/child/category-sitemap.xml</loc>
+        <loc>http://www.cfad.tech/category-sitemap.xml</loc>
         <lastmod>2017-12-11T15:34:13.000Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>/child/tag-sitemap.xml</loc>
+        <loc>http://www.cfad.tech/tag-sitemap.xml</loc>
         <lastmod>2017-12-11T15:34:13.000Z</lastmod>
     </sitemap>
 

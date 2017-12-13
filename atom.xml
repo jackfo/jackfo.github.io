@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="/child/"/>
+  <link href="http://www.cfad.tech/"/>
   <updated>2017-12-12T15:45:14.000Z</updated>
-  <id>/child/</id>
+  <id>http://www.cfad.tech/</id>
   
   <author>
     <name>cfs</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>A example of Netty</title>
-    <link href="/child/2017/12/12/netty/A%20example%20of%20Netty/"/>
-    <id>/child/2017/12/12/netty/A example of Netty/</id>
+    <link href="http://www.cfad.tech/2017/12/12/netty/A%20example%20of%20Netty/"/>
+    <id>http://www.cfad.tech/2017/12/12/netty/A example of Netty/</id>
     <published>2017-12-12T12:34:14.000Z</published>
     <updated>2017-12-12T15:45:14.000Z</updated>
     
@@ -35,17 +35,17 @@
     
     </summary>
     
-      <category term="Netty" scheme="/child/categories/Netty/"/>
+      <category term="Netty" scheme="http://www.cfad.tech/categories/Netty/"/>
     
     
-      <category term="Netty" scheme="/child/tags/Netty/"/>
+      <category term="Netty" scheme="http://www.cfad.tech/tags/Netty/"/>
     
   </entry>
   
   <entry>
     <title>java NIO Selector</title>
-    <link href="/child/2017/12/11/NIO/java%20NIO%20selector/"/>
-    <id>/child/2017/12/11/NIO/java NIO selector/</id>
+    <link href="http://www.cfad.tech/2017/12/11/NIO/java%20NIO%20selector/"/>
+    <id>http://www.cfad.tech/2017/12/11/NIO/java NIO selector/</id>
     <published>2017-12-11T12:34:14.000Z</published>
     <updated>2017-12-11T15:34:13.000Z</updated>
     
@@ -62,17 +62,17 @@
     
     </summary>
     
-      <category term="NIO" scheme="/child/categories/NIO/"/>
+      <category term="NIO" scheme="http://www.cfad.tech/categories/NIO/"/>
     
     
-      <category term="NIO" scheme="/child/tags/NIO/"/>
+      <category term="NIO" scheme="http://www.cfad.tech/tags/NIO/"/>
     
   </entry>
   
   <entry>
     <title>java NIO channel</title>
-    <link href="/child/2017/12/11/NIO/java%20NIO%20channel/"/>
-    <id>/child/2017/12/11/NIO/java NIO channel/</id>
+    <link href="http://www.cfad.tech/2017/12/11/NIO/java%20NIO%20channel/"/>
+    <id>http://www.cfad.tech/2017/12/11/NIO/java NIO channel/</id>
     <published>2017-12-11T01:34:14.000Z</published>
     <updated>2017-12-11T15:02:10.000Z</updated>
     
@@ -88,17 +88,17 @@
     
     </summary>
     
-      <category term="NIO" scheme="/child/categories/NIO/"/>
+      <category term="NIO" scheme="http://www.cfad.tech/categories/NIO/"/>
     
     
-      <category term="NIO" scheme="/child/tags/NIO/"/>
+      <category term="NIO" scheme="http://www.cfad.tech/tags/NIO/"/>
     
   </entry>
   
   <entry>
     <title>java NIO buffer</title>
-    <link href="/child/2017/12/10/NIO/java%20NIO%20buffer/"/>
-    <id>/child/2017/12/10/NIO/java NIO buffer/</id>
+    <link href="http://www.cfad.tech/2017/12/10/NIO/java%20NIO%20buffer/"/>
+    <id>http://www.cfad.tech/2017/12/10/NIO/java NIO buffer/</id>
     <published>2017-12-10T11:00:00.000Z</published>
     <updated>2017-12-11T04:39:00.000Z</updated>
     
@@ -114,17 +114,17 @@
     
     </summary>
     
-      <category term="NIO" scheme="/child/categories/NIO/"/>
+      <category term="NIO" scheme="http://www.cfad.tech/categories/NIO/"/>
     
     
-      <category term="NIO" scheme="/child/tags/NIO/"/>
+      <category term="NIO" scheme="http://www.cfad.tech/tags/NIO/"/>
     
   </entry>
   
   <entry>
     <title>The introduce of NIO</title>
-    <link href="/child/2017/12/09/NIO/%20The%20introduce%20of%20NIO/"/>
-    <id>/child/2017/12/09/NIO/ The introduce of NIO/</id>
+    <link href="http://www.cfad.tech/2017/12/09/NIO/%20The%20introduce%20of%20NIO/"/>
+    <id>http://www.cfad.tech/2017/12/09/NIO/ The introduce of NIO/</id>
     <published>2017-12-09T01:34:14.000Z</published>
     <updated>2017-12-11T15:02:12.000Z</updated>
     
@@ -141,10 +141,10 @@
     
     </summary>
     
-      <category term="NIO" scheme="/child/categories/NIO/"/>
+      <category term="NIO" scheme="http://www.cfad.tech/categories/NIO/"/>
     
     
-      <category term="NIO" scheme="/child/tags/NIO/"/>
+      <category term="NIO" scheme="http://www.cfad.tech/tags/NIO/"/>
     
   </entry>
   
