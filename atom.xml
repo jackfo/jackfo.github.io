@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://www.cfad.tech/"/>
+  <link href="www.cfad.tech/"/>
   <updated>2017-12-12T15:45:14.000Z</updated>
-  <id>http://www.cfad.tech/</id>
+  <id>www.cfad.tech/</id>
   
   <author>
     <name>cfs</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>A example of Netty</title>
-    <link href="http://www.cfad.tech/2017/12/12/netty/netty1/"/>
-    <id>http://www.cfad.tech/2017/12/12/netty/netty1/</id>
+    <link href="www.cfad.tech/2017/12/12/netty/netty1/"/>
+    <id>www.cfad.tech/2017/12/12/netty/netty1/</id>
     <published>2017-12-12T12:34:14.000Z</published>
     <updated>2017-12-12T15:45:14.000Z</updated>
     
@@ -34,17 +34,17 @@
     
     </summary>
     
-      <category term="Netty" scheme="http://www.cfad.tech/categories/Netty/"/>
+      <category term="Netty" scheme="www.cfad.tech/categories/Netty/"/>
     
     
-      <category term="Netty" scheme="http://www.cfad.tech/tags/Netty/"/>
+      <category term="Netty" scheme="www.cfad.tech/tags/Netty/"/>
     
   </entry>
   
   <entry>
     <title>java NIO Selector</title>
-    <link href="http://www.cfad.tech/2017/12/11/NIO/nio4/"/>
-    <id>http://www.cfad.tech/2017/12/11/NIO/nio4/</id>
+    <link href="www.cfad.tech/2017/12/11/NIO/nio4/"/>
+    <id>www.cfad.tech/2017/12/11/NIO/nio4/</id>
     <published>2017-12-11T12:34:14.000Z</published>
     <updated>2017-12-11T15:34:13.000Z</updated>
     
@@ -60,17 +60,17 @@
     
     </summary>
     
-      <category term="NIO" scheme="http://www.cfad.tech/categories/NIO/"/>
+      <category term="NIO" scheme="www.cfad.tech/categories/NIO/"/>
     
     
-      <category term="NIO" scheme="http://www.cfad.tech/tags/NIO/"/>
+      <category term="NIO" scheme="www.cfad.tech/tags/NIO/"/>
     
   </entry>
   
   <entry>
     <title>java NIO channel</title>
-    <link href="http://www.cfad.tech/2017/12/11/NIO/nio3/"/>
-    <id>http://www.cfad.tech/2017/12/11/NIO/nio3/</id>
+    <link href="www.cfad.tech/2017/12/11/NIO/nio3/"/>
+    <id>www.cfad.tech/2017/12/11/NIO/nio3/</id>
     <published>2017-12-11T01:34:14.000Z</published>
     <updated>2017-12-11T15:02:10.000Z</updated>
     
@@ -85,17 +85,17 @@
     
     </summary>
     
-      <category term="NIO" scheme="http://www.cfad.tech/categories/NIO/"/>
+      <category term="NIO" scheme="www.cfad.tech/categories/NIO/"/>
     
     
-      <category term="NIO" scheme="http://www.cfad.tech/tags/NIO/"/>
+      <category term="NIO" scheme="www.cfad.tech/tags/NIO/"/>
     
   </entry>
   
   <entry>
     <title>java NIO buffer</title>
-    <link href="http://www.cfad.tech/2017/12/10/NIO/nio2/"/>
-    <id>http://www.cfad.tech/2017/12/10/NIO/nio2/</id>
+    <link href="www.cfad.tech/2017/12/10/NIO/nio2/"/>
+    <id>www.cfad.tech/2017/12/10/NIO/nio2/</id>
     <published>2017-12-10T11:00:00.000Z</published>
     <updated>2017-12-11T04:39:00.000Z</updated>
     
@@ -110,17 +110,17 @@
     
     </summary>
     
-      <category term="NIO" scheme="http://www.cfad.tech/categories/NIO/"/>
+      <category term="NIO" scheme="www.cfad.tech/categories/NIO/"/>
     
     
-      <category term="NIO" scheme="http://www.cfad.tech/tags/NIO/"/>
+      <category term="NIO" scheme="www.cfad.tech/tags/NIO/"/>
     
   </entry>
   
   <entry>
     <title>The introduce of NIO</title>
-    <link href="http://www.cfad.tech/2017/12/09/NIO/nio1/"/>
-    <id>http://www.cfad.tech/2017/12/09/NIO/nio1/</id>
+    <link href="www.cfad.tech/2017/12/09/NIO/nio1/"/>
+    <id>www.cfad.tech/2017/12/09/NIO/nio1/</id>
     <published>2017-12-09T01:34:14.000Z</published>
     <updated>2017-12-11T15:02:12.000Z</updated>
     
@@ -135,10 +135,10 @@
     
     </summary>
     
-      <category term="NIO" scheme="http://www.cfad.tech/categories/NIO/"/>
+      <category term="NIO" scheme="www.cfad.tech/categories/NIO/"/>
     
     
-      <category term="NIO" scheme="http://www.cfad.tech/tags/NIO/"/>
+      <category term="NIO" scheme="www.cfad.tech/tags/NIO/"/>
     
   </entry>
   
