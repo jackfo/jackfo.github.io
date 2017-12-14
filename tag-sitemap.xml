@@ -2,15 +2,15 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>www.cfad.tech/tags/NIO/</loc>
-        <lastmod>2017-12-11T15:34:13.000Z</lastmod>
+        <loc>www.cfad.tech/tags/Netty/</loc>
+        <lastmod>2017-12-12T15:45:14.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>www.cfad.tech/tags/Netty/</loc>
-        <lastmod>2017-12-12T15:45:14.000Z</lastmod>
+        <loc>www.cfad.tech/tags/NIO/</loc>
+        <lastmod>2017-12-13T10:14:51.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

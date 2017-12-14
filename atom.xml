@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="www.cfad.tech/"/>
-  <updated>2017-12-13T06:27:15.000Z</updated>
+  <updated>2017-12-12T15:45:14.000Z</updated>
   <id>www.cfad.tech/</id>
   
   <author>
@@ -15,28 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="www.cfad.tech/2017/12/13/arithmetic/quickSort/"/>
-    <id>www.cfad.tech/2017/12/13/arithmetic/quickSort/</id>
-    <published>2017-12-13T06:27:15.000Z</published>
-    <updated>2017-12-13T06:27:15.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>#</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;#&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>A example of Netty</title>
@@ -79,6 +57,24 @@
         &lt;p&gt;#The Selector, SelectableChannel, and SelectionKey Classes&lt;/p&gt;
 &lt;h2&gt;&lt;span id=&quot;selector&quot;&gt;Selector&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nb
       
+    
+    </summary>
+    
+      <category term="NIO" scheme="www.cfad.tech/categories/NIO/"/>
+    
+    
+      <category term="NIO" scheme="www.cfad.tech/tags/NIO/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java NIO Selector</title>
+    <link href="www.cfad.tech/2017/12/11/arithmetic/quickSort/"/>
+    <id>www.cfad.tech/2017/12/11/arithmetic/quickSort/</id>
+    <published>2017-12-11T12:34:14.000Z</published>
+    <updated>2017-12-13T10:14:51.000Z</updated>
+    
+    <summary type="html">
     
     </summary>
     
