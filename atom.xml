@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="www.cfad.tech/"/>
-  <updated>2017-12-12T15:45:14.000Z</updated>
+  <updated>2017-12-15T07:19:26.000Z</updated>
   <id>www.cfad.tech/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="www.cfad.tech/2017/12/15/arithmetic/2017-12-15/"/>
+    <id>www.cfad.tech/2017/12/15/arithmetic/2017-12-15/</id>
+    <published>2017-12-15T07:11:01.000Z</published>
+    <updated>2017-12-15T07:19:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<hr><h2><span id="title-huffman-coding-greedy-algorithm">title Huffman Coding Greedy Algorithm</span></h2><p>#What is Huffman Coding<br>Huffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known as Prefix Codes</p><p>##a table of Huffman coding based on example<br><img src="/media/15133222245431.jpg" alt=""><br>From this table, </p><p>##The Goal<br>Try to reduce the total number of bits used without losing any information</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;h2&gt;&lt;span id=&quot;title-huffman-coding-greedy-algorithm&quot;&gt;title Huffman Coding Greedy Algorithm&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;#What is Huffman Coding&lt;br&gt;Huf
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>A example of Netty</title>
