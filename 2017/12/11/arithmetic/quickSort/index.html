@@ -107,18 +107,20 @@
 
 
 
-<meta name="description" content="help others, happy myself">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot. There are">
 <meta name="keywords" content="Algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="QuickSort">
 <meta property="og:url" content="www.cfad.tech/2017/12/11/arithmetic/quickSort/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="help others, happy myself">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot. There are">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-12-17T15:43:16.000Z">
+<meta property="og:image" content="/media/15135258671875.jpg">
+<meta property="og:updated_time" content="2017-12-17T15:54:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="QuickSort">
-<meta name="twitter:description" content="help others, happy myself">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot. There are">
+<meta name="twitter:image" content="/media/15135258671875.jpg">
 
 
 
@@ -410,7 +412,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  0
+                  1,079
                 </span>
               
 
@@ -426,7 +428,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  7
                 </span>
               
             </div>
@@ -447,7 +449,21 @@
       
 
       
-        
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot. There are many different versions of quickSort that pick pivot in different ways.</p>
+<blockquote>
+<p>1.Always pick first element as pivot.<br>2.Always pick last element as pivot (implemented below)<br>3.Pick a random element as pivot.<br>4.Pick median as pivot.</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The key process in quickSort is partition(). Target of partitions is, given an array and an element x of array as pivot, put x at its correct position in sorted array and put all smaller elements (smaller than x) before x, and put all greater elements (greater than x) after x. All this should be done in linear time.</p>
+<h1><span id="pseudo-code-for-recursive-quicksort-function">Pseudo Code for recursive QuickSort function :</span></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/* low  --&gt; Starting index,  high  --&gt; Ending index */</span><br><span class="line">quickSort(arr[], low, high)</span><br><span class="line">&#123;</span><br><span class="line">    if (low &lt; high)</span><br><span class="line">    &#123;</span><br><span class="line">        /* pi is partitioning index, arr[p] is now</span><br><span class="line">           at right place */</span><br><span class="line">        pi = partition(arr, low, high);</span><br><span class="line"></span><br><span class="line">        quickSort(arr, low, pi - 1);  // Before pi</span><br><span class="line">        quickSort(arr, pi + 1, high); // After pi</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/media/15135258671875.jpg" alt=""></p>
+<h1><span id="partition-algorithm">Partition Algorithm</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; There can be many ways to do partition, following pseudo code adopts the method given in CLRS book. The logic is simple, we start from the leftmost element and keep track of index of smaller (or equal to) elements as i. While traversing, if we find a smaller element, we swap current element with arr[i]. Otherwise we ignore current element.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/* low  --&gt; Starting index,  high  --&gt; Ending index */</span><br><span class="line">quickSort(arr[], low, high)</span><br><span class="line">&#123;</span><br><span class="line">    if (low &lt; high)</span><br><span class="line">    &#123;</span><br><span class="line">        /* pi is partitioning index, arr[p] is now</span><br><span class="line">           at right place */</span><br><span class="line">        pi = partition(arr, low, high);</span><br><span class="line"></span><br><span class="line">        quickSort(arr, low, pi - 1);  // Before pi</span><br><span class="line">        quickSort(arr, pi + 1, high); // After pi</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1><span id="pseudo-code-for-partition">Pseudo code for partition()</span></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/* This function takes last element as pivot, places</span><br><span class="line">   the pivot element at its correct position in sorted</span><br><span class="line">    array, and places all smaller (smaller than pivot)</span><br><span class="line">   to left of pivot and all greater elements to right</span><br><span class="line">   of pivot */</span><br><span class="line">partition (arr[], low, high)</span><br><span class="line">&#123;</span><br><span class="line">    // pivot (Element to be placed at right position)</span><br><span class="line">    pivot = arr[high];  </span><br><span class="line"> </span><br><span class="line">    i = (low - 1)  // Index of smaller element</span><br><span class="line"></span><br><span class="line">    for (j = low; j &lt;= high- 1; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        // If current element is smaller than or</span><br><span class="line">        // equal to pivot</span><br><span class="line">        if (arr[j] &lt;= pivot)</span><br><span class="line">        &#123;</span><br><span class="line">            i++;    // increment index of smaller element</span><br><span class="line">            swap arr[i] and arr[j]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    swap arr[i + 1] and arr[high])</span><br><span class="line">    return (i + 1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1><span id="illustration-of-partition">Illustration of partition()</span></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">arr[] = &#123;10, 80, 30, 90, 40, 50, 70&#125;</span><br><span class="line">Indexes:  0   1   2   3   4   5   6 </span><br><span class="line"></span><br><span class="line">low = 0, high =  6, pivot = arr[h] = 70</span><br><span class="line">Initialize index of smaller element, i = -1</span><br><span class="line"></span><br><span class="line">Traverse elements from j = low to high-1</span><br><span class="line">j = 0 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])</span><br><span class="line">i = 0 </span><br><span class="line">arr[] = &#123;10, 80, 30, 90, 40, 50, 70&#125; // No change as i and j </span><br><span class="line">                                     // are same</span><br><span class="line"></span><br><span class="line">j = 1 : Since arr[j] &gt; pivot, do nothing</span><br><span class="line">// No change in i and arr[]</span><br><span class="line"></span><br><span class="line">j = 2 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])</span><br><span class="line">i = 1</span><br><span class="line">arr[] = &#123;10, 30, 80, 90, 40, 50, 70&#125; // We swap 80 and 30 </span><br><span class="line"></span><br><span class="line">j = 3 : Since arr[j] &gt; pivot, do nothing</span><br><span class="line">// No change in i and arr[]</span><br><span class="line"></span><br><span class="line">j = 4 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])</span><br><span class="line">i = 2</span><br><span class="line">arr[] = &#123;10, 30, 40, 90, 80, 50, 70&#125; // 80 and 40 Swapped</span><br><span class="line">j = 5 : Since arr[j] &lt;= pivot, do i++ and swap arr[i] with arr[j] </span><br><span class="line">i = 3 </span><br><span class="line">arr[] = &#123;10, 30, 40, 50, 80, 90, 70&#125; // 90 and 50 Swapped </span><br><span class="line"></span><br><span class="line">We come out of loop because j is now equal to high-1.</span><br><span class="line">Finally we place pivot at correct position by swapping</span><br><span class="line">arr[i+1] and arr[high] (or pivot) </span><br><span class="line">arr[] = &#123;10, 30, 40, 50, 70, 90, 80&#125; // 80 and 70 Swapped </span><br><span class="line"></span><br><span class="line">Now 70 is at its correct place. All elements smaller than</span><br><span class="line">70 are before it and all elements greater than 70 are after</span><br><span class="line">it.</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Java program for implementation of QuickSort</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/* This function takes last element as pivot,</span></span><br><span class="line"><span class="comment">       places the pivot element at its correct</span></span><br><span class="line"><span class="comment">       position in sorted array, and places all</span></span><br><span class="line"><span class="comment">       smaller (smaller than pivot) to left of</span></span><br><span class="line"><span class="comment">       pivot and all greater elements to right</span></span><br><span class="line"><span class="comment">       of pivot */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> pivot = arr[high]; </span><br><span class="line">        <span class="keyword">int</span> i = (low-<span class="number">1</span>); <span class="comment">// index of smaller element</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=low; j&lt;high; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// If current element is smaller than or</span></span><br><span class="line">            <span class="comment">// equal to pivot</span></span><br><span class="line">            <span class="keyword">if</span> (arr[j] &lt;= pivot)</span><br><span class="line">            &#123;</span><br><span class="line">                i++;</span><br><span class="line"> </span><br><span class="line">                <span class="comment">// swap arr[i] and arr[j]</span></span><br><span class="line">                <span class="keyword">int</span> temp = arr[i];</span><br><span class="line">                arr[i] = arr[j];</span><br><span class="line">                arr[j] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// swap arr[i+1] and arr[high] (or pivot)</span></span><br><span class="line">        <span class="keyword">int</span> temp = arr[i+<span class="number">1</span>];</span><br><span class="line">        arr[i+<span class="number">1</span>] = arr[high];</span><br><span class="line">        arr[high] = temp;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="comment">/* The main function that implements QuickSort()</span></span><br><span class="line"><span class="comment">      arr[] --&gt; Array to be sorted,</span></span><br><span class="line"><span class="comment">      low  --&gt; Starting index,</span></span><br><span class="line"><span class="comment">      high  --&gt; Ending index */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (low &lt; high)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* pi is partitioning index, arr[pi] is </span></span><br><span class="line"><span class="comment">              now at right place */</span></span><br><span class="line">            <span class="keyword">int</span> pi = partition(arr, low, high);</span><br><span class="line"> </span><br><span class="line">            <span class="comment">// Recursively sort elements before</span></span><br><span class="line">            <span class="comment">// partition and after partition</span></span><br><span class="line">            sort(arr, low, pi-<span class="number">1</span>);</span><br><span class="line">            sort(arr, pi+<span class="number">1</span>, high);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/* A utility function to print array of size n */</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printArray</span><span class="params">(<span class="keyword">int</span> arr[])</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = arr.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; ++i)</span><br><span class="line">            System.out.print(arr[i]+<span class="string">" "</span>);</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// Driver program</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> arr[] = &#123;<span class="number">10</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> n = arr.length;</span><br><span class="line"> </span><br><span class="line">        QuickSort ob = <span class="keyword">new</span> QuickSort();</span><br><span class="line">        ob.sort(arr, <span class="number">0</span>, n-<span class="number">1</span>);</span><br><span class="line"> </span><br><span class="line">        System.out.println(<span class="string">"sorted array"</span>);</span><br><span class="line">        printArray(arr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Sorted array:</span><br><span class="line">1 5 7 8 9 10</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -468,37 +484,6 @@
     <div>
           
             
-<div class="my_post_copyright">
-  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-
-  <!-- JS库 sweetalert 可修改路径 -->
-  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
-  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/12/11/arithmetic/quickSort/">QuickSort</a></p>
-  <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
-  <p><span>发布时间:</span>2017年12月11日 - 20:12</p>
-  <p><span>最后更新:</span>2017年12月17日 - 23:12</p>
-  <p><span>原始链接:</span><a href="/2017/12/11/arithmetic/quickSort/" title="QuickSort">www.cfad.tech/2017/12/11/arithmetic/quickSort/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/12/11/arithmetic/quickSort/"  aria-label="复制成功！"></i></span>
-  </p>
-  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
-</div>
-<script>
-    var clipboard = new Clipboard('.fa-clipboard');
-	clipboard.on('success', $(function(){
-	  $(".fa-clipboard").click(function(){
-		swal({
-		  title: "",
-		  text: '复制成功',
-		  html: false,
-		  timer: 500,
-		  showConfirmButton: false
-	    });
-	  });
-    }));
-</script>
-
 
           
     </div>
@@ -526,8 +511,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/11/NIO/nio3/" rel="next" title="java NIO channel">
-                <i class="fa fa-chevron-left"></i> java NIO channel
+              <a href="/2017/12/11/NIO/nio4/" rel="next" title="java NIO Selector">
+                <i class="fa fa-chevron-left"></i> java NIO Selector
               </a>
             
           </div>
@@ -536,8 +521,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/11/NIO/nio4/" rel="prev" title="java NIO Selector">
-                java NIO Selector <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/12/netty/netty1/" rel="prev" title="A example of Netty">
+                A example of Netty <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -616,8 +601,17 @@ var jiathis_config={
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -636,7 +630,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -728,6 +722,22 @@ var jiathis_config={
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="pseudo-code-for-recursive-quicksort-function">Pseudo Code for recursive QuickSort function :</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="partition-algorithm">Partition Algorithm</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"><span id="pseudo-code-for-partition">Pseudo code for partition()</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text"><span id="illustration-of-partition">Illustration of partition()</span></span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
