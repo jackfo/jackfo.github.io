@@ -7,8 +7,16 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/2017/12/11/arithmetic/HuffmanCoding/</loc>
-        <lastmod>2017-12-17T15:40:50.000Z</lastmod>
+        <loc>www.cfad.tech/2017/12/11/arithmetic/huffmancoding/</loc>
+        <lastmod>2017-12-17T15:43:27.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/12/11/arithmetic/quickSort/</loc>
+        <lastmod>2017-12-17T15:43:16.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -17,14 +25,6 @@
     <url>
         <loc>www.cfad.tech/2017/12/12/Jdk/PriorityQueue/</loc>
         <lastmod>2017-12-17T04:29:15.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>www.cfad.tech/2017/12/11/arithmetic/quickSort/</loc>
-        <lastmod>2017-12-13T10:14:51.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
