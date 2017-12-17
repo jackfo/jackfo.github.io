@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="jdk," />
 
 
 
@@ -107,19 +107,21 @@
 
 
 
-<meta name="description" content="title Huffman Coding Greedy Algorithm#What is Huffman CodingHuffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known as Pr">
+<meta name="description" content="The introduce of PriorityQueue&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural">
+<meta name="keywords" content="jdk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="敏而好学,乐以忘忧">
-<meta property="og:url" content="www.cfad.tech/2017/12/15/arithmetic/2017-12-15/index.html">
+<meta property="og:title" content="PriorityQueue">
+<meta property="og:url" content="www.cfad.tech/2017/12/12/Jdk/PriorityQueue/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="title Huffman Coding Greedy Algorithm#What is Huffman CodingHuffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known as Pr">
+<meta property="og:description" content="The introduce of PriorityQueue&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="/media/15133222245431.jpg">
-<meta property="og:updated_time" content="2017-12-15T07:19:26.000Z">
+<meta property="og:image" content="/media/15134842324567.jpg">
+<meta property="og:image" content="/media/15134842759960.jpg">
+<meta property="og:updated_time" content="2017-12-17T04:29:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="敏而好学,乐以忘忧">
-<meta name="twitter:description" content="title Huffman Coding Greedy Algorithm#What is Huffman CodingHuffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known as Pr">
-<meta name="twitter:image" content="/media/15133222245431.jpg">
+<meta name="twitter:title" content="PriorityQueue">
+<meta name="twitter:description" content="The introduce of PriorityQueue&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural">
+<meta name="twitter:image" content="/media/15134842324567.jpg">
 
 
 
@@ -149,13 +151,13 @@
 
 
 
-  <link rel="canonical" href="www.cfad.tech/2017/12/15/arithmetic/2017-12-15/"/>
+  <link rel="canonical" href="www.cfad.tech/2017/12/12/Jdk/PriorityQueue/"/>
 
 
 
 
 
-  <title> | 敏而好学,乐以忘忧</title>
+  <title>PriorityQueue | 敏而好学,乐以忘忧</title>
   
 
 
@@ -328,7 +330,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/12/15/arithmetic/2017-12-15/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/12/12/Jdk/PriorityQueue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -345,7 +347,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">PriorityQueue</h1>
         
 
         <div class="post-meta">
@@ -357,8 +359,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-15T15:11:01+08:00">
-                2017-12-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-12T20:34:14+08:00">
+                2017-12-12
               </time>
             
 
@@ -367,6 +369,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jdk/" itemprop="url" rel="index">
+                    <span itemprop="name">jdk</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -389,7 +413,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  58
+                  77
                 </span>
               
 
@@ -426,10 +450,11 @@
       
 
       
-        <hr>
-<h2><span id="title-huffman-coding-greedy-algorithm">title Huffman Coding Greedy Algorithm</span></h2><p>#What is Huffman Coding<br>Huffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known as Prefix Codes</p>
-<p>##a table of Huffman coding based on example<br><img src="/media/15133222245431.jpg" alt=""><br>From this table, </p>
-<p>##The Goal<br>Try to reduce the total number of bits used without losing any information</p>
+        <h1><span id="the-introduce-of-priorityqueue">The introduce of PriorityQueue</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural ordering, or by a Comparator provided at queue construction time, depending on which constructor is used. A priority queue does not permit null elements. A priority queue relying on natural ordering also does not permit insertion of non-comparable objects </p>
+<p>#The family of PriorityQueue<br><img src="/media/15134842324567.jpg" alt=""></p>
+<p>#The structure of PriorityQueue</p>
+<p><img src="/media/15134842759960.jpg" alt=""></p>
+<p>#The method of PriorityQueue</p>
 
       
     </div>
@@ -451,6 +476,37 @@
     <div>
           
             
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/12/12/Jdk/PriorityQueue/">PriorityQueue</a></p>
+  <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
+  <p><span>发布时间:</span>2017年12月12日 - 20:12</p>
+  <p><span>最后更新:</span>2017年12月17日 - 12:12</p>
+  <p><span>原始链接:</span><a href="/2017/12/12/Jdk/PriorityQueue/" title="PriorityQueue">www.cfad.tech/2017/12/12/Jdk/PriorityQueue/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/12/12/Jdk/PriorityQueue/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+	clipboard.on('success', $(function(){
+	  $(".fa-clipboard").click(function(){
+		swal({
+		  title: "",
+		  text: '复制成功',
+		  html: false,
+		  timer: 500,
+		  showConfirmButton: false
+	    });
+	  });
+    }));
+</script>
+
 
           
     </div>
@@ -463,6 +519,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/jdk/" rel="tag"># jdk</a>
+          
+        </div>
+      
 
       
       
@@ -472,8 +534,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/12/netty/netty1/" rel="next" title="A example of Netty">
-                <i class="fa fa-chevron-left"></i> A example of Netty
+              <a href="/2017/12/11/NIO/nio4/" rel="next" title="java NIO Selector">
+                <i class="fa fa-chevron-left"></i> java NIO Selector
               </a>
             
           </div>
@@ -481,6 +543,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/12/netty/netty1/" rel="prev" title="A example of Netty">
+                A example of Netty <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -587,7 +653,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -598,7 +664,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -609,7 +675,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -689,7 +755,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="title-huffman-coding-greedy-algorithm">title Huffman Coding Greedy Algorithm</span></span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="the-introduce-of-priorityqueue">The introduce of PriorityQueue</span></span></a></li></ol></div>
             
 
           </div>

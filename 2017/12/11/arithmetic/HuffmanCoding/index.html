@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="NIO," />
+  <meta name="keywords" content="Algorithm," />
 
 
 
@@ -107,18 +107,22 @@
 
 
 
-<meta name="description" content="The introduce of NIOWhat is NIO？&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  java.nio (non-blocking I/O) is a collection of Java programming language APIs that offer features for intensive I/O op">
-<meta name="keywords" content="NIO">
+<meta name="description" content="#What is Huffman Coding&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Huffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known">
+<meta name="keywords" content="Algorithm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="The introduce of NIO">
-<meta property="og:url" content="www.cfad.tech/2017/12/09/NIO/nio1/index.html">
+<meta property="og:title" content="Huffman Coding Greedy Algorithm">
+<meta property="og:url" content="www.cfad.tech/2017/12/11/arithmetic/HuffmanCoding/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="The introduce of NIOWhat is NIO？&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  java.nio (non-blocking I/O) is a collection of Java programming language APIs that offer features for intensive I/O op">
+<meta property="og:description" content="#What is Huffman Coding&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Huffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-12-11T15:02:12.000Z">
+<meta property="og:image" content="/media/15135245970872.jpg">
+<meta property="og:image" content="/media/15135246224737.jpg">
+<meta property="og:image" content="/media/15135250930243.jpg">
+<meta property="og:updated_time" content="2017-12-17T15:40:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="The introduce of NIO">
-<meta name="twitter:description" content="The introduce of NIOWhat is NIO？&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  java.nio (non-blocking I/O) is a collection of Java programming language APIs that offer features for intensive I/O op">
+<meta name="twitter:title" content="Huffman Coding Greedy Algorithm">
+<meta name="twitter:description" content="#What is Huffman Coding&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Huffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known">
+<meta name="twitter:image" content="/media/15135245970872.jpg">
 
 
 
@@ -148,13 +152,13 @@
 
 
 
-  <link rel="canonical" href="www.cfad.tech/2017/12/09/NIO/nio1/"/>
+  <link rel="canonical" href="www.cfad.tech/2017/12/11/arithmetic/HuffmanCoding/"/>
 
 
 
 
 
-  <title>The introduce of NIO | 敏而好学,乐以忘忧</title>
+  <title>Huffman Coding Greedy Algorithm | 敏而好学,乐以忘忧</title>
   
 
 
@@ -327,7 +331,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/12/09/NIO/nio1/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/12/11/arithmetic/HuffmanCoding/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -344,7 +348,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">The introduce of NIO</h1>
+          <h1 class="post-title" itemprop="name headline">Huffman Coding Greedy Algorithm</h1>
         
 
         <div class="post-meta">
@@ -356,8 +360,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-09T09:34:14+08:00">
-                2017-12-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-11T20:34:14+08:00">
+                2017-12-11
               </time>
             
 
@@ -379,8 +383,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NIO/" itemprop="url" rel="index">
-                    <span itemprop="name">NIO</span>
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
                   </a>
                 </span>
 
@@ -410,7 +414,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  148
+                  1,096
                 </span>
               
 
@@ -426,7 +430,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  7
                 </span>
               
             </div>
@@ -447,32 +451,34 @@
       
 
       
-        <h1><span id="the-introduce-of-nio">The introduce of NIO</span></h1><h2><span id="what-is-nio">What is NIO？</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  java.nio (non-blocking I/O) is a collection of Java programming language APIs that offer features for intensive I/O operations. It was introduced with the J2SE 1.4 release of Java by Sun Microsystems to complement an existing standard I/O   </p>
-<p style="text-align: right;">—reference wiki</p>
-
-<h2><span id="the-compare-between-nio-and-io">The compare between NIO and IO</span></h2><table>
-<thead>
-<tr>
-<th>IO</th>
-<th>NIO</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Stream Oriented</td>
-<td>Buffer Oriented</td>
-</tr>
-<tr>
-<td>Blocking IO</td>
-<td>Non Blocking IO</td>
-</tr>
-<tr>
-<td></td>
-<td>Selectors</td>
-</tr>
-</tbody>
-</table>
-<h2><span id="the-function-of-nio">The function of NIO</span></h2><p>&emsp;&emsp; When it comes to NIO, we should what is IO. In the traditional IO, we read or store data in the form of stream, so it is easy to cause obstruction that we difficult calls in multiple threads.But in NIO,The problem has a good way to solve it, the way is that we convey information by channel. in the channel, we can construct the corresponding buffer to transfer data. so we can say it is base on <strong>Buffer Oriented</strong>.</p>
+        <p>#What is Huffman Coding<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Huffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known as Prefix Codes</p>
+<p>##The Goal<br>Try to reduce the total number of bits used without losing any information</p>
+<h2><span id="the-process-of-huffman-coding">The process of Huffman coding</span></h2><blockquote>
+<ol>
+<li>Scan text to be compressed and tally         occurrence of all characters.</li>
+<li>Sort or prioritize characters based on     number of occurrences in text.</li>
+<li>Build Huffman code tree based on             prioritized list.</li>
+<li>Perform a traversal of tree to determine     all code words.</li>
+<li>Scan text again and create new file         using the Huffman codes.</li>
+</ol>
+</blockquote>
+<h2><span id="the-schematic-diagram">The Schematic diagram</span></h2><p><img src="/media/15135245970872.jpg" alt=""></p>
+<p><img src="/media/15135246224737.jpg" alt=""></p>
+<h2><span id="code-process">Code process</span></h2><p><img src="/media/15135250930243.jpg" alt=""></p>
+<p>#The code of Huffman<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now, we specific display Huffman code. By code, we analysis of its process step by step.</p>
+<p>##The structure of Node<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In its structure, We define the frequency to statistic the number of occurrences of the characters.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Node</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String chars = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> frequence = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> Node parent;</span><br><span class="line">    <span class="keyword">private</span> Node leftNode;</span><br><span class="line">    <span class="keyword">private</span> Node rightNode;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> frequence - node.frequence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getChars</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> chars;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChars</span><span class="params">(String chars)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.chars = chars;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getFrequence</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> frequence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFrequence</span><span class="params">(<span class="keyword">int</span> frequence)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.frequence = frequence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">getParent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> parent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParent</span><span class="params">(Node parent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.parent = parent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">getLeftNode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> leftNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLeftNode</span><span class="params">(Node leftNode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.leftNode = leftNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">getRightNode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> rightNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRightNode</span><span class="params">(Node rightNode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rightNode = rightNode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="statistic-frequency-of-every-character">statistic frequency of every character</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, Our main purpose is to statistic frequency of every character. so we structure a HashMap to store data, when we get data from the HashMap by key, we add one to the number of it and store into The value of the current mapping as new value</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;Character, Integer&gt; <span class="title">statistics</span><span class="params">(<span class="keyword">char</span>[] charArray)</span> </span>&#123;</span><br><span class="line">       Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;Character, Integer&gt;();</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">char</span> c : charArray) &#123;</span><br><span class="line">           Character character = <span class="keyword">new</span> Character(c);</span><br><span class="line">           <span class="keyword">if</span> (map.containsKey(character)) &#123;</span><br><span class="line">               map.put(character, map.get(character) + <span class="number">1</span>);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               map.put(character, <span class="number">1</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> map;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="build-a-tree">build a tree</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PriorityQueue will Retrieves and removes the head of this queue, or returns null if this queue is empty. PriorityQueue maintain a heap what you can poll the smallest element every time actually. so we will obtain the two minimum elements and build Node, By this way, we will get a complete binary tree.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The idea of algorithm: transfer statistical information to Node and stored in a priority queue. each time it pop-up two minimum frequency nodes the queue to build a new parent node. The frequency of characters is the sum of two pop-up Node.he first pop-up as the left child node, the back one as the right child node, and the newly built parent node inside the queue. Repeat the above action N-1 times. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Tree <span class="title">buildTree</span><span class="params">(Map&lt;Character, Integer&gt; statistics,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  List&lt;Node&gt; leafs)</span> </span>&#123;</span><br><span class="line">        Character[] keys = statistics.keySet().toArray(<span class="keyword">new</span> Character[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">        PriorityQueue&lt;Node&gt; priorityQueue = <span class="keyword">new</span> PriorityQueue&lt;Node&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Character character : keys) &#123;</span><br><span class="line">            Node node = <span class="keyword">new</span> Node();</span><br><span class="line">            node.setChars(character.toString());</span><br><span class="line">            node.setFrequence(statistics.get(character));</span><br><span class="line">            priorityQueue.add(node);</span><br><span class="line">            leafs.add(node);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> size = priorityQueue.size();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= size - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            Node node1 = priorityQueue.poll();</span><br><span class="line">            Node node2 = priorityQueue.poll();</span><br><span class="line"></span><br><span class="line">            Node sumNode = <span class="keyword">new</span> Node();</span><br><span class="line">            sumNode.setChars(node1.getChars()+node2.getChars());</span><br><span class="line">            sumNode.setFrequence(node1.getFrequence()+node2.getFrequence());</span><br><span class="line"></span><br><span class="line">            sumNode.setLeftNode(node1);</span><br><span class="line">            sumNode.setRightNode(node2);</span><br><span class="line"></span><br><span class="line">            node1.setParent(sumNode);</span><br><span class="line">            node2.setParent(sumNode);</span><br><span class="line"></span><br><span class="line">            priorityQueue.add(sumNode);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Tree tree = <span class="keyword">new</span> Tree();</span><br><span class="line">        tree.setRoot(priorityQueue.poll());</span><br><span class="line">        <span class="keyword">return</span> tree;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="encode">encode</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, we will invoke <code>buildTree</code> to let the Node produce associated. searching up from the leaf node of current character, if the character is the parent node of the left node, add 0 before the coded character , otherwise if it is right node, add 1, until the root node.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encode</span><span class="params">(String originalStr,</span></span></span><br><span class="line"><span class="function"><span class="params">			Map&lt;Character, Integer&gt; statistics)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (originalStr == <span class="keyword">null</span> || originalStr.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">char</span>[] charArray = originalStr.toCharArray();</span><br><span class="line">		List&lt;Node&gt; leafNodes = <span class="keyword">new</span> ArrayList&lt;Node&gt;();</span><br><span class="line">		buildTree(statistics, leafNodes);</span><br><span class="line">		Map&lt;Character, String&gt; encodInfo = buildEncodingInfo(leafNodes);</span><br><span class="line"></span><br><span class="line">		StringBuffer buffer = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">char</span> c : charArray) &#123;</span><br><span class="line">			Character character = <span class="keyword">new</span> Character(c);</span><br><span class="line">			buffer.append(encodInfo.get(character));</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> buffer.toString();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="decode">decode</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Huffman coding algorithm can ensure any binary code is not going to be another code prefix, decoding is simple, each in turn to take out the binary, search down from the root, 1 to the right, 0 to the left, to the leaf node (hit), return a root node continue to repeat the action</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">decode</span><span class="params">(String binaryStr, Map&lt;Character, Integer&gt; statistics)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (binaryStr == <span class="keyword">null</span> || binaryStr.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>[] binaryCharArray = binaryStr.toCharArray();</span><br><span class="line">    LinkedList&lt;Character&gt; binaryList = <span class="keyword">new</span> LinkedList&lt;Character&gt;();</span><br><span class="line">    <span class="keyword">int</span> size = binaryCharArray.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        binaryList.addLast(<span class="keyword">new</span> Character(binaryCharArray[i]));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    List&lt;Node&gt; leafNodes = <span class="keyword">new</span> ArrayList&lt;Node&gt;();</span><br><span class="line">    Tree tree = buildTree(statistics, leafNodes);</span><br><span class="line"></span><br><span class="line">    StringBuffer buffer = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (binaryList.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        Node node = tree.getRoot();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            Character c = binaryList.removeFirst();</span><br><span class="line">            <span class="keyword">if</span> (c.charValue() == <span class="string">'0'</span>) &#123;</span><br><span class="line">                node = node.getLeftNode();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                node = node.getRightNode();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">while</span> (!node.isLeaf());</span><br><span class="line"></span><br><span class="line">        buffer.append(node.getChars());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> buffer.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="the-test-result">The Test Result</span></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       String oriStr = <span class="string">"Huffman codes compress data very effectively"</span>;</span><br><span class="line"></span><br><span class="line">       Map&lt;Character, Integer&gt; statistics = statistics(oriStr.toCharArray());</span><br><span class="line">       String encodedBinariStr = encode(oriStr, statistics);</span><br><span class="line">       String decodedStr = decode(encodedBinariStr, statistics);</span><br><span class="line"></span><br><span class="line">       System.out.println(<span class="string">"Original sstring: "</span> + oriStr+<span class="string">"\n"</span>);</span><br><span class="line">       System.out.println(<span class="string">"Huffman encoed binary string: "</span> + encodedBinariStr+<span class="string">"\n"</span>);</span><br><span class="line">       System.out.println(<span class="string">"decoded string from binariy string: "</span> + decodedStr);</span><br><span class="line">       </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>result:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Original sstring: Huffman codes compress data very effectively</span><br><span class="line"></span><br><span class="line">Huffman encoed binary string: 11111011010101001011100100011011001111000010111011011001011110000101110011011100111011001100101111101100000011000011111101010011000001110101001010111000001111111111101011101000000</span><br><span class="line"></span><br><span class="line">decoded string from binariy string: Huffman codes compress data very effectively</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -501,12 +507,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/12/09/NIO/nio1/">The introduce of NIO</a></p>
+  <p><span>本文标题:</span><a href="/2017/12/11/arithmetic/HuffmanCoding/">Huffman Coding Greedy Algorithm</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
-  <p><span>发布时间:</span>2017年12月09日 - 09:12</p>
-  <p><span>最后更新:</span>2017年12月11日 - 23:12</p>
-  <p><span>原始链接:</span><a href="/2017/12/09/NIO/nio1/" title="The introduce of NIO">www.cfad.tech/2017/12/09/NIO/nio1/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/12/09/NIO/nio1/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2017年12月11日 - 20:12</p>
+  <p><span>最后更新:</span>2017年12月17日 - 23:12</p>
+  <p><span>原始链接:</span><a href="/2017/12/11/arithmetic/HuffmanCoding/" title="Huffman Coding Greedy Algorithm">www.cfad.tech/2017/12/11/arithmetic/HuffmanCoding/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/12/11/arithmetic/HuffmanCoding/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -539,7 +545,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/NIO/" rel="tag"># NIO</a>
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
           
         </div>
       
@@ -552,14 +558,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/12/11/NIO/nio3/" rel="next" title="java NIO channel">
+                <i class="fa fa-chevron-left"></i> java NIO channel
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/10/NIO/nio2/" rel="prev" title="java NIO buffer">
-                java NIO buffer <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/11/arithmetic/quickSort/" rel="prev" title="java NIO Selector">
+                java NIO Selector <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -769,7 +779,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="the-introduce-of-nio">The introduce of NIO</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="what-is-nio">What is NIO&#xFF1F;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text"><span id="the-compare-between-nio-and-io">The compare between NIO and IO</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text"><span id="the-function-of-nio">The function of NIO</span></span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="the-process-of-huffman-coding">The process of Huffman coding</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="the-schematic-diagram">The Schematic diagram</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"><span id="code-process">Code process</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text"><span id="statistic-frequency-of-every-character">statistic frequency of every character</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text"><span id="build-a-tree">build a tree</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">6.</span> <span class="nav-text"><span id="encode">encode</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">7.</span> <span class="nav-text"><span id="decode">decode</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">8.</span> <span class="nav-text"><span id="the-test-result">The Test Result</span></span></a></li></ol></div>
             
 
           </div>
