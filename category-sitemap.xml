@@ -42,13 +42,6 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/categories/dubbo/</loc>
-        <lastmod>2018-01-03T05:27:20.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>www.cfad.tech/categories/linux/</loc>
         <lastmod>2018-01-03T08:01:03.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -65,6 +58,27 @@
     <url>
         <loc>www.cfad.tech/categories/zookeeper/</loc>
         <lastmod>2018-01-04T02:05:57.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/categories/druid/</loc>
+        <lastmod>2018-01-04T02:09:08.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/categories/dubbo/</loc>
+        <lastmod>2018-01-04T02:09:47.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/categories/git/</loc>
+        <lastmod>2018-01-04T02:10:17.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
