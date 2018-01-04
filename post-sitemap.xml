@@ -7,6 +7,142 @@
     </url>
 
     <url>
+        <loc>www.cfad.tech/2017/12/30/druid/2017-12-30/</loc>
+        <lastmod>2018-01-04T01:04:09.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/12/29/dubbo/2017-12-29/</loc>
+        <lastmod>2018-01-04T00:56:23.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/02/zookeeper/2018-01-02/</loc>
+        <lastmod>2018-01-04T00:51:13.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/03/mysql/2018-01-03/</loc>
+        <lastmod>2018-01-03T15:36:12.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/12/11/linux/2018-01-01/</loc>
+        <lastmod>2018-01-03T08:01:03.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/01/02/dubbo/2018-01-02/</loc>
+        <lastmod>2018-01-03T05:27:20.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/01/01/maven/2018-01-03/</loc>
+        <lastmod>2018-01-03T02:12:35.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/01/01/other/2018-01-03/</loc>
+        <lastmod>2018-01-03T01:54:04.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/01/01/other/2018-01-02/</loc>
+        <lastmod>2018-01-02T15:19:54.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/12/10/NIO/nio2/</loc>
+        <lastmod>2018-01-02T14:42:08.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/01/linux/2018-01-02/</loc>
+        <lastmod>2018-01-02T05:22:18.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/01/zookeeper/2017-12-30/</loc>
+        <lastmod>2018-01-01T09:14:40.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/01/linux/2018-01-01-3/</loc>
+        <lastmod>2018-01-01T06:52:36.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/01/linux/2018-01-01-2/</loc>
+        <lastmod>2018-01-01T06:25:15.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/01/linux/2018-01-01-1/</loc>
+        <lastmod>2018-01-01T05:33:32.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/12/29/git/2017-12-29/</loc>
+        <lastmod>2017-12-29T09:25:24.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/12/20/netty/netty3/</loc>
+        <lastmod>2017-12-20T03:05:18.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>www.cfad.tech/2017/12/17/arithmetic/2017-12-18/</loc>
         <lastmod>2017-12-17T16:21:01.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -65,14 +201,6 @@
     <url>
         <loc>www.cfad.tech/2017/12/11/NIO/nio3/</loc>
         <lastmod>2017-12-11T15:02:10.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>www.cfad.tech/2017/12/10/NIO/nio2/</loc>
-        <lastmod>2017-12-11T04:39:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

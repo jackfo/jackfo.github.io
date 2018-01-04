@@ -2,29 +2,64 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>www.cfad.tech/tags/NIO/</loc>
-        <lastmod>2017-12-11T15:34:13.000Z</lastmod>
+        <loc>www.cfad.tech/tags/Algorithm/</loc>
+        <lastmod>2017-12-17T16:21:01.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>www.cfad.tech/tags/Netty/</loc>
-        <lastmod>2017-12-12T15:45:14.000Z</lastmod>
+        <lastmod>2017-12-20T03:05:18.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/zookeeper/</loc>
+        <lastmod>2018-01-01T09:14:40.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/NIO/</loc>
+        <lastmod>2018-01-02T14:42:08.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/idea/</loc>
+        <lastmod>2018-01-02T15:19:54.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>www.cfad.tech/tags/jdk/</loc>
-        <lastmod>2017-12-17T04:29:15.000Z</lastmod>
+        <lastmod>2018-01-03T02:12:35.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>www.cfad.tech/tags/Algorithm/</loc>
-        <lastmod>2017-12-17T16:21:01.000Z</lastmod>
+        <loc>www.cfad.tech/tags/dubbo/</loc>
+        <lastmod>2018-01-03T05:27:20.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/centos/</loc>
+        <lastmod>2018-01-03T08:01:03.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/mysql/</loc>
+        <lastmod>2018-01-03T15:36:12.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
