@@ -3,6 +3,34 @@
   
     
     <entry>
+      <title><![CDATA[持续集成2--linux下安装svn]]></title>
+      <url>/2018/01/04/linux/2018-01-04-1/</url>
+      <content type="html"><![CDATA[<h1><span id="xia-zai">下载</span></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mod_dav_svn subversion</span><br></pre></td></tr></table></figure>
+<h1><span id="chong-qi-apache-fu-wu">重启Apache服务</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里重启的是持续集成1中的httpd服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">重启命令: service httpd restart</span><br><span class="line">查看命令: ls /etc/httpd/modules/ | grep svn</span><br><span class="line">查看版本: svn --version</span><br></pre></td></tr></table></figure>
+<h1><span id="chuang-jian-svn-ku">创建svn库</span></h1><p>创建文件夹命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /svn/</span><br><span class="line">```编辑subversion.conf文件</span><br></pre></td></tr></table></figure>
+<p>vim /etc/httpd/conf.d/subversion.conf</p>
+<p><location svn=""><br>DAV svn<br>SVNListParentPath on SVNParentPath /svn<br>AuthType Basic<br>AuthName “Subversion repositories” AuthUserFile /svn/passwd.http AuthzSVNAccessFile /svn/authz Require valid-user<br></location><br>RedirectMatch ^(/svn)$ $1/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 创建/svn/passwd.http 和 /svn/authz 文件</span><br></pre></td></tr></table></figure></p>
+<p>touch /svn/passwd.http<br>touch /svn/authz<br>service httpd restart  重启apache服务<br>```</p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> centos </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[zookeeper 架构介绍]]></title>
       <url>/2018/01/04/zookeeper/2018-01-02/</url>
       <content type="html"><![CDATA[<h1><span id="zookeeper-jie-shao">zookeeper介绍</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。其具体功能如下:</p>
@@ -65,27 +93,34 @@
     </entry>
     
     <entry>
-      <title><![CDATA[linux下安装httpd]]></title>
-      <url>/2018/01/01/linux/2018-01-04/</url>
-      <content type="html"><![CDATA[<p>下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd httpd-devel</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service httpd start</span><br></pre></td></tr></table></figure>
-<p>修改端口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line">ServerName localhost:80</span><br></pre></td></tr></table></figure>
-<p>然后就可以根据ip进行访问</p>
+      <title><![CDATA[zookeeper 环境安装]]></title>
+      <url>/2018/01/01/zookeeper/2017-12-30/</url>
+      <content type="html"><![CDATA[<h1><span id="jie-ya">解压</span></h1><p><code>tar -zvxf  zookeeper-3.4.5.tar.gz -C /usr/local</code></p>
+<p>#配置环境变量<br><code>vim /etc/profile</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5</span><br><span class="line">export PATH=$ZOOKEEPER_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p><code>source /etc/profile</code></p>
+<p>#修改配置文件</p>
+<p>相对路径:/ZOOKEEPER_HOME/conf/zoo.cfg</p>
+<p>修改</p>
+<blockquote>
+<p>1.datadir=/ZOOKEEPER_HOME/data</p>
+<p>2.server0=ip地址<br>。。。。。。</p>
+</blockquote>
+<p>ZOOKEEPER_HOME下面创建data文件并创建脚本文件myid</p>
+<p>#启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh start</span><br></pre></td></tr></table></figure>
 ]]></content>
       
         <categories>
             
-            <category> linux </category>
+            <category> zookeeper </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> centos </tag>
+            <tag> zookeeper </tag>
             
         </tags>
         
@@ -115,34 +150,27 @@
     </entry>
     
     <entry>
-      <title><![CDATA[zookeeper 环境安装]]></title>
-      <url>/2018/01/01/zookeeper/2017-12-30/</url>
-      <content type="html"><![CDATA[<h1><span id="jie-ya">解压</span></h1><p><code>tar -zvxf  zookeeper-3.4.5.tar.gz -C /usr/local</code></p>
-<p>#配置环境变量<br><code>vim /etc/profile</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5</span><br><span class="line">export PATH=$ZOOKEEPER_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
-<p><code>source /etc/profile</code></p>
-<p>#修改配置文件</p>
-<p>相对路径:/ZOOKEEPER_HOME/conf/zoo.cfg</p>
-<p>修改</p>
-<blockquote>
-<p>1.datadir=/ZOOKEEPER_HOME/data</p>
-<p>2.server0=ip地址<br>。。。。。。</p>
-</blockquote>
-<p>ZOOKEEPER_HOME下面创建data文件并创建脚本文件myid</p>
-<p>#启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh start</span><br></pre></td></tr></table></figure>
+      <title><![CDATA[linux下安装httpd]]></title>
+      <url>/2018/01/01/linux/2018-01-04/</url>
+      <content type="html"><![CDATA[<p>下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd httpd-devel</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service httpd start</span><br></pre></td></tr></table></figure>
+<p>修改端口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line">ServerName localhost:80</span><br></pre></td></tr></table></figure>
+<p>然后就可以根据ip进行访问</p>
 ]]></content>
       
         <categories>
             
-            <category> zookeeper </category>
+            <category> linux </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> zookeeper </tag>
+            <tag> centos </tag>
             
         </tags>
         
@@ -209,15 +237,16 @@
     </entry>
     
     <entry>
-      <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
-      <url>/2018/01/01/linux/2018-01-02/</url>
-      <content type="html"><![CDATA[<h1><span id="xie-zai-openjdk">卸载openJDK</span></h1><h2><span id="cha-kan-xiang-ying-openjdk-de-xin-xi">查看相应openJDK的信息</span></h2><p><code>rpm -qa | grep java</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tzdata-java-2014g-1.el6.noarch</span><br><span class="line">java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64</span><br><span class="line">java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64</span><br></pre></td></tr></table></figure>
-<h2><span id="shan-chu-xiang-ying-de-wen-jian">删除相应的文件</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64</span><br><span class="line">rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64</span><br><span class="line">rpm -e --nodeps tzdata-java-2014g-1.el6.noarch</span><br></pre></td></tr></table></figure>
-<h2><span id="an-zhuang-jdk">安装JDK</span></h2><p>找到相应的jdk资源，将其解压到指定目录</p>
-<h2><span id="pei-zhi-huan-jing">配置环境</span></h2><p>打开环境变量存储文件<code>vi /etc/profile</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/java/jdk1.7</span><br><span class="line">JRE_HOME=/usr/java/jdk1.7/jre</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line">export JAVA_HOME JRE_HOME PATH CLASSPATH</span><br></pre></td></tr></table></figure>
-<p>编译环境变量存储文件<code>source /etc/profile</code></p>
+      <title><![CDATA[linux修改ip为静态ip]]></title>
+      <url>/2018/01/01/linux/2018-01-01-3/</url>
+      <content type="html"><![CDATA[<p>#修改网卡信息</p>
+<p><code>vi /etc/sysconfig/network-scripts/ifcfg-eth0</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=&quot;static&quot;   #注意：原值为dhcp</span><br><span class="line">HWADDR=&quot;00:0c:29:ba:18:25&quot;</span><br><span class="line">IPV6INIT=&quot;yes&quot;</span><br><span class="line">NM_CONTROLLED=&quot;yes&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line">TYPE=&quot;Ethernet&quot;</span><br></pre></td></tr></table></figure>
+<p>以下是修改为静态时需要加<br>IPADDR=192.168.1.200<br>GATEWAY=192.168.1.1<br>NETMASK=255.255.255.0</p>
+<p>重启网卡<code>service network restart</code></p>
+<p>#设置DNS</p>
+<p>vim /ect/resolv.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nameserver 8.8.8.8</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
 ]]></content>
       
         <categories>
@@ -236,16 +265,15 @@
     </entry>
     
     <entry>
-      <title><![CDATA[linux修改ip为静态ip]]></title>
-      <url>/2018/01/01/linux/2018-01-01-3/</url>
-      <content type="html"><![CDATA[<p>#修改网卡信息</p>
-<p><code>vi /etc/sysconfig/network-scripts/ifcfg-eth0</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=&quot;static&quot;   #注意：原值为dhcp</span><br><span class="line">HWADDR=&quot;00:0c:29:ba:18:25&quot;</span><br><span class="line">IPV6INIT=&quot;yes&quot;</span><br><span class="line">NM_CONTROLLED=&quot;yes&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line">TYPE=&quot;Ethernet&quot;</span><br></pre></td></tr></table></figure>
-<p>以下是修改为静态时需要加<br>IPADDR=192.168.1.200<br>GATEWAY=192.168.1.1<br>NETMASK=255.255.255.0</p>
-<p>重启网卡<code>service network restart</code></p>
-<p>#设置DNS</p>
-<p>vim /ect/resolv.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nameserver 8.8.8.8</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
+      <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
+      <url>/2018/01/01/linux/2018-01-02/</url>
+      <content type="html"><![CDATA[<h1><span id="xie-zai-openjdk">卸载openJDK</span></h1><h2><span id="cha-kan-xiang-ying-openjdk-de-xin-xi">查看相应openJDK的信息</span></h2><p><code>rpm -qa | grep java</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tzdata-java-2014g-1.el6.noarch</span><br><span class="line">java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64</span><br><span class="line">java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64</span><br></pre></td></tr></table></figure>
+<h2><span id="shan-chu-xiang-ying-de-wen-jian">删除相应的文件</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64</span><br><span class="line">rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64</span><br><span class="line">rpm -e --nodeps tzdata-java-2014g-1.el6.noarch</span><br></pre></td></tr></table></figure>
+<h2><span id="an-zhuang-jdk">安装JDK</span></h2><p>找到相应的jdk资源，将其解压到指定目录</p>
+<h2><span id="pei-zhi-huan-jing">配置环境</span></h2><p>打开环境变量存储文件<code>vi /etc/profile</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/java/jdk1.7</span><br><span class="line">JRE_HOME=/usr/java/jdk1.7/jre</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line">export JAVA_HOME JRE_HOME PATH CLASSPATH</span><br></pre></td></tr></table></figure>
+<p>编译环境变量存储文件<code>source /etc/profile</code></p>
 ]]></content>
       
         <categories>
@@ -429,29 +457,6 @@ cols[N]!=cols[N-1]+1
     </entry>
     
     <entry>
-      <title><![CDATA[java NIO Selector]]></title>
-      <url>/2017/12/11/NIO/nio4/</url>
-      <content type="html"><![CDATA[<p>#The Selector, SelectableChannel, and SelectionKey Classes</p>
-<h2><span id="selector">Selector</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready.</p>
-<p>##</p>
-]]></content>
-      
-        <categories>
-            
-            <category> NIO </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> NIO </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[QuickSort]]></title>
       <url>/2017/12/11/arithmetic/quickSort/</url>
       <content type="html"><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot. There are many different versions of quickSort that pick pivot in different ways.</p>
@@ -480,6 +485,29 @@ cols[N]!=cols[N-1]+1
         <tags>
             
             <tag> Algorithm </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[java NIO Selector]]></title>
+      <url>/2017/12/11/NIO/nio4/</url>
+      <content type="html"><![CDATA[<p>#The Selector, SelectableChannel, and SelectionKey Classes</p>
+<h2><span id="selector">Selector</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready.</p>
+<p>##</p>
+]]></content>
+      
+        <categories>
+            
+            <category> NIO </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> NIO </tag>
             
         </tags>
         
@@ -679,9 +707,17 @@ cols[N]!=cols[N-1]+1
     </entry>
     
     <entry>
-      <title><![CDATA[dubbo相关问题]]></title>
-      <url>/2017/01/02/dubbo/2017-12-29/</url>
-      <content type="html"><![CDATA[<h1><span id="the-question-of-dubbo">The question of dubbo</span></h1><h2><span id="q1">Q1</span></h2><p>Failed to check the status of the service，No provider available for the service<br><img src="/media/15149610034707.jpg" alt=""></p>
+      <title><![CDATA[dubbo环境搭建]]></title>
+      <url>/2017/01/02/dubbo/2018-01-02/</url>
+      <content type="html"><![CDATA[<p>#解压dubbo-admin<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面</p>
+<p>解压命令unzip dubbo-admin.war -d dubbp-admin</p>
+<p>#修改属性文件</p>
+<blockquote>
+<p>1.将用户密码都改成root<br>2.修改相应地址</p>
+</blockquote>
+<p>截图如下:</p>
+<p><img src="/media/15148683955030.jpg" alt=""></p>
+<p>#启动tomcat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，<br>启动命令：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行<code>startup.sh</code><br>日志命令:<br><code>tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out</code></p>
 ]]></content>
       
         <categories>
@@ -700,17 +736,9 @@ cols[N]!=cols[N-1]+1
     </entry>
     
     <entry>
-      <title><![CDATA[dubbo环境搭建]]></title>
-      <url>/2017/01/02/dubbo/2018-01-02/</url>
-      <content type="html"><![CDATA[<p>#解压dubbo-admin<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面</p>
-<p>解压命令unzip dubbo-admin.war -d dubbp-admin</p>
-<p>#修改属性文件</p>
-<blockquote>
-<p>1.将用户密码都改成root<br>2.修改相应地址</p>
-</blockquote>
-<p>截图如下:</p>
-<p><img src="/media/15148683955030.jpg" alt=""></p>
-<p>#启动tomcat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，<br>启动命令：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行<code>startup.sh</code><br>日志命令:<br><code>tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out</code></p>
+      <title><![CDATA[dubbo相关问题]]></title>
+      <url>/2017/01/02/dubbo/2017-12-29/</url>
+      <content type="html"><![CDATA[<h1><span id="the-question-of-dubbo">The question of dubbo</span></h1><h2><span id="q1">Q1</span></h2><p>Failed to check the status of the service，No provider available for the service<br><img src="/media/15149610034707.jpg" alt=""></p>
 ]]></content>
       
         <categories>
