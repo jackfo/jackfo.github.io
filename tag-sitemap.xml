@@ -16,13 +16,6 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/tags/zookeeper/</loc>
-        <lastmod>2018-01-01T09:14:40.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>www.cfad.tech/tags/NIO/</loc>
         <lastmod>2018-01-02T14:42:08.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -60,6 +53,13 @@
     <url>
         <loc>www.cfad.tech/tags/mysql/</loc>
         <lastmod>2018-01-03T15:36:12.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/zookeeper/</loc>
+        <lastmod>2018-01-04T01:48:35.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
