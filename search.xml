@@ -65,6 +65,33 @@
     </entry>
     
     <entry>
+      <title><![CDATA[linux下安装httpd]]></title>
+      <url>/2018/01/01/linux/2018-01-04/</url>
+      <content type="html"><![CDATA[<p>下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd httpd-devel</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service httpd start</span><br></pre></td></tr></table></figure>
+<p>修改端口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line">ServerName localhost:80</span><br></pre></td></tr></table></figure>
+<p>然后就可以根据ip进行访问</p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> centos </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[zookeeper 源码分析一 zookeeper启动]]></title>
       <url>/2018/01/01/zookeeper/2018-01-04/</url>
       <content type="html"><![CDATA[<h1><span id="zookeeper-qi-dong-lei">zookeeper启动类</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的<code>org.apache.zookeeper.server.quorum.QuorumPeerMain</code></p>
@@ -122,33 +149,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
-      <url>/2018/01/01/linux/2018-01-02/</url>
-      <content type="html"><![CDATA[<h1><span id="xie-zai-openjdk">卸载openJDK</span></h1><h2><span id="cha-kan-xiang-ying-openjdk-de-xin-xi">查看相应openJDK的信息</span></h2><p><code>rpm -qa | grep java</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tzdata-java-2014g-1.el6.noarch</span><br><span class="line">java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64</span><br><span class="line">java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64</span><br></pre></td></tr></table></figure>
-<h2><span id="shan-chu-xiang-ying-de-wen-jian">删除相应的文件</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64</span><br><span class="line">rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64</span><br><span class="line">rpm -e --nodeps tzdata-java-2014g-1.el6.noarch</span><br></pre></td></tr></table></figure>
-<h2><span id="an-zhuang-jdk">安装JDK</span></h2><p>找到相应的jdk资源，将其解压到指定目录</p>
-<h2><span id="pei-zhi-huan-jing">配置环境</span></h2><p>打开环境变量存储文件<code>vi /etc/profile</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/java/jdk1.7</span><br><span class="line">JRE_HOME=/usr/java/jdk1.7/jre</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line">export JAVA_HOME JRE_HOME PATH CLASSPATH</span><br></pre></td></tr></table></figure>
-<p>编译环境变量存储文件<code>source /etc/profile</code></p>
-]]></content>
-      
-        <categories>
-            
-            <category> linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> centos </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[VMware Fusion实现虚拟机拷贝]]></title>
       <url>/2018/01/01/linux/2018-01-01-2/</url>
       <content type="html"><![CDATA[<p>参考链接:<a href="http://www.linuxidc.com/Linux/2017-06/144720.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2017-06/144720.htm</a></p>
@@ -191,6 +191,33 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在点击上面安装之后会出现一个CD文件，里面存在VmwareTools-10* 的包 这是一个tar.gz的压缩包，现在我们通过<code>tar -zxvf 文件名tar.gz</code>来进行解压（可以自行存放位置）<br><img src="/media/15147840239457.jpg" alt=""></p>
 <p>###安装</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转到上面解压文件的目录vmware-tools-distrib 下，运行./vmware-install.pl 在安装的过程中不断点击enter 直到安装完成，之后调用reboot重新启动就完成了</p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> centos </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
+      <url>/2018/01/01/linux/2018-01-02/</url>
+      <content type="html"><![CDATA[<h1><span id="xie-zai-openjdk">卸载openJDK</span></h1><h2><span id="cha-kan-xiang-ying-openjdk-de-xin-xi">查看相应openJDK的信息</span></h2><p><code>rpm -qa | grep java</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tzdata-java-2014g-1.el6.noarch</span><br><span class="line">java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64</span><br><span class="line">java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64</span><br></pre></td></tr></table></figure>
+<h2><span id="shan-chu-xiang-ying-de-wen-jian">删除相应的文件</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64</span><br><span class="line">rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64</span><br><span class="line">rpm -e --nodeps tzdata-java-2014g-1.el6.noarch</span><br></pre></td></tr></table></figure>
+<h2><span id="an-zhuang-jdk">安装JDK</span></h2><p>找到相应的jdk资源，将其解压到指定目录</p>
+<h2><span id="pei-zhi-huan-jing">配置环境</span></h2><p>打开环境变量存储文件<code>vi /etc/profile</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/java/jdk1.7</span><br><span class="line">JRE_HOME=/usr/java/jdk1.7/jre</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line">export JAVA_HOME JRE_HOME PATH CLASSPATH</span><br></pre></td></tr></table></figure>
+<p>编译环境变量存储文件<code>source /etc/profile</code></p>
 ]]></content>
       
         <categories>
@@ -353,6 +380,30 @@ cols[N]!=cols[N-1]+1
     </entry>
     
     <entry>
+      <title><![CDATA[A example of Netty]]></title>
+      <url>/2017/12/12/netty/netty1/</url>
+      <content type="html"><![CDATA[<h1><span id="the-introduce-of-netty">The introduce of Netty</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; we often use an HTTP client library to retrieve information from a web server and to invoke a remote procedure call via web services. Netty is an NIO client server framework which enables quick and easy development of network applications such as protocol servers and clients. It greatly simplifies and streamlines network programming such as TCP and UDP socket server development.</p>
+<h1><span id="a-example-of-netty">A example of Netty</span></h1><h2><span id="the-main-class">The Main class</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, we introduce a simple process for a netty service. At first, we create multithreaded event loop that handles I/O operation and add them into corresponding server and add corresponding channel to transmit message. In this channel, we will create corresponding handle to receive the message, In this process, some handle can encode or decode the message. In the end, it will wait the message from client. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DiscardServer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DiscardServer</span><span class="params">(<span class="keyword">int</span> port)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.port = port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//bossGroup will accept an incoming connection</span></span><br><span class="line">        EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="comment">//workerGroup handles the traffic of the accepted connection once the bossGroup accepts the connection</span></span><br><span class="line">        <span class="comment">//and registers the accepted the connection to the worker</span></span><br><span class="line">        EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//ServerBootstrap is a helper class that sets up a server. you can set up the server using channel</span></span><br><span class="line">            ServerBootstrap serverBootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">            <span class="comment">//we specify to use the NioServerSocketChannel class which is used to a new channel to accept incoming connection</span></span><br><span class="line">            serverBootstrap.group(bossGroup, workerGroup)</span><br><span class="line">                    .channel(NioServerSocketChannel.class)</span><br><span class="line">                    <span class="comment">//the handler specified here will always be evaluated by a newly channel</span></span><br><span class="line">                    <span class="comment">//The ChannelInitializer's purpose is to help user configure a new channel and add some handler which can implement network application</span></span><br><span class="line">                    .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                            ch.pipeline().addLast(<span class="keyword">new</span> DiscardServerHandler());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;)</span><br><span class="line">                    <span class="comment">//you can set some socket option by this way</span></span><br><span class="line">                    <span class="comment">//option() is for the NioServerSocketChannel that accepts incoming connections.</span></span><br><span class="line">                    <span class="comment">//childOption() is for the Channels accepted by the parent ServerChannel, which is NioServerSocketChannel in this case.</span></span><br><span class="line">                    .option(ChannelOption.SO_BACKLOG, <span class="number">128</span>)</span><br><span class="line">                    .childOption(ChannelOption.SO_KEEPALIVE, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Bind and start to accept incoming connections.</span></span><br><span class="line">            ChannelFuture f = serverBootstrap.bind(port).sync();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">"before closeFuture.."</span>);</span><br><span class="line">            <span class="comment">// Wait until the server socket is closed.</span></span><br><span class="line">            <span class="comment">// In this example, this does not happen, but you can do that to gracefully</span></span><br><span class="line">            <span class="comment">// shut down your server.</span></span><br><span class="line">            f.channel().closeFuture().sync();</span><br><span class="line">            System.out.println(<span class="string">"after closeFuture.."</span>);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            workerGroup.shutdownGracefully();</span><br><span class="line">            bossGroup.shutdownGracefully();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> port;</span><br><span class="line">        <span class="keyword">if</span> (args.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            port = Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            port = <span class="number">8080</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">new</span> DiscardServer(port).run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line">## The corresponding handle</span><br><span class="line"> &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; In <span class="keyword">this</span> handle,  we override the channelRead method from the <span class="class"><span class="keyword">interface</span> <span class="title">of</span> <span class="title">ChannelInboundHandler</span> <span class="title">to</span> <span class="title">receive</span> <span class="title">the</span> <span class="title">message</span> <span class="title">and</span> <span class="title">do</span> <span class="title">some</span> <span class="title">operation</span>.</span></span><br><span class="line"><span class="class"> </span></span><br><span class="line"><span class="class">```<span class="title">java</span></span></span><br><span class="line"><span class="class">/***</span></span><br><span class="line"><span class="class"> *</span></span><br><span class="line"><span class="class"> * <span class="title">ChannelInboundHandlerAdapter</span> <span class="title">is</span> <span class="title">a</span> <span class="title">implementation</span> <span class="title">for</span> <span class="title">ChannelHandlerAdapter</span> (<span class="title">abstract</span> <span class="title">class</span>) <span class="title">and</span> <span class="title">ChannelInboundHandler</span>(<span class="title">interface</span>)</span></span><br><span class="line"><span class="class"> * <span class="title">ChannelInboundHandler</span> <span class="title">provides</span> <span class="title">various</span> <span class="title">event</span> <span class="title">handler</span> <span class="title">methods</span> <span class="title">that</span> <span class="title">you</span> <span class="title">can</span> <span class="title">override</span></span></span><br><span class="line"><span class="class"> * <span class="title">For</span> <span class="title">now</span>, <span class="title">it</span> <span class="title">is</span> <span class="title">just</span> <span class="title">enough</span> <span class="title">to</span> <span class="title">extend</span> <span class="title">ChannelInboundHandlerAdapter</span> <span class="title">rather</span> <span class="title">than</span> <span class="title">to</span> <span class="title">implement</span> <span class="title">the</span> <span class="title">handler</span> <span class="title">interface</span> <span class="title">by</span> <span class="title">yourself</span>.</span></span><br><span class="line"><span class="class"> *</span></span><br><span class="line"><span class="class"> */</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">DiscardServerHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * we override the channelRead method from the interface of ChannelInboundHandler</span></span><br><span class="line"><span class="comment">     * Invoked when the current channel has read a message from the peer.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ctx this variable provide various operations that enable you to trigger various I/O operations and event</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> msg receive the message from channel</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> </span>&#123;</span><br><span class="line">        ByteBuf in = (ByteBuf) msg;</span><br><span class="line">        <span class="keyword">char</span> temp ;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ctx.write(<span class="string">"you message:"</span>);</span><br><span class="line">            <span class="keyword">while</span> (in.isReadable()) &#123;</span><br><span class="line">                temp = (<span class="keyword">char</span>)in.readByte();</span><br><span class="line">                System.out.print(temp);</span><br><span class="line"></span><br><span class="line">                ctx.write(temp);</span><br><span class="line">                System.out.flush();</span><br><span class="line">            &#125;</span><br><span class="line">            ctx.flush();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            ReferenceCountUtil.release(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The exceptionCaught() event handler method s called with a Throwable</span></span><br><span class="line"><span class="comment">     * when an exception was raised by Netty due to an I/O error or by a handler implementation due to the exception thrown while processing events</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Close the connection when an exception is raised.</span></span><br><span class="line">        System.out.println(<span class="string">"channelRead..."</span>);</span><br><span class="line">        cause.printStackTrace();</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##The result of this example<br><img src="/media/15130934221050.jpg" alt=""></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Netty </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Netty </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[PriorityQueue]]></title>
       <url>/2017/12/12/Jdk/PriorityQueue/</url>
       <content type="html"><![CDATA[<h1><span id="the-introduce-of-priorityqueue">The introduce of PriorityQueue</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural ordering, or by a Comparator provided at queue construction time, depending on which constructor is used. A priority queue does not permit null elements. A priority queue relying on natural ordering also does not permit insertion of non-comparable objects </p>
@@ -378,48 +429,23 @@ cols[N]!=cols[N-1]+1
     </entry>
     
     <entry>
-      <title><![CDATA[A example of Netty]]></title>
-      <url>/2017/12/12/netty/netty1/</url>
-      <content type="html"><![CDATA[<h1><span id="the-introduce-of-netty">The introduce of Netty</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; we often use an HTTP client library to retrieve information from a web server and to invoke a remote procedure call via web services. Netty is an NIO client server framework which enables quick and easy development of network applications such as protocol servers and clients. It greatly simplifies and streamlines network programming such as TCP and UDP socket server development.</p>
-<h1><span id="a-example-of-netty">A example of Netty</span></h1><h2><span id="the-main-class">The Main class</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, we introduce a simple process for a netty service. At first, we create multithreaded event loop that handles I/O operation and add them into corresponding server and add corresponding channel to transmit message. In this channel, we will create corresponding handle to receive the message, In this process, some handle can encode or decode the message. In the end, it will wait the message from client. </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DiscardServer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DiscardServer</span><span class="params">(<span class="keyword">int</span> port)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.port = port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//bossGroup will accept an incoming connection</span></span><br><span class="line">        EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="comment">//workerGroup handles the traffic of the accepted connection once the bossGroup accepts the connection</span></span><br><span class="line">        <span class="comment">//and registers the accepted the connection to the worker</span></span><br><span class="line">        EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//ServerBootstrap is a helper class that sets up a server. you can set up the server using channel</span></span><br><span class="line">            ServerBootstrap serverBootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">            <span class="comment">//we specify to use the NioServerSocketChannel class which is used to a new channel to accept incoming connection</span></span><br><span class="line">            serverBootstrap.group(bossGroup, workerGroup)</span><br><span class="line">                    .channel(NioServerSocketChannel.class)</span><br><span class="line">                    <span class="comment">//the handler specified here will always be evaluated by a newly channel</span></span><br><span class="line">                    <span class="comment">//The ChannelInitializer's purpose is to help user configure a new channel and add some handler which can implement network application</span></span><br><span class="line">                    .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                            ch.pipeline().addLast(<span class="keyword">new</span> DiscardServerHandler());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;)</span><br><span class="line">                    <span class="comment">//you can set some socket option by this way</span></span><br><span class="line">                    <span class="comment">//option() is for the NioServerSocketChannel that accepts incoming connections.</span></span><br><span class="line">                    <span class="comment">//childOption() is for the Channels accepted by the parent ServerChannel, which is NioServerSocketChannel in this case.</span></span><br><span class="line">                    .option(ChannelOption.SO_BACKLOG, <span class="number">128</span>)</span><br><span class="line">                    .childOption(ChannelOption.SO_KEEPALIVE, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Bind and start to accept incoming connections.</span></span><br><span class="line">            ChannelFuture f = serverBootstrap.bind(port).sync();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">"before closeFuture.."</span>);</span><br><span class="line">            <span class="comment">// Wait until the server socket is closed.</span></span><br><span class="line">            <span class="comment">// In this example, this does not happen, but you can do that to gracefully</span></span><br><span class="line">            <span class="comment">// shut down your server.</span></span><br><span class="line">            f.channel().closeFuture().sync();</span><br><span class="line">            System.out.println(<span class="string">"after closeFuture.."</span>);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            workerGroup.shutdownGracefully();</span><br><span class="line">            bossGroup.shutdownGracefully();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> port;</span><br><span class="line">        <span class="keyword">if</span> (args.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            port = Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            port = <span class="number">8080</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">new</span> DiscardServer(port).run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line">## The corresponding handle</span><br><span class="line"> &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; In <span class="keyword">this</span> handle,  we override the channelRead method from the <span class="class"><span class="keyword">interface</span> <span class="title">of</span> <span class="title">ChannelInboundHandler</span> <span class="title">to</span> <span class="title">receive</span> <span class="title">the</span> <span class="title">message</span> <span class="title">and</span> <span class="title">do</span> <span class="title">some</span> <span class="title">operation</span>.</span></span><br><span class="line"><span class="class"> </span></span><br><span class="line"><span class="class">```<span class="title">java</span></span></span><br><span class="line"><span class="class">/***</span></span><br><span class="line"><span class="class"> *</span></span><br><span class="line"><span class="class"> * <span class="title">ChannelInboundHandlerAdapter</span> <span class="title">is</span> <span class="title">a</span> <span class="title">implementation</span> <span class="title">for</span> <span class="title">ChannelHandlerAdapter</span> (<span class="title">abstract</span> <span class="title">class</span>) <span class="title">and</span> <span class="title">ChannelInboundHandler</span>(<span class="title">interface</span>)</span></span><br><span class="line"><span class="class"> * <span class="title">ChannelInboundHandler</span> <span class="title">provides</span> <span class="title">various</span> <span class="title">event</span> <span class="title">handler</span> <span class="title">methods</span> <span class="title">that</span> <span class="title">you</span> <span class="title">can</span> <span class="title">override</span></span></span><br><span class="line"><span class="class"> * <span class="title">For</span> <span class="title">now</span>, <span class="title">it</span> <span class="title">is</span> <span class="title">just</span> <span class="title">enough</span> <span class="title">to</span> <span class="title">extend</span> <span class="title">ChannelInboundHandlerAdapter</span> <span class="title">rather</span> <span class="title">than</span> <span class="title">to</span> <span class="title">implement</span> <span class="title">the</span> <span class="title">handler</span> <span class="title">interface</span> <span class="title">by</span> <span class="title">yourself</span>.</span></span><br><span class="line"><span class="class"> *</span></span><br><span class="line"><span class="class"> */</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">DiscardServerHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * we override the channelRead method from the interface of ChannelInboundHandler</span></span><br><span class="line"><span class="comment">     * Invoked when the current channel has read a message from the peer.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ctx this variable provide various operations that enable you to trigger various I/O operations and event</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> msg receive the message from channel</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> </span>&#123;</span><br><span class="line">        ByteBuf in = (ByteBuf) msg;</span><br><span class="line">        <span class="keyword">char</span> temp ;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ctx.write(<span class="string">"you message:"</span>);</span><br><span class="line">            <span class="keyword">while</span> (in.isReadable()) &#123;</span><br><span class="line">                temp = (<span class="keyword">char</span>)in.readByte();</span><br><span class="line">                System.out.print(temp);</span><br><span class="line"></span><br><span class="line">                ctx.write(temp);</span><br><span class="line">                System.out.flush();</span><br><span class="line">            &#125;</span><br><span class="line">            ctx.flush();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            ReferenceCountUtil.release(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The exceptionCaught() event handler method s called with a Throwable</span></span><br><span class="line"><span class="comment">     * when an exception was raised by Netty due to an I/O error or by a handler implementation due to the exception thrown while processing events</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Close the connection when an exception is raised.</span></span><br><span class="line">        System.out.println(<span class="string">"channelRead..."</span>);</span><br><span class="line">        cause.printStackTrace();</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>##The result of this example<br><img src="/media/15130934221050.jpg" alt=""></p>
+      <title><![CDATA[java NIO Selector]]></title>
+      <url>/2017/12/11/NIO/nio4/</url>
+      <content type="html"><![CDATA[<p>#The Selector, SelectableChannel, and SelectionKey Classes</p>
+<h2><span id="selector">Selector</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready.</p>
+<p>##</p>
 ]]></content>
       
         <categories>
             
-            <category> Netty </category>
+            <category> NIO </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Netty </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[linux基本指令]]></title>
-      <url>/2017/12/11/linux/2018-01-01/</url>
-      <content type="html"><![CDATA[<h1><span id="jie-ya">解压</span></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf 文件名</span><br></pre></td></tr></table></figure>
-<h1><span id="yi-dong">移动</span></h1><p>文件移动命令mv<br>    命令格式：mv [-fiv] source destination<br>    参数说明：<br>    -f:force，强制直接移动而不询问<br>    -i:若目标文件(destination)已经存在，就会询问是否覆盖<br>    -u:若目标文件已经存在，且源文件比较新，才会更新<br>    如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令：<br>    mv /test1/file1 /test3/file2</p>
-<h1><span id="chong-ming-ming">重命名</span></h1><h1><span id="guan-ji">关机</span></h1><p>poweroff 立刻关机<br>shutdown -h now 立刻关机<br>shutdown -h 10 10分钟后自动关机</p>
-<h1><span id="guan-bi-fang-huo-qiang">关闭防火墙</span></h1><p>关闭命令：  service iptables stop<br>永久关闭防火墙：chkconfig iptables off<br>永久关闭需要两条语句都运行</p>
-]]></content>
-      
-        <categories>
-            
-            <category> linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> centos </tag>
+            <tag> NIO </tag>
             
         </tags>
         
@@ -460,23 +486,24 @@ cols[N]!=cols[N-1]+1
     </entry>
     
     <entry>
-      <title><![CDATA[java NIO Selector]]></title>
-      <url>/2017/12/11/NIO/nio4/</url>
-      <content type="html"><![CDATA[<p>#The Selector, SelectableChannel, and SelectionKey Classes</p>
-<h2><span id="selector">Selector</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready.</p>
-<p>##</p>
+      <title><![CDATA[linux基本指令]]></title>
+      <url>/2017/12/11/linux/2018-01-01/</url>
+      <content type="html"><![CDATA[<h1><span id="jie-ya">解压</span></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf 文件名</span><br></pre></td></tr></table></figure>
+<h1><span id="yi-dong">移动</span></h1><p>文件移动命令mv<br>    命令格式：mv [-fiv] source destination<br>    参数说明：<br>    -f:force，强制直接移动而不询问<br>    -i:若目标文件(destination)已经存在，就会询问是否覆盖<br>    -u:若目标文件已经存在，且源文件比较新，才会更新<br>    如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令：<br>    mv /test1/file1 /test3/file2</p>
+<h1><span id="chong-ming-ming">重命名</span></h1><h1><span id="guan-ji">关机</span></h1><p>poweroff 立刻关机<br>shutdown -h now 立刻关机<br>shutdown -h 10 10分钟后自动关机</p>
+<h1><span id="guan-bi-fang-huo-qiang">关闭防火墙</span></h1><p>关闭命令：  service iptables stop<br>永久关闭防火墙：chkconfig iptables off<br>永久关闭需要两条语句都运行</p>
 ]]></content>
       
         <categories>
             
-            <category> NIO </category>
+            <category> linux </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> NIO </tag>
+            <tag> centos </tag>
             
         </tags>
         
@@ -652,6 +679,56 @@ cols[N]!=cols[N-1]+1
     </entry>
     
     <entry>
+      <title><![CDATA[dubbo相关问题]]></title>
+      <url>/2017/01/02/dubbo/2017-12-29/</url>
+      <content type="html"><![CDATA[<h1><span id="the-question-of-dubbo">The question of dubbo</span></h1><h2><span id="q1">Q1</span></h2><p>Failed to check the status of the service，No provider available for the service<br><img src="/media/15149610034707.jpg" alt=""></p>
+]]></content>
+      
+        <categories>
+            
+            <category> dubbo </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> dubbo </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[dubbo环境搭建]]></title>
+      <url>/2017/01/02/dubbo/2018-01-02/</url>
+      <content type="html"><![CDATA[<p>#解压dubbo-admin<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面</p>
+<p>解压命令unzip dubbo-admin.war -d dubbp-admin</p>
+<p>#修改属性文件</p>
+<blockquote>
+<p>1.将用户密码都改成root<br>2.修改相应地址</p>
+</blockquote>
+<p>截图如下:</p>
+<p><img src="/media/15148683955030.jpg" alt=""></p>
+<p>#启动tomcat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，<br>启动命令：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行<code>startup.sh</code><br>日志命令:<br><code>tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out</code></p>
+]]></content>
+      
+        <categories>
+            
+            <category> dubbo </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> dubbo </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[git基本指令]]></title>
       <url>/2017/01/02/git/2017-12-29/</url>
       <content type="html"><![CDATA[<h1><span id="the-knowledge-of-git">The knowledge of git</span></h1><h2><span id="base-code">base code</span></h2><h3><span id="git-init">git init</span></h3><p>在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西</p>
@@ -689,56 +766,6 @@ cols[N]!=cols[N-1]+1
     </entry>
     
     <entry>
-      <title><![CDATA[dubbo环境搭建]]></title>
-      <url>/2017/01/02/dubbo/2018-01-02/</url>
-      <content type="html"><![CDATA[<p>#解压dubbo-admin<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面</p>
-<p>解压命令unzip dubbo-admin.war -d dubbp-admin</p>
-<p>#修改属性文件</p>
-<blockquote>
-<p>1.将用户密码都改成root<br>2.修改相应地址</p>
-</blockquote>
-<p>截图如下:</p>
-<p><img src="/media/15148683955030.jpg" alt=""></p>
-<p>#启动tomcat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，<br>启动命令：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行<code>startup.sh</code><br>日志命令:<br><code>tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out</code></p>
-]]></content>
-      
-        <categories>
-            
-            <category> dubbo </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> dubbo </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[dubbo相关问题]]></title>
-      <url>/2017/01/02/dubbo/2017-12-29/</url>
-      <content type="html"><![CDATA[<h1><span id="the-question-of-dubbo">The question of dubbo</span></h1><h2><span id="q1">Q1</span></h2><p>Failed to check the status of the service，No provider available for the service<br><img src="/media/15149610034707.jpg" alt=""></p>
-]]></content>
-      
-        <categories>
-            
-            <category> dubbo </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> dubbo </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[druid分析]]></title>
       <url>/2017/01/02/druid/2017-12-30/</url>
       <content type="html"><![CDATA[<p>The analysis of Druid<br>Instancing DruidDataSource<br>DruidDataSource have two Constructor,and the one without any argument will invoke another by writing a argument, as follows</p>
@@ -756,34 +783,6 @@ cols[N]!=cols[N-1]+1
         <tags>
             
             <tag> druid </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[maven命令使用指南]]></title>
-      <url>/2017/01/01/maven/2018-01-03/</url>
-      <content type="html"><![CDATA[<p>#基本命令</p>
-<blockquote>
-<p>编译源代码: mvn compile<br>编译测试代码：mvn test-compile<br>运行测试：mvn test<br>产生site：mvn site<br>打包：mvn package   -Dmaven.test.skip=true(跳过测试)</p>
-</blockquote>
-<p>#编译jar到本地仓库</p>
-<p>mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar</p>
-<p>mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources</p>
-<p>mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc</p>
-]]></content>
-      
-        <categories>
-            
-            <category> other </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> jdk </tag>
             
         </tags>
         
@@ -830,6 +829,34 @@ cols[N]!=cols[N-1]+1
         <tags>
             
             <tag> idea </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[maven命令使用指南]]></title>
+      <url>/2017/01/01/maven/2018-01-03/</url>
+      <content type="html"><![CDATA[<p>#基本命令</p>
+<blockquote>
+<p>编译源代码: mvn compile<br>编译测试代码：mvn test-compile<br>运行测试：mvn test<br>产生site：mvn site<br>打包：mvn package   -Dmaven.test.skip=true(跳过测试)</p>
+</blockquote>
+<p>#编译jar到本地仓库</p>
+<p>mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar</p>
+<p>mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources</p>
+<p>mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc</p>
+]]></content>
+      
+        <categories>
+            
+            <category> other </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> jdk </tag>
             
         </tags>
         
