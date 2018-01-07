@@ -30,13 +30,6 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/tags/jdk/</loc>
-        <lastmod>2018-01-03T02:12:35.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>www.cfad.tech/tags/mysql/</loc>
         <lastmod>2018-01-03T15:36:12.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -58,22 +51,8 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/tags/dubbo/</loc>
-        <lastmod>2018-01-04T02:09:47.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>www.cfad.tech/tags/git/</loc>
         <lastmod>2018-01-04T02:10:17.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>www.cfad.tech/tags/centos/</loc>
-        <lastmod>2018-01-04T04:34:58.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -86,15 +65,36 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/tags/centos-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</loc>
-        <lastmod>2018-01-04T06:10:21.000Z</lastmod>
+        <loc>www.cfad.tech/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</loc>
+        <lastmod>2018-01-04T06:55:15.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>www.cfad.tech/tags/centos-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90-nexus/</loc>
-        <lastmod>2018-01-04T06:51:59.000Z</lastmod>
+        <loc>www.cfad.tech/tags/jdk/</loc>
+        <lastmod>2018-01-05T09:33:31.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/centos/</loc>
+        <lastmod>2018-01-05T15:04:08.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/dubbo/</loc>
+        <lastmod>2018-01-07T04:53:48.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/spring/</loc>
+        <lastmod>2018-01-07T06:23:14.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

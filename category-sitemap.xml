@@ -35,13 +35,6 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/categories/other/</loc>
-        <lastmod>2018-01-03T02:12:35.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>www.cfad.tech/categories/mysql/</loc>
         <lastmod>2018-01-03T15:36:12.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -63,13 +56,6 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/categories/dubbo/</loc>
-        <lastmod>2018-01-04T02:09:47.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>www.cfad.tech/categories/git/</loc>
         <lastmod>2018-01-04T02:10:17.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -84,8 +70,29 @@
     </url>
 
     <url>
+        <loc>www.cfad.tech/categories/other/</loc>
+        <lastmod>2018-01-05T09:33:31.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>www.cfad.tech/categories/linux/</loc>
-        <lastmod>2018-01-04T06:51:59.000Z</lastmod>
+        <lastmod>2018-01-05T15:04:08.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/categories/dubbo/</loc>
+        <lastmod>2018-01-07T04:53:48.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/categories/spring/</loc>
+        <lastmod>2018-01-07T06:23:14.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
