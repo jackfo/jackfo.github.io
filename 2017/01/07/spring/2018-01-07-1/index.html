@@ -114,7 +114,9 @@
 <meta property="og:description" content="实例化ClassPathXmlApplicationContext12ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(				new String[] &amp;#123; &quot;spring-context.xml&quot; &amp;#125;); 调用父级构造器123this(configLocations, re">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/15153047375512.jpg">
-<meta property="og:updated_time" content="2018-01-07T06:23:14.000Z">
+<meta property="og:image" content="/media/15153073857334.jpg">
+<meta property="og:image" content="/media/15153073632068.jpg">
+<meta property="og:updated_time" content="2018-01-07T06:43:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring ClassPathXmlApplicationContext代码解读">
 <meta name="twitter:description" content="实例化ClassPathXmlApplicationContext12ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(				new String[] &amp;#123; &quot;spring-context.xml&quot; &amp;#125;); 调用父级构造器123this(configLocations, re">
@@ -410,7 +412,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,020
+                  1,042
                 </span>
               
 
@@ -426,7 +428,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  4
+                  5
                 </span>
               
             </div>
@@ -471,6 +473,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startBeans</span><span class="params">(<span class="keyword">boolean</span> autoStartupOnly)</span> </span>&#123;</span><br><span class="line">	Map&lt;String, Lifecycle&gt; lifecycleBeans = getLifecycleBeans();</span><br><span class="line">	Map&lt;Integer, LifecycleGroup&gt; phases = <span class="keyword">new</span> HashMap&lt;Integer, LifecycleGroup&gt;();</span><br><span class="line">	<span class="keyword">for</span> (Map.Entry&lt;String, ? extends Lifecycle&gt; entry : lifecycleBeans.entrySet()) &#123;</span><br><span class="line">		Lifecycle bean = entry.getValue();</span><br><span class="line">		<span class="keyword">if</span> (!autoStartupOnly || (bean <span class="keyword">instanceof</span> SmartLifecycle &amp;&amp; ((SmartLifecycle) bean).isAutoStartup())) &#123;</span><br><span class="line">			<span class="keyword">int</span> phase = getPhase(bean);</span><br><span class="line">			LifecycleGroup group = phases.get(phase);</span><br><span class="line">			<span class="keyword">if</span> (group == <span class="keyword">null</span>) &#123;</span><br><span class="line">				group = <span class="keyword">new</span> LifecycleGroup(phase, <span class="keyword">this</span>.timeoutPerShutdownPhase, lifecycleBeans, autoStartupOnly);</span><br><span class="line">				phases.put(phase, group);</span><br><span class="line">			&#125;</span><br><span class="line">			group.add(entry.getKey(), bean);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (phases.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		List&lt;Integer&gt; keys = <span class="keyword">new</span> ArrayList&lt;Integer&gt;(phases.keySet());</span><br><span class="line">		Collections.sort(keys);</span><br><span class="line">		<span class="keyword">for</span> (Integer key : keys) &#123;</span><br><span class="line">			phases.get(key).start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">publishEvent</span><span class="params">(ApplicationEvent event)</span> </span>&#123;</span><br><span class="line">	Assert.notNull(event, <span class="string">"Event must not be null"</span>);</span><br><span class="line">	<span class="keyword">if</span> (logger.isTraceEnabled()) &#123;</span><br><span class="line">		logger.trace(<span class="string">"Publishing event in "</span> + getDisplayName() + <span class="string">": "</span> + event);</span><br><span class="line">	&#125;</span><br><span class="line">	getApplicationEventMulticaster().multicastEvent(event);</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span>.parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">		<span class="keyword">this</span>.parent.publishEvent(event);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所以第一句的作用是添加相应监听器，第二句的作用是通知监听器，然后执行相应的时间</p>
+<h1><span id="loadbeandefinitions">loadBeanDefinitions</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个里面有个东西需要单独说明一下，即装载bean。</p>
+<p><img src="/media/15153073857334.jpg" alt=""></p>
+<p><img src="/media/15153073632068.jpg" alt=""></p>
 
       
     </div>
@@ -764,7 +769,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="shi-li-hua-classpathxmlapplicationcontext">&#x5B9E;&#x4F8B;&#x5316;ClassPathXmlApplicationContext</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="diao-yong-fu-ji-gou-zao-qi">&#x8C03;&#x7528;&#x7236;&#x7EA7;&#x6784;&#x9020;&#x5668;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text"><span id="she-zhi-pei-zhi-wen-jian-lu-jing">&#x8BBE;&#x7F6E;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text"><span id="refresh-fang-fa">refresh&#x65B9;&#x6CD5;</span></span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="shi-li-hua-classpathxmlapplicationcontext">&#x5B9E;&#x4F8B;&#x5316;ClassPathXmlApplicationContext</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="diao-yong-fu-ji-gou-zao-qi">&#x8C03;&#x7528;&#x7236;&#x7EA7;&#x6784;&#x9020;&#x5668;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text"><span id="she-zhi-pei-zhi-wen-jian-lu-jing">&#x8BBE;&#x7F6E;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text"><span id="refresh-fang-fa">refresh&#x65B9;&#x6CD5;</span></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="loadbeandefinitions">loadBeanDefinitions</span></span></a></li></ol></div>
             
 
           </div>

@@ -105,18 +105,18 @@
 
 
 
-<meta name="description" content="装载标签元素Spring为了支持用户自定义类加载到Spring容器，提供了org.springframework.beans.factory.xml.NamespaceHandler接口org.springframework.beans.factory.xml.NamespaceHandlerSupport抽象类，NamespaceHandler#init方法会在对象的构造函数调用之后、属性初始化">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在一下的代码中主要是装载标签元素并进行解析，其中装载是根据namespaceUri找到对应的句柄，然后通过句柄来解析自己定义的元素. 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd)">
 <meta name="keywords" content="dubbo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dubbo源码分析1-spring方式启动">
 <meta property="og:url" content="www.cfad.tech/2017/01/02/dubbo/2018-01-07/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="装载标签元素Spring为了支持用户自定义类加载到Spring容器，提供了org.springframework.beans.factory.xml.NamespaceHandler接口org.springframework.beans.factory.xml.NamespaceHandlerSupport抽象类，NamespaceHandler#init方法会在对象的构造函数调用之后、属性初始化">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在一下的代码中主要是装载标签元素并进行解析，其中装载是根据namespaceUri找到对应的句柄，然后通过句柄来解析自己定义的元素. 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd)">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-07T04:53:48.000Z">
+<meta property="og:updated_time" content="2018-01-07T06:46:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dubbo源码分析1-spring方式启动">
-<meta name="twitter:description" content="装载标签元素Spring为了支持用户自定义类加载到Spring容器，提供了org.springframework.beans.factory.xml.NamespaceHandler接口org.springframework.beans.factory.xml.NamespaceHandlerSupport抽象类，NamespaceHandler#init方法会在对象的构造函数调用之后、属性初始化">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在一下的代码中主要是装载标签元素并进行解析，其中装载是根据namespaceUri找到对应的句柄，然后通过句柄来解析自己定义的元素. 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd)">
 
 
 
@@ -408,7 +408,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  565
+                  671
                 </span>
               
 
@@ -445,7 +445,9 @@
       
 
       
-        <h1><span id="zhuang-zai-biao-qian-yuan-su">装载标签元素</span></h1><p>Spring为了支持用户自定义类加载到Spring容器，提供了<code>org.springframework.beans.factory.xml.NamespaceHandler</code>接口<code>org.springframework.beans.factory.xml.NamespaceHandlerSupport</code>抽象类，NamespaceHandler#init方法会在对象的构造函数调用之后、属性初始化之前被DefaultNamespaceHandlerResolver调用。dubbo的DubboNamespaceHandler类正是继承了NamespaceHandlerSupport所以在spring加载过程中会执行这个类中的内容</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在一下的代码中主要是装载标签元素并进行解析，其中装载是根据namespaceUri找到对应的句柄，然后通过句柄来解析自己定义的元素.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> BeanDefinition <span class="title">parseCustomElement</span><span class="params">(Element ele, BeanDefinition containingBd)</span> </span>&#123;</span><br><span class="line">	String namespaceUri = getNamespaceURI(ele);</span><br><span class="line">	NamespaceHandler handler = <span class="keyword">this</span>.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);</span><br><span class="line">	<span class="keyword">if</span> (handler == <span class="keyword">null</span>) &#123;</span><br><span class="line">		error(<span class="string">"Unable to locate Spring NamespaceHandler for XML schema namespace ["</span> + namespaceUri + <span class="string">"]"</span>, ele);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> handler.parse(ele, <span class="keyword">new</span> ParserContext(<span class="keyword">this</span>.readerContext, <span class="keyword">this</span>, containingBd));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1><span id="zhuang-zai-biao-qian-yuan-su">装载标签元素</span></h1><p>Spring为了支持用户自定义类加载到Spring容器，提供了<code>org.springframework.beans.factory.xml.NamespaceHandler</code>接口<code>org.springframework.beans.factory.xml.NamespaceHandlerSupport</code>抽象类，NamespaceHandler#init方法会在对象的构造函数调用之后、属性初始化之前被DefaultNamespaceHandlerResolver调用。dubbo的DubboNamespaceHandler类正是继承了NamespaceHandlerSupport所以在spring加载过程中会执行这个类中的内容</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DubboNamespaceHandler</span> <span class="keyword">extends</span> <span class="title">NamespaceHandlerSupport</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> &#123;</span><br><span class="line">		Version.checkDuplicate(DubboNamespaceHandler.class);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	    registerBeanDefinitionParser(<span class="string">"application"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(ApplicationConfig.class, <span class="keyword">true</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"module"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(ModuleConfig.class, <span class="keyword">true</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"registry"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(RegistryConfig.class, <span class="keyword">true</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"monitor"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(MonitorConfig.class, <span class="keyword">true</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"provider"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(ProviderConfig.class, <span class="keyword">true</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"consumer"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(ConsumerConfig.class, <span class="keyword">true</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"protocol"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(ProtocolConfig.class, <span class="keyword">true</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"service"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(ServiceBean.class, <span class="keyword">true</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"reference"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(ReferenceBean.class, <span class="keyword">false</span>));</span><br><span class="line">        registerBeanDefinitionParser(<span class="string">"annotation"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(AnnotationBean.class, <span class="keyword">true</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过上面发现所有的标签元素都是通过registerBeanDefinitionParser注册，这个方法主要是将所有的标签对应的解析定义注入一个parsers这个Map</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">registerBeanDefinitionParser</span><span class="params">(String elementName, BeanDefinitionParser parser)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.parsers.put(elementName, parser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -487,7 +489,7 @@
   <p><span>本文标题:</span><a href="/2017/01/02/dubbo/2018-01-07/">dubbo源码分析1-spring方式启动</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
   <p><span>发布时间:</span>2017年01月02日 - 12:01</p>
-  <p><span>最后更新:</span>2018年01月07日 - 12:01</p>
+  <p><span>最后更新:</span>2018年01月07日 - 14:01</p>
   <p><span>原始链接:</span><a href="/2017/01/02/dubbo/2018-01-07/" title="dubbo源码分析1-spring方式启动">www.cfad.tech/2017/01/02/dubbo/2018-01-07/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/01/02/dubbo/2018-01-07/"  aria-label="复制成功！"></i></span>
   </p>
