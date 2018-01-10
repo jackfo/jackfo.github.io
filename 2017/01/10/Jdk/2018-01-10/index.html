@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="git," />
+  <meta name="keywords" content="jdk," />
 
 
 
@@ -105,18 +105,20 @@
 
 
 
-<meta name="description" content="The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 o">
-<meta name="keywords" content="git">
+<meta name="description" content="hashMap的简介1.HashMap 是一个散列表，它存储的内容是键值对(key-value)映射。2.HashMap 继承于AbstractMap，实现了Map、Cloneable、java.io.Serializable接口 hashMap的关系结构图 hashMap的构造器■    HashMap():构建一个初始容量为16,负载因子为0.75的HashMap。■    HashMap(i">
+<meta name="keywords" content="jdk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git基本指令">
-<meta property="og:url" content="www.cfad.tech/2017/01/02/git/2017-12-29/index.html">
+<meta property="og:title" content="hashMap">
+<meta property="og:url" content="www.cfad.tech/2017/01/10/Jdk/2018-01-10/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 o">
+<meta property="og:description" content="hashMap的简介1.HashMap 是一个散列表，它存储的内容是键值对(key-value)映射。2.HashMap 继承于AbstractMap，实现了Map、Cloneable、java.io.Serializable接口 hashMap的关系结构图 hashMap的构造器■    HashMap():构建一个初始容量为16,负载因子为0.75的HashMap。■    HashMap(i">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-04T02:10:17.000Z">
+<meta property="og:image" content="/media/15155611215142.jpg">
+<meta property="og:updated_time" content="2018-01-10T06:45:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git基本指令">
-<meta name="twitter:description" content="The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 o">
+<meta name="twitter:title" content="hashMap">
+<meta name="twitter:description" content="hashMap的简介1.HashMap 是一个散列表，它存储的内容是键值对(key-value)映射。2.HashMap 继承于AbstractMap，实现了Map、Cloneable、java.io.Serializable接口 hashMap的关系结构图 hashMap的构造器■    HashMap():构建一个初始容量为16,负载因子为0.75的HashMap。■    HashMap(i">
+<meta name="twitter:image" content="/media/15155611215142.jpg">
 
 
 
@@ -146,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="www.cfad.tech/2017/01/02/git/2017-12-29/"/>
+  <link rel="canonical" href="www.cfad.tech/2017/01/10/Jdk/2018-01-10/"/>
 
 
 
 
 
-  <title>git基本指令 | 敏而好学,乐以忘忧</title>
+  <title>hashMap | 敏而好学,乐以忘忧</title>
   
 
 
@@ -325,7 +327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/01/02/git/2017-12-29/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/01/10/Jdk/2018-01-10/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -342,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">git基本指令</h1>
+          <h1 class="post-title" itemprop="name headline">hashMap</h1>
         
 
         <div class="post-meta">
@@ -354,8 +356,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-02T12:34:14+08:00">
-                2017-01-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-10T13:34:14+08:00">
+                2017-01-10
               </time>
             
 
@@ -377,8 +379,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
+                  <a href="/categories/jdk/" itemprop="url" rel="index">
+                    <span itemprop="name">jdk</span>
                   </a>
                 </span>
 
@@ -408,7 +410,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  541
+                  461
                 </span>
               
 
@@ -424,7 +426,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  2
+                  3
                 </span>
               
             </div>
@@ -445,24 +447,14 @@
       
 
       
-        <h1><span id="the-knowledge-of-git">The knowledge of git</span></h1><h2><span id="base-code">base code</span></h2><h3><span id="git-init">git init</span></h3><p>在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西</p>
-<p>1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。</p>
-<p>2 info:包含仓库的一些信息</p>
-<p>3 logs:保存所有更新的引用记录</p>
-<p>4 objects:该目录存放所有的Git对象，对象的SHA1哈希值的前两位是文件夹名称，后38位作为对象文件名。比如前面log里的HEAD文件里有个哈希值5426426e3ccc9ab4e3330640862a7b96e28828af</p>
-<p>5 refs:具体的引用，Reference Specification，这个目录一般包括三个子文件夹，heads、remotes和tags，比如，heads中的master文件标识了项目中的master分支指向的当前commit，其他类似。</p>
-<p>6 COMMIT_EDITMSG:保存最新的commit message，Git系统不会用到这个文件，只是给用户一个参考</p>
-<p>7 config:这个是GIt仓库的配置文件</p>
-<p>8 description:仓库的描述信息，主要给gitweb等git托管系统使用</p>
-<p>9 index:这个文件就是我们前面提到的暂存区（stage），是一个二进制文件</p>
-<p>10 HEAD:这个文件包含了一个分支（branch）的引用，通过这个文件Git可以得到下一次commit的parent，什么是引用呢，你可以理解为指针，哪儿都可以指，但是不能指向没有的东西哦。详细介绍请看这里：</p>
-<p>###git add</p>
-<p>git add . ：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。</p>
-<p>git add -u ：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写）</p>
-<p>git add -A ：是上面两个功能的合集（git add –all的缩写）</p>
-<h3><span id="git-remote">git remote</span></h3><p>git remote add:命令用于添加远程主机</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add &lt;主机名&gt; &lt;网址&gt;</span><br></pre></td></tr></table></figure>
-<h2><span id="src-refspec-master-does-not-match-any">src refspec master does not match any.</span></h2>
+        <h1><span id="hashmap-de-jian-jie">hashMap的简介</span></h1><p>1.HashMap 是一个散列表，它存储的内容是键值对(key-value)映射。<br>2.HashMap 继承于AbstractMap，实现了Map、Cloneable、java.io.Serializable接口</p>
+<h1><span id="hashmap-de-guan-xi-jie-gou-tu">hashMap的关系结构图</span></h1><p><img src="/media/15155611215142.jpg" alt=""></p>
+<h1><span id="hashmap-de-gou-zao-qi">hashMap的构造器</span></h1><p>■    HashMap():构建一个初始容量为16,负载因子为0.75的HashMap。<br>■    HashMap(int initialCapacity):构建一个初始容量为 initialCapacity，负栽因子为0.75的 HashMap.<br>■    HashMap(int initialCapacity, float loadFactor):以指定初始容量、指定的负栽因子创建一 个 HashMap.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Constructs an empty &lt;tt&gt;HashMap&lt;/tt&gt; with the specified initial</span></span><br><span class="line"><span class="comment">   * capacity and load factor.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span>  initialCapacity the initial capacity</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span>  loadFactor      the load factor</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> IllegalArgumentException if the initial capacity is negative</span></span><br><span class="line"><span class="comment">   *         or the load factor is nonpositive</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal initial capacity: "</span> +</span><br><span class="line">                                             initialCapacity);</span><br><span class="line">      <span class="keyword">if</span> (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">          initialCapacity = MAXIMUM_CAPACITY;</span><br><span class="line">      <span class="keyword">if</span> (loadFactor &lt;= <span class="number">0</span> || Float.isNaN(loadFactor))</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal load factor: "</span> +</span><br><span class="line">                                             loadFactor);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">this</span>.loadFactor = loadFactor;</span><br><span class="line">      threshold = initialCapacity;</span><br><span class="line">      init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Constructs an empty &lt;tt&gt;HashMap&lt;/tt&gt; with the specified initial</span></span><br><span class="line"><span class="comment">   * capacity and the default load factor (0.75).</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span>  initialCapacity the initial capacity.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> IllegalArgumentException if the initial capacity is negative.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>(initialCapacity, DEFAULT_LOAD_FACTOR);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Constructs an empty &lt;tt&gt;HashMap&lt;/tt&gt; with the default initial capacity</span></span><br><span class="line"><span class="comment">   * (16) and the default load factor (0.75).</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Constructs a new &lt;tt&gt;HashMap&lt;/tt&gt; with the same mappings as the</span></span><br><span class="line"><span class="comment">   * specified &lt;tt&gt;Map&lt;/tt&gt;.  The &lt;tt&gt;HashMap&lt;/tt&gt; is created with</span></span><br><span class="line"><span class="comment">   * default load factor (0.75) and an initial capacity sufficient to</span></span><br><span class="line"><span class="comment">   * hold the mappings in the specified &lt;tt&gt;Map&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span>   m the map whose mappings are to be placed in this map</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span>  NullPointerException if the specified map is null</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>(Math.max((<span class="keyword">int</span>) (m.size() / DEFAULT_LOAD_FACTOR) + <span class="number">1</span>,</span><br><span class="line">                    DEFAULT_INITIAL_CAPACITY), DEFAULT_LOAD_FACTOR);</span><br><span class="line">      inflateTable(threshold);</span><br><span class="line"></span><br><span class="line">      putAllForCreate(m);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>当创建一个HashMap时，系统会自动创建一个table数组来保存HashMap中的Entry。下 面是HashMap中一个构造器的代码</p>
+<p>table = new Entry[capacity];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hashMap has four Constructs,  at first we must know the   <code>public HashMap(int initialCapacity, float loadFactor)</code></p>
+
       
     </div>
     
@@ -490,12 +482,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/01/02/git/2017-12-29/">git基本指令</a></p>
+  <p><span>本文标题:</span><a href="/2017/01/10/Jdk/2018-01-10/">hashMap</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
-  <p><span>发布时间:</span>2017年01月02日 - 12:01</p>
-  <p><span>最后更新:</span>2018年01月04日 - 10:01</p>
-  <p><span>原始链接:</span><a href="/2017/01/02/git/2017-12-29/" title="git基本指令">www.cfad.tech/2017/01/02/git/2017-12-29/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/01/02/git/2017-12-29/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2017年01月10日 - 13:01</p>
+  <p><span>最后更新:</span>2018年01月10日 - 14:01</p>
+  <p><span>原始链接:</span><a href="/2017/01/10/Jdk/2018-01-10/" title="hashMap">www.cfad.tech/2017/01/10/Jdk/2018-01-10/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/01/10/Jdk/2018-01-10/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -528,7 +520,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/git/" rel="tag"># git</a>
+            <a href="/tags/jdk/" rel="tag"># jdk</a>
           
         </div>
       
@@ -541,8 +533,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/02/dubbo/2018-01-07/" rel="next" title="dubbo源码分析1-spring方式启动">
-                <i class="fa fa-chevron-left"></i> dubbo源码分析1-spring方式启动
+              <a href="/2017/01/07/spring/2018-01-07-2/" rel="next" title="spring doGetBean源码解读">
+                <i class="fa fa-chevron-left"></i> spring doGetBean源码解读
               </a>
             
           </div>
@@ -551,8 +543,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/02/druid/2017-12-30/" rel="prev" title="druid分析">
-                druid分析 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/09/NIO/nio1/" rel="prev" title="The introduce of NIO">
+                The introduce of NIO <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -755,7 +747,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="the-knowledge-of-git">The knowledge of git</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="base-code">base code</span></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.1.</span> <span class="nav-text"><span id="git-init">git init</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.2.</span> <span class="nav-text"><span id="git-remote">git remote</span></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text"><span id="src-refspec-master-does-not-match-any">src refspec master does not match any.</span></span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="hashmap-de-jian-jie">hashMap&#x7684;&#x7B80;&#x4ECB;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="hashmap-de-guan-xi-jie-gou-tu">hashMap&#x7684;&#x5173;&#x7CFB;&#x7ED3;&#x6784;&#x56FE;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"><span id="hashmap-de-gou-zao-qi">hashMap&#x7684;&#x6784;&#x9020;&#x5668;</span></span></a></li></ol></div>
             
 
           </div>

@@ -7,8 +7,32 @@
     </url>
 
     <url>
+        <loc>www.cfad.tech/2017/01/10/Jdk/2018-01-10/</loc>
+        <lastmod>2018-01-10T06:45:48.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/01/02/dubbo/ReferenceConfig/</loc>
+        <lastmod>2018-01-07T10:07:55.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2017/01/07/spring/2018-01-07-2/</loc>
+        <lastmod>2018-01-07T08:01:19.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>www.cfad.tech/2017/01/02/dubbo/2018-01-07/</loc>
-        <lastmod>2018-01-07T06:46:31.000Z</lastmod>
+        <lastmod>2018-01-07T06:51:18.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

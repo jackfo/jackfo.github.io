@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在一下的代码中主要是装载标签元素并进行解析，其中装载是根据namespaceUri找到对应的句柄，然后通过句柄来解析自己定义的元素. 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd)">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-07T06:46:31.000Z">
+<meta property="og:updated_time" content="2018-01-07T06:51:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dubbo源码分析1-spring方式启动">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在一下的代码中主要是装载标签元素并进行解析，其中装载是根据namespaceUri找到对应的句柄，然后通过句柄来解析自己定义的元素. 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd)">
@@ -408,7 +408,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  671
+                  670
                 </span>
               
 
@@ -457,7 +457,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> BeanDefinition <span class="title">parse</span><span class="params">(Element element, ParserContext parserContext)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> findParserForElement(element, parserContext).parse(element, parserContext);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意在这里将上面注册的beanClass给传入进去，所以在解析beanDefinition的时候就可以获取到这个标签的具体类实例</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> BeanDefinition <span class="title">parse</span><span class="params">(Element element, ParserContext parserContext)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> parse(element, parserContext, beanClass, required);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ReferenceConfig</p>
 
       
     </div>
@@ -537,8 +536,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/02/druid/2017-12-30/" rel="next" title="druid分析">
-                <i class="fa fa-chevron-left"></i> druid分析
+              <a href="/2017/01/02/dubbo/2017-12-29/" rel="next" title="dubbo相关问题">
+                <i class="fa fa-chevron-left"></i> dubbo相关问题
               </a>
             
           </div>
@@ -547,8 +546,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/02/dubbo/2018-01-02/" rel="prev" title="dubbo环境搭建">
-                dubbo环境搭建 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/02/git/2017-12-29/" rel="prev" title="git基本指令">
+                git基本指令 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -656,7 +655,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -777,7 +776,7 @@ var jiathis_config={
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">cfs</span>
-
+<span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
   
 </div>
 

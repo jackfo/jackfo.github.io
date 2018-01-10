@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="git," />
+  <meta name="keywords" content="dubbo," />
 
 
 
@@ -105,18 +105,18 @@
 
 
 
-<meta name="description" content="The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 o">
-<meta name="keywords" content="git">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&amp;lt;dubbo:reference  interface=&amp;quot;cfs.com.facade.SysUserFacade&amp;quot; id=&amp;quot;sysUserFacade&amp;quot;  /&amp;gt; 获取相应ReferenceBean&amp;nbsp;&amp;nbsp;&amp;">
+<meta name="keywords" content="dubbo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git基本指令">
-<meta property="og:url" content="www.cfad.tech/2017/01/02/git/2017-12-29/index.html">
+<meta property="og:title" content="dubbo源码分析2-远程接口暴露过程">
+<meta property="og:url" content="www.cfad.tech/2017/01/02/dubbo/ReferenceConfig/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 o">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&amp;lt;dubbo:reference  interface=&amp;quot;cfs.com.facade.SysUserFacade&amp;quot; id=&amp;quot;sysUserFacade&amp;quot;  /&amp;gt; 获取相应ReferenceBean&amp;nbsp;&amp;nbsp;&amp;">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-04T02:10:17.000Z">
+<meta property="og:updated_time" content="2018-01-07T10:07:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git基本指令">
-<meta name="twitter:description" content="The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 o">
+<meta name="twitter:title" content="dubbo源码分析2-远程接口暴露过程">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&amp;lt;dubbo:reference  interface=&amp;quot;cfs.com.facade.SysUserFacade&amp;quot; id=&amp;quot;sysUserFacade&amp;quot;  /&amp;gt; 获取相应ReferenceBean&amp;nbsp;&amp;nbsp;&amp;">
 
 
 
@@ -146,13 +146,13 @@
 
 
 
-  <link rel="canonical" href="www.cfad.tech/2017/01/02/git/2017-12-29/"/>
+  <link rel="canonical" href="www.cfad.tech/2017/01/02/dubbo/ReferenceConfig/"/>
 
 
 
 
 
-  <title>git基本指令 | 敏而好学,乐以忘忧</title>
+  <title>dubbo源码分析2-远程接口暴露过程 | 敏而好学,乐以忘忧</title>
   
 
 
@@ -325,7 +325,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/01/02/git/2017-12-29/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/01/02/dubbo/ReferenceConfig/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -342,7 +342,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">git基本指令</h1>
+          <h1 class="post-title" itemprop="name headline">dubbo源码分析2-远程接口暴露过程</h1>
         
 
         <div class="post-meta">
@@ -377,8 +377,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
+                  <a href="/categories/dubbo/" itemprop="url" rel="index">
+                    <span itemprop="name">dubbo</span>
                   </a>
                 </span>
 
@@ -408,7 +408,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  541
+                  961
                 </span>
               
 
@@ -424,7 +424,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  2
+                  5
                 </span>
               
             </div>
@@ -445,24 +445,25 @@
       
 
       
-        <h1><span id="the-knowledge-of-git">The knowledge of git</span></h1><h2><span id="base-code">base code</span></h2><h3><span id="git-init">git init</span></h3><p>在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西</p>
-<p>1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。</p>
-<p>2 info:包含仓库的一些信息</p>
-<p>3 logs:保存所有更新的引用记录</p>
-<p>4 objects:该目录存放所有的Git对象，对象的SHA1哈希值的前两位是文件夹名称，后38位作为对象文件名。比如前面log里的HEAD文件里有个哈希值5426426e3ccc9ab4e3330640862a7b96e28828af</p>
-<p>5 refs:具体的引用，Reference Specification，这个目录一般包括三个子文件夹，heads、remotes和tags，比如，heads中的master文件标识了项目中的master分支指向的当前commit，其他类似。</p>
-<p>6 COMMIT_EDITMSG:保存最新的commit message，Git系统不会用到这个文件，只是给用户一个参考</p>
-<p>7 config:这个是GIt仓库的配置文件</p>
-<p>8 description:仓库的描述信息，主要给gitweb等git托管系统使用</p>
-<p>9 index:这个文件就是我们前面提到的暂存区（stage），是一个二进制文件</p>
-<p>10 HEAD:这个文件包含了一个分支（branch）的引用，通过这个文件Git可以得到下一次commit的parent，什么是引用呢，你可以理解为指针，哪儿都可以指，但是不能指向没有的东西哦。详细介绍请看这里：</p>
-<p>###git add</p>
-<p>git add . ：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。</p>
-<p>git add -u ：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写）</p>
-<p>git add -A ：是上面两个功能的合集（git add –all的缩写）</p>
-<h3><span id="git-remote">git remote</span></h3><p>git remote add:命令用于添加远程主机</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add &lt;主机名&gt; &lt;网址&gt;</span><br></pre></td></tr></table></figure>
-<h2><span id="src-refspec-master-does-not-match-any">src refspec master does not match any.</span></h2>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:<br><code>&lt;dubbo:reference  interface=&quot;cfs.com.facade.SysUserFacade&quot; id=&quot;sysUserFacade&quot;  /&gt;</code></p>
+<h1><span id="huo-qu-xiang-ying-referencebean">获取相应ReferenceBean</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里我们先要获取的是相应的ReferenceFactoryBean具体过程在dubbo源码分析1-spring方式启动中,首先装载所有标签相应的</p>
+<p>DubboNamespaceHandler.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">registerBeanDefinitionParser(<span class="string">"reference"</span>, <span class="keyword">new</span> DubboBeanDefinitionParser(ReferenceBean.class, <span class="keyword">false</span>));</span><br></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据DubboBeanDefinitionParser来解析，在loadBeanDefinitions中将所有的BeanDefinition解析出来生成形影的ReferenceBean</p>
+<p>DubboBeanDefinitionParser.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> BeanDefinition <span class="title">parse</span><span class="params">(Element element, ParserContext parserContext, Class&lt;?&gt; beanClass, <span class="keyword">boolean</span> required)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h1><span id="diao-yong-referencebean-de-get-fang-fa">调用ReferenceBean的get方法</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于ReferenceBean继承ReferenceConfig，且自身没有覆盖get方法所以调用的是ReferenceConfig中.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (destroyed)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Already destroyed!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">if</span> (ref == <span class="keyword">null</span>) &#123;</span><br><span class="line">		init();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ref;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上可以看出其核心方法是调用init</p>
+<blockquote>
+<p>1.验证时候初始化，如果已经初始化直接返回<br>2.保证接口名长度不为空或者0<br>3.配置消费者和提供者全局属性<br>4.获取相应的接口全限定类名<br>5.设置基础属性<br>6.将属性添加到context_map这个静态map中去<br>7.创建相应的代理</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (initialized) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  initialized = <span class="keyword">true</span>;</span><br><span class="line"> 	<span class="keyword">if</span> (interfaceName == <span class="keyword">null</span> || interfaceName.length() == <span class="number">0</span>) &#123;</span><br><span class="line"> 	    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"&lt;dubbo:reference interface=\"\" /&gt; interface not allow null!"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="comment">// 获取消费者全局配置</span></span><br><span class="line"> 	checkDefault();</span><br><span class="line">     appendProperties(<span class="keyword">this</span>);</span><br><span class="line">     <span class="keyword">if</span> (getGeneric() == <span class="keyword">null</span> &amp;&amp; getConsumer() != <span class="keyword">null</span>) &#123;</span><br><span class="line">         setGeneric(getConsumer().getGeneric());</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (ProtocolUtils.isGeneric(getGeneric())) &#123;</span><br><span class="line">         interfaceClass = GenericService.class;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">	interfaceClass = Class.forName(interfaceName, <span class="keyword">true</span>, Thread.currentThread()</span><br><span class="line">	        .getContextClassLoader());</span><br><span class="line">&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(e.getMessage(), e);</span><br><span class="line">&#125;</span><br><span class="line">         checkInterfaceAndMethods(interfaceClass, methods);</span><br><span class="line">     &#125;</span><br><span class="line">     String resolve = System.getProperty(interfaceName);</span><br><span class="line">     String resolveFile = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">if</span> (resolve == <span class="keyword">null</span> || resolve.length() == <span class="number">0</span>) &#123;</span><br><span class="line">      resolveFile = System.getProperty(<span class="string">"dubbo.resolve.file"</span>);</span><br><span class="line">      <span class="keyword">if</span> (resolveFile == <span class="keyword">null</span> || resolveFile.length() == <span class="number">0</span>) &#123;</span><br><span class="line">      	File userResolveFile = <span class="keyword">new</span> File(<span class="keyword">new</span> File(System.getProperty(<span class="string">"user.home"</span>)), <span class="string">"dubbo-resolve.properties"</span>);</span><br><span class="line">      	<span class="keyword">if</span> (userResolveFile.exists()) &#123;</span><br><span class="line">      		resolveFile = userResolveFile.getAbsolutePath();</span><br><span class="line">      	&#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (resolveFile != <span class="keyword">null</span> &amp;&amp; resolveFile.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      	Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line">      	FileInputStream fis = <span class="keyword">null</span>;</span><br><span class="line">      	<span class="keyword">try</span> &#123;</span><br><span class="line">      	    fis = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(resolveFile));</span><br><span class="line">		properties.load(fis);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Unload "</span> + resolveFile + <span class="string">", cause: "</span> + e.getMessage(), e);</span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	    <span class="keyword">try</span> &#123;</span><br><span class="line">                     <span class="keyword">if</span>(<span class="keyword">null</span> != fis) fis.close();</span><br><span class="line">                 &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                     logger.warn(e.getMessage(), e);</span><br><span class="line">                 &#125;</span><br><span class="line">	&#125;</span><br><span class="line">      	resolve = properties.getProperty(interfaceName);</span><br><span class="line">      &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (resolve != <span class="keyword">null</span> &amp;&amp; resolve.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">     	url = resolve;</span><br><span class="line">     	<span class="keyword">if</span> (logger.isWarnEnabled()) &#123;</span><br><span class="line">     		<span class="keyword">if</span> (resolveFile != <span class="keyword">null</span> &amp;&amp; resolveFile.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">     			logger.warn(<span class="string">"Using default dubbo resolve file "</span> + resolveFile + <span class="string">" replace "</span> + interfaceName + <span class="string">""</span> + resolve + <span class="string">" to p2p invoke remote service."</span>);</span><br><span class="line">     		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     			logger.warn(<span class="string">"Using -D"</span> + interfaceName + <span class="string">"="</span> + resolve + <span class="string">" to p2p invoke remote service."</span>);</span><br><span class="line">     		&#125;</span><br><span class="line"> 		&#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (consumer != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> (application == <span class="keyword">null</span>) &#123;</span><br><span class="line">             application = consumer.getApplication();</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">module</span> == <span class="keyword">null</span>) &#123;</span><br><span class="line">             <span class="keyword">module</span> = consumer.getModule();</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (registries == <span class="keyword">null</span>) &#123;</span><br><span class="line">             registries = consumer.getRegistries();</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (monitor == <span class="keyword">null</span>) &#123;</span><br><span class="line">             monitor = consumer.getMonitor();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (<span class="keyword">module</span> != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> (registries == <span class="keyword">null</span>) &#123;</span><br><span class="line">             registries = <span class="keyword">module</span>.getRegistries();</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (monitor == <span class="keyword">null</span>) &#123;</span><br><span class="line">             monitor = <span class="keyword">module</span>.getMonitor();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (application != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> (registries == <span class="keyword">null</span>) &#123;</span><br><span class="line">             registries = application.getRegistries();</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (monitor == <span class="keyword">null</span>) &#123;</span><br><span class="line">             monitor = application.getMonitor();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     checkApplication();</span><br><span class="line">     checkStubAndMock(interfaceClass);</span><br><span class="line">     Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">     Map&lt;Object, Object&gt; attributes = <span class="keyword">new</span> HashMap&lt;Object, Object&gt;();</span><br><span class="line">     map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE);</span><br><span class="line">     map.put(Constants.DUBBO_VERSION_KEY, Version.getVersion());</span><br><span class="line">     map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis()));</span><br><span class="line">     <span class="keyword">if</span> (ConfigUtils.getPid() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">         map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid()));</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (! isGeneric()) &#123;</span><br><span class="line">         String revision = Version.getVersion(interfaceClass, version);</span><br><span class="line">         <span class="keyword">if</span> (revision != <span class="keyword">null</span> &amp;&amp; revision.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">             map.put(<span class="string">"revision"</span>, revision);</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames();</span><br><span class="line">         <span class="keyword">if</span>(methods.length == <span class="number">0</span>) &#123;</span><br><span class="line">             logger.warn(<span class="string">"NO method found in service interface "</span> + interfaceClass.getName());</span><br><span class="line">             map.put(<span class="string">"methods"</span>, Constants.ANY_VALUE);</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">else</span> &#123;</span><br><span class="line">             map.put(<span class="string">"methods"</span>, StringUtils.join(<span class="keyword">new</span> HashSet&lt;String&gt;(Arrays.asList(methods)), <span class="string">","</span>));</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     map.put(Constants.INTERFACE_KEY, interfaceName);</span><br><span class="line">     appendParameters(map, application);</span><br><span class="line">     appendParameters(map, <span class="keyword">module</span>);</span><br><span class="line">     appendParameters(map, consumer, Constants.DEFAULT_KEY);</span><br><span class="line">     appendParameters(map, <span class="keyword">this</span>);</span><br><span class="line">     String prifix = StringUtils.getServiceKey(map);</span><br><span class="line">     <span class="keyword">if</span> (methods != <span class="keyword">null</span> &amp;&amp; methods.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">for</span> (MethodConfig method : methods) &#123;</span><br><span class="line">             appendParameters(map, method, method.getName());</span><br><span class="line">             String retryKey = method.getName() + <span class="string">".retry"</span>;</span><br><span class="line">             <span class="keyword">if</span> (map.containsKey(retryKey)) &#123;</span><br><span class="line">                 String retryValue = map.remove(retryKey);</span><br><span class="line">                 <span class="keyword">if</span> (<span class="string">"false"</span>.equals(retryValue)) &#123;</span><br><span class="line">                     map.put(method.getName() + <span class="string">".retries"</span>, <span class="string">"0"</span>);</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">             appendAttributes(attributes, method, prifix + <span class="string">"."</span> + method.getName());</span><br><span class="line">             checkAndConvertImplicitConfig(method, map, attributes);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">//attributes通过系统context进行存储.</span></span><br><span class="line">     StaticContext.getSystemContext().putAll(attributes);</span><br><span class="line">     ref = createProxy(map);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h1><span id="createproxy">createProxy</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个方式是init中的最后一步，创建相应的url</p>
+<blockquote>
+<p> 1.先判断是否是本地服务引用injvm<br> 2.判断是否是点对点直连<br> 3.判断是否是通过注册中心连接<br> 4.然后是服务的引用</p>
+</blockquote>
+
       
     </div>
     
@@ -490,12 +491,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/01/02/git/2017-12-29/">git基本指令</a></p>
+  <p><span>本文标题:</span><a href="/2017/01/02/dubbo/ReferenceConfig/">dubbo源码分析2-远程接口暴露过程</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
   <p><span>发布时间:</span>2017年01月02日 - 12:01</p>
-  <p><span>最后更新:</span>2018年01月04日 - 10:01</p>
-  <p><span>原始链接:</span><a href="/2017/01/02/git/2017-12-29/" title="git基本指令">www.cfad.tech/2017/01/02/git/2017-12-29/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/01/02/git/2017-12-29/"  aria-label="复制成功！"></i></span>
+  <p><span>最后更新:</span>2018年01月07日 - 18:01</p>
+  <p><span>原始链接:</span><a href="/2017/01/02/dubbo/ReferenceConfig/" title="dubbo源码分析2-远程接口暴露过程">www.cfad.tech/2017/01/02/dubbo/ReferenceConfig/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/01/02/dubbo/ReferenceConfig/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -528,7 +529,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/git/" rel="tag"># git</a>
+            <a href="/tags/dubbo/" rel="tag"># dubbo</a>
           
         </div>
       
@@ -541,8 +542,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/02/dubbo/2018-01-07/" rel="next" title="dubbo源码分析1-spring方式启动">
-                <i class="fa fa-chevron-left"></i> dubbo源码分析1-spring方式启动
+              <a href="/2017/01/02/dubbo/2018-01-02/" rel="next" title="dubbo环境搭建">
+                <i class="fa fa-chevron-left"></i> dubbo环境搭建
               </a>
             
           </div>
@@ -551,8 +552,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/02/druid/2017-12-30/" rel="prev" title="druid分析">
-                druid分析 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/07/spring/2018-01-07-1/" rel="prev" title="spring ClassPathXmlApplicationContext代码解读">
+                spring ClassPathXmlApplicationContext代码解读 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -755,7 +756,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="the-knowledge-of-git">The knowledge of git</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="base-code">base code</span></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.1.</span> <span class="nav-text"><span id="git-init">git init</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.2.</span> <span class="nav-text"><span id="git-remote">git remote</span></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text"><span id="src-refspec-master-does-not-match-any">src refspec master does not match any.</span></span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="huo-qu-xiang-ying-referencebean">&#x83B7;&#x53D6;&#x76F8;&#x5E94;ReferenceBean</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="diao-yong-referencebean-de-get-fang-fa">&#x8C03;&#x7528;ReferenceBean&#x7684;get&#x65B9;&#x6CD5;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"><span id="createproxy">createProxy</span></span></a></li></ol></div>
             
 
           </div>

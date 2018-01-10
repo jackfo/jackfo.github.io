@@ -72,13 +72,6 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/tags/jdk/</loc>
-        <lastmod>2018-01-05T09:33:31.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>www.cfad.tech/tags/centos/</loc>
         <lastmod>2018-01-05T15:04:08.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -87,14 +80,21 @@
 
     <url>
         <loc>www.cfad.tech/tags/spring/</loc>
-        <lastmod>2018-01-07T06:43:08.000Z</lastmod>
+        <lastmod>2018-01-07T08:01:19.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>www.cfad.tech/tags/dubbo/</loc>
-        <lastmod>2018-01-07T06:46:31.000Z</lastmod>
+        <lastmod>2018-01-07T10:07:55.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/tags/jdk/</loc>
+        <lastmod>2018-01-10T06:45:48.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
