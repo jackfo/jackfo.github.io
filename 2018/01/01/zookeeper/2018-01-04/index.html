@@ -105,18 +105,22 @@
 
 
 
-<meta name="description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程 12345678">
+<meta name="description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程     zoo">
 <meta name="keywords" content="zookeeper">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zookeeper 源码分析一 zookeeper启动">
 <meta property="og:url" content="www.cfad.tech/2018/01/01/zookeeper/2018-01-04/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程 12345678">
+<meta property="og:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程     zoo">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-04T02:05:57.000Z">
+<meta property="og:image" content="/media/15156493675289.jpg">
+<meta property="og:image" content="/media/15156549203100.jpg">
+<meta property="og:image" content="/media/15156591376460.jpg">
+<meta property="og:updated_time" content="2018-01-11T11:37:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zookeeper 源码分析一 zookeeper启动">
-<meta name="twitter:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程 12345678">
+<meta name="twitter:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程     zoo">
+<meta name="twitter:image" content="/media/15156493675289.jpg">
 
 
 
@@ -408,7 +412,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  151
+                  619
                 </span>
               
 
@@ -424,7 +428,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  2
                 </span>
               
             </div>
@@ -445,9 +449,20 @@
       
 
       
-        <h1><span id="zookeeper-qi-dong-lei">zookeeper启动类</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的<code>org.apache.zookeeper.server.quorum.QuorumPeerMain</code></p>
+        <h1><span id="zookeeper-qi-dong-lei">zookeeper启动类</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的<code>org.apache.zookeeper.server.quorum.QuorumPeerMain</code></p>
 <p>#zookeeper的启动流程</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        QuorumPeerMain main = <span class="keyword">new</span> QuorumPeerMain();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            main.initializeAndRun(args);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">            LOG.error(<span class="string">"Invalid arguments, exiting abnormally"</span>, e);</span><br><span class="line">            LOG.info(USAGE);</span><br><span class="line">            System.err.println(USAGE);</span><br><span class="line">            System.exit(<span class="number">2</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ConfigException e) &#123;</span><br><span class="line">            LOG.error(<span class="string">"Invalid config, exiting abnormally"</span>, e);</span><br><span class="line">            System.err.println(<span class="string">"Invalid config, exiting abnormally"</span>);</span><br><span class="line">            System.exit(<span class="number">2</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            LOG.error(<span class="string">"Unexpected exception, exiting abnormally"</span>, e);</span><br><span class="line">            System.exit(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        LOG.info(<span class="string">"Exiting normally"</span>);</span><br><span class="line">        System.exit(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/media/15156493675289.jpg" alt=""></p>
+<p>   zookeeper的启动通过调用zkServer.sh start启动，这个过程实际上是以QuorumPeerMain的main方法为函数入口,具体步骤如下:</p>
+<blockquote>
+<p>   1调用初始化方法<br>   1.1初始化过程中实例化QuorumPeerConfig解析配置文件<br>   1.2创建文件清理器DatadirCleanupManager并启动<br>   1.3判断启动方式，验证条件如果是有参数或者解析配置文件过程中给config的Server句柄具有相应的集群服务则通过运行配置文件启动，否则就是一个伪分布式直接通过ZooKeeperServerMain主函数启动服务</p>
+<p>   2.正常退出程序</p>
+</blockquote>
+<h2><span id="runfromconfig-li-yong-pei-zhi-wen-jian-qi-dong-guo-cheng">runFromConfig利用配置文件启动过程</span></h2><p>位置: QuorumPeerMain.java runFromConfig<br><img src="/media/15156549203100.jpg" alt=""></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 运行配置文件的过程中，主要将quorumPeer启动。具体步骤如下:<br>1.注册JMX,作用是可以通过jconsole或者浏览器来管理各个对象<br>2.创建ServerCnxnFactory这个server工厂,默认是NIOServerCnxnFactory,可以在配置文件中进行配置, 属性名是zookeeper.serverCnxnFactory, 在zookeeper中还提供另一种工程NettyServerCnxnFactory<br>3.根据传入的地址通过configure方法打开socket通道，绑定ip地址,并注册相应的选择键<br>4.实例化QuorumPeer并启动-待补录</p>
+<h3><span id="qi-dong-quorumpeer">启动QuorumPeer</span></h3><p>QuorumPeerMain.java<br><img src="/media/15156591376460.jpg" alt=""><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp; 1.加载基础数据<br>&nbsp;&nbsp; 2.创建相应的服务工厂<br>&nbsp;&nbsp; 3.startLeaderElection开始选举<br>&nbsp;&nbsp; 4.调用start启动当前线程即本实例方法<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1 利用JMX注册MbeanServer jmxQuorumBean和LocalPeerBean，RemotePeerBean 这里是根据myId来进行注册，myId是在加载属性实例化QuorumPeer的时候注入。id是QuorumServer的属性，其在解析属性的过程中解析<code>server.0=SY-001:2888:3888</code> 这个0就是解析的id所以如果myid 和这个id相等则采用LocalPeerBean, myid和这个id定义不同则是RemotePeerBean， 可以看出其实定义的主zookeeper节点<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2在循环的过程中有四种 LOOKING, FOLLOWING, LEADING, OBSERVING针对当前状态执行相应的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOOKING，竞选状态。这里是进行选举算法，将票投给谁setCurrentVote(makeLEStrategy().lookForLeader());</span><br><span class="line">FOLLOWING，随从状态，同步leader状态，参与投票。</span><br><span class="line">OBSERVING，观察状态,同步leader状态，不参与投票。</span><br><span class="line">LEADING，领导者状态。</span><br></pre></td></tr></table></figure>
+<h3><span id="quorumpeer-join">quorumPeer.join</span></h3><p>QuorumPeerMain.java</p>
+<p>主要目的是为了让quorumPeer启动完毕,才继续向下执行。</p>
 
       
     </div>
@@ -479,7 +494,7 @@
   <p><span>本文标题:</span><a href="/2018/01/01/zookeeper/2018-01-04/">zookeeper 源码分析一 zookeeper启动</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
   <p><span>发布时间:</span>2018年01月01日 - 20:01</p>
-  <p><span>最后更新:</span>2018年01月04日 - 10:01</p>
+  <p><span>最后更新:</span>2018年01月11日 - 19:01</p>
   <p><span>原始链接:</span><a href="/2018/01/01/zookeeper/2018-01-04/" title="zookeeper 源码分析一 zookeeper启动">www.cfad.tech/2018/01/01/zookeeper/2018-01-04/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2018/01/01/zookeeper/2018-01-04/"  aria-label="复制成功！"></i></span>
   </p>
@@ -741,7 +756,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="zookeeper-qi-dong-lei">zookeeper&#x542F;&#x52A8;&#x7C7B;</span></span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="zookeeper-qi-dong-lei">zookeeper&#x542F;&#x52A8;&#x7C7B;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="runfromconfig-li-yong-pei-zhi-wen-jian-qi-dong-guo-cheng">runFromConfig&#x5229;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x542F;&#x52A8;&#x8FC7;&#x7A0B;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.1.</span> <span class="nav-text"><span id="qi-dong-quorumpeer">&#x542F;&#x52A8;QuorumPeer</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.2.</span> <span class="nav-text"><span id="quorumpeer-join">quorumPeer.join</span></span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

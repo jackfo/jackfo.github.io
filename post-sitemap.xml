@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>www.cfad.tech/2018/01/01/zookeeper/2018-01-04/</loc>
+        <lastmod>2018-01-11T11:37:19.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>www.cfad.tech/2017/01/10/Jdk/2018-01-10/</loc>
         <lastmod>2018-01-10T06:45:48.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -137,14 +145,6 @@
     <url>
         <loc>www.cfad.tech/2017/01/02/druid/2017-12-30/</loc>
         <lastmod>2018-01-04T02:09:08.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>www.cfad.tech/2018/01/01/zookeeper/2018-01-04/</loc>
-        <lastmod>2018-01-04T02:05:57.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
