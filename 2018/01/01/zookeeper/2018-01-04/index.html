@@ -105,21 +105,21 @@
 
 
 
-<meta name="description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程     zoo">
+<meta name="description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程     zo">
 <meta name="keywords" content="zookeeper">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zookeeper 源码分析一 zookeeper启动">
 <meta property="og:url" content="www.cfad.tech/2018/01/01/zookeeper/2018-01-04/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程     zoo">
+<meta property="og:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程     zo">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/15156493675289.jpg">
 <meta property="og:image" content="/media/15156549203100.jpg">
 <meta property="og:image" content="/media/15156591376460.jpg">
-<meta property="og:updated_time" content="2018-01-11T11:37:19.000Z">
+<meta property="og:updated_time" content="2018-01-11T11:42:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zookeeper 源码分析一 zookeeper启动">
-<meta name="twitter:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程     zoo">
+<meta name="twitter:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程     zo">
 <meta name="twitter:image" content="/media/15156493675289.jpg">
 
 
@@ -412,7 +412,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  619
+                  620
                 </span>
               
 
@@ -450,7 +450,7 @@
 
       
         <h1><span id="zookeeper-qi-dong-lei">zookeeper启动类</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的<code>org.apache.zookeeper.server.quorum.QuorumPeerMain</code></p>
-<p>#zookeeper的启动流程</p>
+<p>#z ookeeper的启动流程</p>
 <p><img src="/media/15156493675289.jpg" alt=""></p>
 <p>   zookeeper的启动通过调用zkServer.sh start启动，这个过程实际上是以QuorumPeerMain的main方法为函数入口,具体步骤如下:</p>
 <blockquote>
