@@ -122,17 +122,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[VMware Fusion实现虚拟机拷贝]]></title>
     <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-2%2F</url>
     <content type="text"><![CDATA[参考链接:http://www.linuxidc.com/Linux/2017-06/144720.htm #拷贝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击需要拷贝的文件,然后进行复制-粘贴,如下: #打开&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;打开相应的虚拟机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击已拷贝 #修改hostname vi /etc/sysconfig/network 将”HOSTNAME=”后的内容改成机器名，比如centos.04，保存退出 vi /etc/hosts 在最后添加一行 127.0.0.1 centos.04，保存退出 如果要马上生效，可再输入hostname centos.04，否则要重启才能生效 shutdown -h now关机 注意最好执行这个命令，下面生成mac地址需要关机 #给新虚拟机的网卡，生成一个新mac地址在设置里面点击网络适配器生成一个新的mac地址 #修改网卡信息 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/udev/rules.d/70-persistent-net.rules&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编辑这个文件，它记录了当前机器上的所有网卡信息根据刚才新生成的mac地址，找到对应的行，把网卡名称改成 eth0，其它的全删除 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/sysconfig/network-scripts/ifcfg-eth0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;把uuid随便改一个数字，保证它跟原来的系统不同即可，然后把HWADDR改成新生成的mac地址，保存退出]]></content>
@@ -155,14 +144,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[zookeeper 环境安装]]></title>
-    <url>%2F2018%2F01%2F01%2Fzookeeper%2F2017-12-30%2F</url>
-    <content type="text"><![CDATA[解压tar -zvxf zookeeper-3.4.5.tar.gz -C /usr/local #配置环境变量vim /etc/profile 12export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5export PATH=$ZOOKEEPER_HOME/bin:$PATH source /etc/profile #修改配置文件 相对路径:/ZOOKEEPER_HOME/conf/zoo.cfg 修改 1.datadir=/ZOOKEEPER_HOME/data 2.server0=ip地址。。。。。。 ZOOKEEPER_HOME下面创建data文件并创建脚本文件myid #启动 1zkServer.sh start]]></content>
+    <title><![CDATA[linux下安装httpd]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-04%2F</url>
+    <content type="text"><![CDATA[下载 1yum install httpd httpd-devel 启动 1service httpd start 修改端口： 12vim /etc/httpd/conf/httpd.confServerName localhost:80 然后就可以根据ip进行访问]]></content>
       <categories>
-        <category>zookeeper</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>zookeeper</tag>
+        <tag>centos</tag>
       </tags>
   </entry>
   <entry>
@@ -177,9 +166,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux下安装httpd]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-04%2F</url>
-    <content type="text"><![CDATA[下载 1yum install httpd httpd-devel 启动 1service httpd start 修改端口： 12vim /etc/httpd/conf/httpd.confServerName localhost:80 然后就可以根据ip进行访问]]></content>
+    <title><![CDATA[zookeeper 环境安装]]></title>
+    <url>%2F2018%2F01%2F01%2Fzookeeper%2F2017-12-30%2F</url>
+    <content type="text"><![CDATA[解压tar -zvxf zookeeper-3.4.5.tar.gz -C /usr/local #配置环境变量vim /etc/profile 12export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5export PATH=$ZOOKEEPER_HOME/bin:$PATH source /etc/profile #修改配置文件 相对路径:/ZOOKEEPER_HOME/conf/zoo.cfg 修改 1.datadir=/ZOOKEEPER_HOME/data 2.server0=ip地址。。。。。。 ZOOKEEPER_HOME下面创建data文件并创建脚本文件myid #启动 1zkServer.sh start]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -309,6 +309,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[ofbiz实体引擎(一) 获取Delegator]]></title>
+    <url>%2F2017%2F07%2F30%2Fofbiz%2F2018-01-16%2F</url>
+    <content type="text"><![CDATA[1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586public abstract class DelegatorFactory implements Factory&lt;Delegator, String&gt; &#123; public static final String module = DelegatorFactoryImpl.class.getName(); private static final ConcurrentHashMap&lt;String, Future&lt;Delegator&gt;&gt; delegators = new ConcurrentHashMap&lt;String, Future&lt;Delegator&gt;&gt;(); private static final ThreadGroup DELEGATOR_THREAD_GROUP = new ThreadGroup("DelegatorFactory"); private static final ScheduledExecutorService executor = ExecutionPool.getScheduledExecutor(DELEGATOR_THREAD_GROUP, "delegator-startup", Runtime.getRuntime().availableProcessors(), 10, true); /** *@author 郑小康 * * 根据delegatorName调用getDelegatorFuture方法,获取当前delegator的 Future&lt;Delegator&gt; * * 而后调用get方法获取Delegator实例 * * */ public static Delegator getDelegator(String delegatorName) &#123; Future&lt;Delegator&gt; future = getDelegatorFuture(delegatorName); try &#123; return future.get(); &#125; catch (ExecutionException e) &#123; Debug.logError(e, module); return null; &#125; catch (InterruptedException e) &#123; Debug.logError(e, module); return null; &#125; &#125; /** * @author 郑小康 * * 根据delegatorName获取Future&lt;Delegator&gt; 如果为空,新创建一个FutureTask&lt;Delegator&gt;将其加入到缓存中去 * * 将这个futureTask给提交到线程池,futureTask中存放的是DelegatorConfigurable实例对象 * * * */ public static Future&lt;Delegator&gt; getDelegatorFuture(String delegatorName) &#123; if (delegatorName == null) &#123; delegatorName = "default"; //Debug.logWarning(new Exception("Location where getting delegator with null name"), "Got a getGenericDelegator call with a null delegatorName, assuming default for the name.", module); &#125; do &#123; Future&lt;Delegator&gt; future = delegators.get(delegatorName); if (future != null) &#123; //Debug.logInfo("got delegator(future(" + delegatorName + ")) from cache", module); return future; &#125; FutureTask&lt;Delegator&gt; futureTask = new FutureTask&lt;Delegator&gt;(new DelegatorConfigurable(delegatorName)); //Debug.logInfo("putting delegator(future(" + delegatorName + ")) into cache", module); if (delegators.putIfAbsent(delegatorName, futureTask) != null) &#123; continue; &#125; executor.submit(futureTask); &#125; while (true); &#125; public static final class DelegatorConfigurable implements Callable&lt;Delegator&gt; &#123; private final String delegatorName; public DelegatorConfigurable(String delegatorName) &#123; this.delegatorName = delegatorName; &#125; /** * 获取delegator的具体方法 * 并做了分布式缓存和ECA Handler FIXME:未研究 * */ public Delegator call() throws ClassNotFoundException &#123; try &#123; Delegator delegator = UtilObject.getObjectFromFactory(DelegatorFactory.class, delegatorName); // setup the Entity ECA Handler delegator.initEntityEcaHandler(); // setup the distributed CacheClear delegator.initDistributedCacheClear(); return delegator; &#125; catch (ClassNotFoundException e) &#123; Debug.logError(e, module); throw e; &#125; &#125; &#125;&#125;]]></content>
+      <categories>
+        <category>OFBiz</category>
+      </categories>
+      <tags>
+        <tag>OFBiz</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[hashMap]]></title>
     <url>%2F2017%2F01%2F10%2FJdk%2F2018-01-10%2F</url>
     <content type="text"><![CDATA[hashMap的简介1.HashMap 是一个散列表，它存储的内容是键值对(key-value)映射。2.HashMap 继承于AbstractMap，实现了Map、Cloneable、java.io.Serializable接口 hashMap的关系结构图 hashMap的构造器■ HashMap():构建一个初始容量为16,负载因子为0.75的HashMap。■ HashMap(int initialCapacity):构建一个初始容量为 initialCapacity，负栽因子为0.75的 HashMap.■ HashMap(int initialCapacity, float loadFactor):以指定初始容量、指定的负栽因子创建一 个 HashMap. 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859/** * Constructs an empty &lt;tt&gt;HashMap&lt;/tt&gt; with the specified initial * capacity and load factor. * * @param initialCapacity the initial capacity * @param loadFactor the load factor * @throws IllegalArgumentException if the initial capacity is negative * or the load factor is nonpositive */ public HashMap(int initialCapacity, float loadFactor) &#123; if (initialCapacity &lt; 0) throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity); if (initialCapacity &gt; MAXIMUM_CAPACITY) initialCapacity = MAXIMUM_CAPACITY; if (loadFactor &lt;= 0 || Float.isNaN(loadFactor)) throw new IllegalArgumentException("Illegal load factor: " + loadFactor); this.loadFactor = loadFactor; threshold = initialCapacity; init(); &#125; /** * Constructs an empty &lt;tt&gt;HashMap&lt;/tt&gt; with the specified initial * capacity and the default load factor (0.75). * * @param initialCapacity the initial capacity. * @throws IllegalArgumentException if the initial capacity is negative. */ public HashMap(int initialCapacity) &#123; this(initialCapacity, DEFAULT_LOAD_FACTOR); &#125; /** * Constructs an empty &lt;tt&gt;HashMap&lt;/tt&gt; with the default initial capacity * (16) and the default load factor (0.75). */ public HashMap() &#123; this(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR); &#125; /** * Constructs a new &lt;tt&gt;HashMap&lt;/tt&gt; with the same mappings as the * specified &lt;tt&gt;Map&lt;/tt&gt;. The &lt;tt&gt;HashMap&lt;/tt&gt; is created with * default load factor (0.75) and an initial capacity sufficient to * hold the mappings in the specified &lt;tt&gt;Map&lt;/tt&gt;. * * @param m the map whose mappings are to be placed in this map * @throws NullPointerException if the specified map is null */ public HashMap(Map&lt;? extends K, ? extends V&gt; m) &#123; this(Math.max((int) (m.size() / DEFAULT_LOAD_FACTOR) + 1, DEFAULT_INITIAL_CAPACITY), DEFAULT_LOAD_FACTOR); inflateTable(threshold); putAllForCreate(m); &#125; 当创建一个HashMap时，系统会自动创建一个table数组来保存HashMap中的Entry。下 面是HashMap中一个构造器的代码 table = new Entry[capacity]; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hashMap has four Constructs, at first we must know the public HashMap(int initialCapacity, float loadFactor)]]></content>
@@ -364,9 +375,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[dubbo环境搭建]]></title>
-    <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[#解压dubbo-admin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面 解压命令unzip dubbo-admin.war -d dubbp-admin #修改属性文件 1.将用户密码都改成root2.修改相应地址 截图如下: #启动tomcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，启动命令：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行startup.sh日志命令:tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out]]></content>
+    <title><![CDATA[dubbo源码分析2-远程接口暴露过程]]></title>
+    <url>%2F2017%2F01%2F02%2Fdubbo%2FReferenceConfig%2F</url>
+    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&lt;dubbo:reference interface=&quot;cfs.com.facade.SysUserFacade&quot; id=&quot;sysUserFacade&quot; /&gt; 获取相应ReferenceBean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里我们先要获取的是相应的ReferenceFactoryBean具体过程在dubbo源码分析1-spring方式启动中,首先装载所有标签相应的 DubboNamespaceHandler.java 1registerBeanDefinitionParser("reference", new DubboBeanDefinitionParser(ReferenceBean.class, false)); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据DubboBeanDefinitionParser来解析，在loadBeanDefinitions中将所有的BeanDefinition解析出来生成形影的ReferenceBean DubboBeanDefinitionParser.java 1private static BeanDefinition parse(Element element, ParserContext parserContext, Class&lt;?&gt; beanClass, boolean required) &#123;&#125; 调用ReferenceBean的get方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于ReferenceBean继承ReferenceConfig，且自身没有覆盖get方法所以调用的是ReferenceConfig中. 123456789public synchronized T get() &#123; if (destroyed)&#123; throw new IllegalStateException("Already destroyed!"); &#125; if (ref == null) &#123; init(); &#125; return ref;&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上可以看出其核心方法是调用init 1.验证时候初始化，如果已经初始化直接返回2.保证接口名长度不为空或者03.配置消费者和提供者全局属性4.获取相应的接口全限定类名5.设置基础属性6.将属性添加到context_map这个静态map中去7.创建相应的代理 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142 private void init() &#123; if (initialized) &#123; return; &#125; initialized = true; if (interfaceName == null || interfaceName.length() == 0) &#123; throw new IllegalStateException("&lt;dubbo:reference interface=\"\" /&gt; interface not allow null!"); &#125; // 获取消费者全局配置 checkDefault(); appendProperties(this); if (getGeneric() == null &amp;&amp; getConsumer() != null) &#123; setGeneric(getConsumer().getGeneric()); &#125; if (ProtocolUtils.isGeneric(getGeneric())) &#123; interfaceClass = GenericService.class; &#125; else &#123; try &#123; interfaceClass = Class.forName(interfaceName, true, Thread.currentThread() .getContextClassLoader());&#125; catch (ClassNotFoundException e) &#123; throw new IllegalStateException(e.getMessage(), e);&#125; checkInterfaceAndMethods(interfaceClass, methods); &#125; String resolve = System.getProperty(interfaceName); String resolveFile = null; if (resolve == null || resolve.length() == 0) &#123; resolveFile = System.getProperty("dubbo.resolve.file"); if (resolveFile == null || resolveFile.length() == 0) &#123; File userResolveFile = new File(new File(System.getProperty("user.home")), "dubbo-resolve.properties"); if (userResolveFile.exists()) &#123; resolveFile = userResolveFile.getAbsolutePath(); &#125; &#125; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; Properties properties = new Properties(); FileInputStream fis = null; try &#123; fis = new FileInputStream(new File(resolveFile)); properties.load(fis); &#125; catch (IOException e) &#123; throw new IllegalStateException("Unload " + resolveFile + ", cause: " + e.getMessage(), e); &#125; finally &#123; try &#123; if(null != fis) fis.close(); &#125; catch (IOException e) &#123; logger.warn(e.getMessage(), e); &#125; &#125; resolve = properties.getProperty(interfaceName); &#125; &#125; if (resolve != null &amp;&amp; resolve.length() &gt; 0) &#123; url = resolve; if (logger.isWarnEnabled()) &#123; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; logger.warn("Using default dubbo resolve file " + resolveFile + " replace " + interfaceName + "" + resolve + " to p2p invoke remote service."); &#125; else &#123; logger.warn("Using -D" + interfaceName + "=" + resolve + " to p2p invoke remote service."); &#125; &#125; &#125; if (consumer != null) &#123; if (application == null) &#123; application = consumer.getApplication(); &#125; if (module == null) &#123; module = consumer.getModule(); &#125; if (registries == null) &#123; registries = consumer.getRegistries(); &#125; if (monitor == null) &#123; monitor = consumer.getMonitor(); &#125; &#125; if (module != null) &#123; if (registries == null) &#123; registries = module.getRegistries(); &#125; if (monitor == null) &#123; monitor = module.getMonitor(); &#125; &#125; if (application != null) &#123; if (registries == null) &#123; registries = application.getRegistries(); &#125; if (monitor == null) &#123; monitor = application.getMonitor(); &#125; &#125; checkApplication(); checkStubAndMock(interfaceClass); Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;(); Map&lt;Object, Object&gt; attributes = new HashMap&lt;Object, Object&gt;(); map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE); map.put(Constants.DUBBO_VERSION_KEY, Version.getVersion()); map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis())); if (ConfigUtils.getPid() &gt; 0) &#123; map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid())); &#125; if (! isGeneric()) &#123; String revision = Version.getVersion(interfaceClass, version); if (revision != null &amp;&amp; revision.length() &gt; 0) &#123; map.put("revision", revision); &#125; String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames(); if(methods.length == 0) &#123; logger.warn("NO method found in service interface " + interfaceClass.getName()); map.put("methods", Constants.ANY_VALUE); &#125; else &#123; map.put("methods", StringUtils.join(new HashSet&lt;String&gt;(Arrays.asList(methods)), ",")); &#125; &#125; map.put(Constants.INTERFACE_KEY, interfaceName); appendParameters(map, application); appendParameters(map, module); appendParameters(map, consumer, Constants.DEFAULT_KEY); appendParameters(map, this); String prifix = StringUtils.getServiceKey(map); if (methods != null &amp;&amp; methods.size() &gt; 0) &#123; for (MethodConfig method : methods) &#123; appendParameters(map, method, method.getName()); String retryKey = method.getName() + ".retry"; if (map.containsKey(retryKey)) &#123; String retryValue = map.remove(retryKey); if ("false".equals(retryValue)) &#123; map.put(method.getName() + ".retries", "0"); &#125; &#125; appendAttributes(attributes, method, prifix + "." + method.getName()); checkAndConvertImplicitConfig(method, map, attributes); &#125; &#125; //attributes通过系统context进行存储. StaticContext.getSystemContext().putAll(attributes); ref = createProxy(map); &#125; createProxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个方式是init中的最后一步，创建相应的url 1.先判断是否是本地服务引用injvm 2.判断是否是点对点直连 3.判断是否是通过注册中心连接 4.然后是服务的引用]]></content>
       <categories>
         <category>dubbo</category>
       </categories>
@@ -397,6 +408,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[dubbo环境搭建]]></title>
+    <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[#解压dubbo-admin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面 解压命令unzip dubbo-admin.war -d dubbp-admin #修改属性文件 1.将用户密码都改成root2.修改相应地址 截图如下: #启动tomcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，启动命令：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行startup.sh日志命令:tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[druid分析]]></title>
     <url>%2F2017%2F01%2F02%2Fdruid%2F2017-12-30%2F</url>
     <content type="text"><![CDATA[The analysis of DruidInstancing DruidDataSourceDruidDataSource have two Constructor,and the one without any argument will invoke another by writing a argument, as follows At first, We find it will invoke super(fairLock),its default value is false by instancing the constructor without any argument , it wil call the superclass object and invoke the methods of configFromPropety to Set up relevant property values by getting System property values. Its superclass object constructor is shown below: In superclass object constructor,the instance create Creates an instance of ReentrantLock with the given unfairness policy. after that it will create Condition instance for use with this Lock instance. The returned Condition instance supports the same usages as do the Object monitor methods (wait, notify, and notifyAll) when used with the built-in monitor lock.]]></content>
@@ -408,25 +430,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[dubbo源码分析2-远程接口暴露过程]]></title>
-    <url>%2F2017%2F01%2F02%2Fdubbo%2FReferenceConfig%2F</url>
-    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&lt;dubbo:reference interface=&quot;cfs.com.facade.SysUserFacade&quot; id=&quot;sysUserFacade&quot; /&gt; 获取相应ReferenceBean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里我们先要获取的是相应的ReferenceFactoryBean具体过程在dubbo源码分析1-spring方式启动中,首先装载所有标签相应的 DubboNamespaceHandler.java 1registerBeanDefinitionParser("reference", new DubboBeanDefinitionParser(ReferenceBean.class, false)); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据DubboBeanDefinitionParser来解析，在loadBeanDefinitions中将所有的BeanDefinition解析出来生成形影的ReferenceBean DubboBeanDefinitionParser.java 1private static BeanDefinition parse(Element element, ParserContext parserContext, Class&lt;?&gt; beanClass, boolean required) &#123;&#125; 调用ReferenceBean的get方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于ReferenceBean继承ReferenceConfig，且自身没有覆盖get方法所以调用的是ReferenceConfig中. 123456789public synchronized T get() &#123; if (destroyed)&#123; throw new IllegalStateException("Already destroyed!"); &#125; if (ref == null) &#123; init(); &#125; return ref;&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上可以看出其核心方法是调用init 1.验证时候初始化，如果已经初始化直接返回2.保证接口名长度不为空或者03.配置消费者和提供者全局属性4.获取相应的接口全限定类名5.设置基础属性6.将属性添加到context_map这个静态map中去7.创建相应的代理 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142 private void init() &#123; if (initialized) &#123; return; &#125; initialized = true; if (interfaceName == null || interfaceName.length() == 0) &#123; throw new IllegalStateException("&lt;dubbo:reference interface=\"\" /&gt; interface not allow null!"); &#125; // 获取消费者全局配置 checkDefault(); appendProperties(this); if (getGeneric() == null &amp;&amp; getConsumer() != null) &#123; setGeneric(getConsumer().getGeneric()); &#125; if (ProtocolUtils.isGeneric(getGeneric())) &#123; interfaceClass = GenericService.class; &#125; else &#123; try &#123; interfaceClass = Class.forName(interfaceName, true, Thread.currentThread() .getContextClassLoader());&#125; catch (ClassNotFoundException e) &#123; throw new IllegalStateException(e.getMessage(), e);&#125; checkInterfaceAndMethods(interfaceClass, methods); &#125; String resolve = System.getProperty(interfaceName); String resolveFile = null; if (resolve == null || resolve.length() == 0) &#123; resolveFile = System.getProperty("dubbo.resolve.file"); if (resolveFile == null || resolveFile.length() == 0) &#123; File userResolveFile = new File(new File(System.getProperty("user.home")), "dubbo-resolve.properties"); if (userResolveFile.exists()) &#123; resolveFile = userResolveFile.getAbsolutePath(); &#125; &#125; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; Properties properties = new Properties(); FileInputStream fis = null; try &#123; fis = new FileInputStream(new File(resolveFile)); properties.load(fis); &#125; catch (IOException e) &#123; throw new IllegalStateException("Unload " + resolveFile + ", cause: " + e.getMessage(), e); &#125; finally &#123; try &#123; if(null != fis) fis.close(); &#125; catch (IOException e) &#123; logger.warn(e.getMessage(), e); &#125; &#125; resolve = properties.getProperty(interfaceName); &#125; &#125; if (resolve != null &amp;&amp; resolve.length() &gt; 0) &#123; url = resolve; if (logger.isWarnEnabled()) &#123; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; logger.warn("Using default dubbo resolve file " + resolveFile + " replace " + interfaceName + "" + resolve + " to p2p invoke remote service."); &#125; else &#123; logger.warn("Using -D" + interfaceName + "=" + resolve + " to p2p invoke remote service."); &#125; &#125; &#125; if (consumer != null) &#123; if (application == null) &#123; application = consumer.getApplication(); &#125; if (module == null) &#123; module = consumer.getModule(); &#125; if (registries == null) &#123; registries = consumer.getRegistries(); &#125; if (monitor == null) &#123; monitor = consumer.getMonitor(); &#125; &#125; if (module != null) &#123; if (registries == null) &#123; registries = module.getRegistries(); &#125; if (monitor == null) &#123; monitor = module.getMonitor(); &#125; &#125; if (application != null) &#123; if (registries == null) &#123; registries = application.getRegistries(); &#125; if (monitor == null) &#123; monitor = application.getMonitor(); &#125; &#125; checkApplication(); checkStubAndMock(interfaceClass); Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;(); Map&lt;Object, Object&gt; attributes = new HashMap&lt;Object, Object&gt;(); map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE); map.put(Constants.DUBBO_VERSION_KEY, Version.getVersion()); map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis())); if (ConfigUtils.getPid() &gt; 0) &#123; map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid())); &#125; if (! isGeneric()) &#123; String revision = Version.getVersion(interfaceClass, version); if (revision != null &amp;&amp; revision.length() &gt; 0) &#123; map.put("revision", revision); &#125; String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames(); if(methods.length == 0) &#123; logger.warn("NO method found in service interface " + interfaceClass.getName()); map.put("methods", Constants.ANY_VALUE); &#125; else &#123; map.put("methods", StringUtils.join(new HashSet&lt;String&gt;(Arrays.asList(methods)), ",")); &#125; &#125; map.put(Constants.INTERFACE_KEY, interfaceName); appendParameters(map, application); appendParameters(map, module); appendParameters(map, consumer, Constants.DEFAULT_KEY); appendParameters(map, this); String prifix = StringUtils.getServiceKey(map); if (methods != null &amp;&amp; methods.size() &gt; 0) &#123; for (MethodConfig method : methods) &#123; appendParameters(map, method, method.getName()); String retryKey = method.getName() + ".retry"; if (map.containsKey(retryKey)) &#123; String retryValue = map.remove(retryKey); if ("false".equals(retryValue)) &#123; map.put(method.getName() + ".retries", "0"); &#125; &#125; appendAttributes(attributes, method, prifix + "." + method.getName()); checkAndConvertImplicitConfig(method, map, attributes); &#125; &#125; //attributes通过系统context进行存储. StaticContext.getSystemContext().putAll(attributes); ref = createProxy(map); &#125; createProxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个方式是init中的最后一步，创建相应的url 1.先判断是否是本地服务引用injvm 2.判断是否是点对点直连 3.判断是否是通过注册中心连接 4.然后是服务的引用]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mac切换jdk]]></title>
-    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
-    <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
+    <title><![CDATA[idea相关问题]]></title>
+    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[Q1源发行版 1.6 需要目标发行版 1.6 setting-&gt;Compiler-&gt;Java Compiler 设置相应Module的target byte code version的合适版本就行来（搜索首选项）]]></content>
       <categories>
         <category>other</category>
       </categories>
       <tags>
-        <tag>jdk</tag>
+        <tag>idea</tag>
       </tags>
   </entry>
   <entry>
@@ -463,14 +474,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[idea相关问题]]></title>
-    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[Q1源发行版 1.6 需要目标发行版 1.6 setting-&gt;Compiler-&gt;Java Compiler 设置相应Module的target byte code version的合适版本就行来（搜索首选项）]]></content>
+    <title><![CDATA[mac切换jdk]]></title>
+    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
+    <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
       <categories>
         <category>other</category>
       </categories>
       <tags>
-        <tag>idea</tag>
+        <tag>jdk</tag>
       </tags>
   </entry>
 </search>
