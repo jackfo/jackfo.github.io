@@ -7,8 +7,48 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/2018/01/01/zookeeper/2018-01-04/</loc>
-        <lastmod>2018-01-11T11:42:33.000Z</lastmod>
+        <loc>www.cfad.tech/2018/01/13/sqlite/2018-01-14/</loc>
+        <lastmod>2018-01-16T08:21:24.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/13/sqlite/2018-01-14-1/</loc>
+        <lastmod>2018-01-14T15:18:43.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/04/linux/2018-01-04-3/</loc>
+        <lastmod>2018-01-14T14:48:03.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/13/sqlite/2018-01-13/</loc>
+        <lastmod>2018-01-13T06:42:22.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/18/zookeeper/2018-01-11/</loc>
+        <lastmod>2018-01-12T05:35:27.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/2018/01/11/zookeeper/2018-01-04/</loc>
+        <lastmod>2018-01-11T12:08:47.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -89,14 +129,6 @@
     <url>
         <loc>www.cfad.tech/2018/01/04/linux/2018-01-04-4/</loc>
         <lastmod>2018-01-04T06:55:15.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>www.cfad.tech/2018/01/04/linux/2018-01-04-3/</loc>
-        <lastmod>2018-01-04T06:53:24.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

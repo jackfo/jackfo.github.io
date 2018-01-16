@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="zookeeper," />
+  <meta name="keywords" content="SQLite," />
 
 
 
@@ -105,22 +105,20 @@
 
 
 
-<meta name="description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程     zo">
-<meta name="keywords" content="zookeeper">
+<meta name="description" content="SQLite的组成  parser tokenize virtual machine   SQLite的数据结构 Connections和Statements&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表">
+<meta name="keywords" content="SQLite">
 <meta property="og:type" content="article">
-<meta property="og:title" content="zookeeper 源码分析一 zookeeper启动">
-<meta property="og:url" content="www.cfad.tech/2018/01/01/zookeeper/2018-01-04/index.html">
+<meta property="og:title" content="SQLite简介">
+<meta property="og:url" content="www.cfad.tech/2018/01/13/sqlite/2018-01-13/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程     zo">
+<meta property="og:description" content="SQLite的组成  parser tokenize virtual machine   SQLite的数据结构 Connections和Statements&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="/media/15156493675289.jpg">
-<meta property="og:image" content="/media/15156549203100.jpg">
-<meta property="og:image" content="/media/15156591376460.jpg">
-<meta property="og:updated_time" content="2018-01-11T11:42:33.000Z">
+<meta property="og:image" content="/media/15158182618673.jpg">
+<meta property="og:updated_time" content="2018-01-13T06:42:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zookeeper 源码分析一 zookeeper启动">
-<meta name="twitter:description" content="zookeeper启动类&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程     zo">
-<meta name="twitter:image" content="/media/15156493675289.jpg">
+<meta name="twitter:title" content="SQLite简介">
+<meta name="twitter:description" content="SQLite的组成  parser tokenize virtual machine   SQLite的数据结构 Connections和Statements&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表">
+<meta name="twitter:image" content="/media/15158182618673.jpg">
 
 
 
@@ -150,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="www.cfad.tech/2018/01/01/zookeeper/2018-01-04/"/>
+  <link rel="canonical" href="www.cfad.tech/2018/01/13/sqlite/2018-01-13/"/>
 
 
 
 
 
-  <title>zookeeper 源码分析一 zookeeper启动 | 敏而好学,乐以忘忧</title>
+  <title>SQLite简介 | 敏而好学,乐以忘忧</title>
   
 
 
@@ -329,7 +327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/01/01/zookeeper/2018-01-04/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/01/13/sqlite/2018-01-13/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -346,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">zookeeper 源码分析一 zookeeper启动</h1>
+          <h1 class="post-title" itemprop="name headline">SQLite简介</h1>
         
 
         <div class="post-meta">
@@ -358,8 +356,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-01T20:34:14+08:00">
-                2018-01-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-13T12:33:14+08:00">
+                2018-01-13
               </time>
             
 
@@ -381,8 +379,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
+                  <a href="/categories/SQLite/" itemprop="url" rel="index">
+                    <span itemprop="name">SQLite</span>
                   </a>
                 </span>
 
@@ -412,7 +410,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  620
+                  508
                 </span>
               
 
@@ -449,20 +447,12 @@
       
 
       
-        <h1><span id="zookeeper-qi-dong-lei">zookeeper启动类</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的<code>org.apache.zookeeper.server.quorum.QuorumPeerMain</code></p>
-<p>#z ookeeper的启动流程</p>
-<p><img src="/media/15156493675289.jpg" alt=""></p>
-<p>   zookeeper的启动通过调用zkServer.sh start启动，这个过程实际上是以QuorumPeerMain的main方法为函数入口,具体步骤如下:</p>
-<blockquote>
-<p>   1调用初始化方法<br>   1.1初始化过程中实例化QuorumPeerConfig解析配置文件<br>   1.2创建文件清理器DatadirCleanupManager并启动<br>   1.3判断启动方式，验证条件如果是有参数或者解析配置文件过程中给config的Server句柄具有相应的集群服务则通过运行配置文件启动，否则就是一个伪分布式直接通过ZooKeeperServerMain主函数启动服务</p>
-<p>   2.正常退出程序</p>
+        <h1><span id="sqlite-de-zu-cheng">SQLite的组成</span></h1><blockquote>
+<p> parser<br> tokenize<br> virtual machine </p>
 </blockquote>
-<h2><span id="runfromconfig-li-yong-pei-zhi-wen-jian-qi-dong-guo-cheng">runFromConfig利用配置文件启动过程</span></h2><p>位置: QuorumPeerMain.java runFromConfig<br><img src="/media/15156549203100.jpg" alt=""></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 运行配置文件的过程中，主要将quorumPeer启动。具体步骤如下:<br>1.注册JMX,作用是可以通过jconsole或者浏览器来管理各个对象<br>2.创建ServerCnxnFactory这个server工厂,默认是NIOServerCnxnFactory,可以在配置文件中进行配置, 属性名是zookeeper.serverCnxnFactory, 在zookeeper中还提供另一种工程NettyServerCnxnFactory<br>3.根据传入的地址通过configure方法打开socket通道，绑定ip地址,并注册相应的选择键<br>4.实例化QuorumPeer并启动-待补录</p>
-<h3><span id="qi-dong-quorumpeer">启动QuorumPeer</span></h3><p>QuorumPeerMain.java<br><img src="/media/15156591376460.jpg" alt=""><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp; 1.加载基础数据<br>&nbsp;&nbsp; 2.创建相应的服务工厂<br>&nbsp;&nbsp; 3.startLeaderElection开始选举<br>&nbsp;&nbsp; 4.调用start启动当前线程即本实例方法<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1 利用JMX注册MbeanServer jmxQuorumBean和LocalPeerBean，RemotePeerBean 这里是根据myId来进行注册，myId是在加载属性实例化QuorumPeer的时候注入。id是QuorumServer的属性，其在解析属性的过程中解析<code>server.0=SY-001:2888:3888</code> 这个0就是解析的id所以如果myid 和这个id相等则采用LocalPeerBean, myid和这个id定义不同则是RemotePeerBean， 可以看出其实定义的主zookeeper节点<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2在循环的过程中有四种 LOOKING, FOLLOWING, LEADING, OBSERVING针对当前状态执行相应的指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOOKING，竞选状态。这里是进行选举算法，将票投给谁setCurrentVote(makeLEStrategy().lookForLeader());</span><br><span class="line">FOLLOWING，随从状态，同步leader状态，参与投票。</span><br><span class="line">OBSERVING，观察状态,同步leader状态，不参与投票。</span><br><span class="line">LEADING，领导者状态。</span><br></pre></td></tr></table></figure>
-<h3><span id="quorumpeer-join">quorumPeer.join</span></h3><p>QuorumPeerMain.java</p>
-<p>主要目的是为了让quorumPeer启动完毕,才继续向下执行。</p>
+<h1><span id="sqlite-de-shu-ju-jie-gou">SQLite的数据结构</span></h1><p><img src="/media/15158182618673.jpg" alt=""></p>
+<h2><span id="connections-he-statements">Connections和Statements</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表在一个独立的事务环境下的一个连接A (connection represents a single connection to a database as well as a single transaction context)。每一个statement都和一个connection关联，它通常表示一个编译过的SQL语句，在内部，它以VDBE字节码表示。Statement包括执行一个命令所需要一切，包括保存VDBE程序执行状态所需的资源，指向硬盘记录的B-树游标，以及参数等等</p>
+<h2><span id="b-tree-he-pager">B-tree和pager</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个connection可以有多个database对象—一个主要的数据库以及附加的数据库，每一个数据库对象有一个B-tree对象，一个B-tree有一个pager对象(这里的对象不是面向对象的“对象”，只是为了说清楚问题)。<br>　　Statement最终都是通过connection的B-tree和pager从数据库读或者写数据，通过B-tree的游标(cursor)遍历存储在页面(page)中的记录。游标在访问页面之前要把数所从disk加载到内存，而这就是pager的任务。任何时候，如果B-tree需要页面，它都会请求pager从disk读取数据，然后把页面(page)加载到页面缓冲区(page cache)，之后，B-tree和与之关联的游标就可以访问位于page中的记录了。<br>　　如果cursor改变了page，为了防止事务回滚，pager必须采取特殊的方式保存原来的page。总的来说，pager负责读写数据库，管理内存缓存和页面（page），以及管理事务，锁和崩溃恢复(这些在事务一节会详细介绍)。<br>　　总之，关于connection和transaction，你必须知道两件事：<br>　　(1)对数据库的任何操作，一个连接存在于一个事务下。<br>　　(2)一个连接决不会同时存在多个事务下。</p>
 
       
     </div>
@@ -491,12 +481,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2018/01/01/zookeeper/2018-01-04/">zookeeper 源码分析一 zookeeper启动</a></p>
+  <p><span>本文标题:</span><a href="/2018/01/13/sqlite/2018-01-13/">SQLite简介</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
-  <p><span>发布时间:</span>2018年01月01日 - 20:01</p>
-  <p><span>最后更新:</span>2018年01月11日 - 19:01</p>
-  <p><span>原始链接:</span><a href="/2018/01/01/zookeeper/2018-01-04/" title="zookeeper 源码分析一 zookeeper启动">www.cfad.tech/2018/01/01/zookeeper/2018-01-04/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2018/01/01/zookeeper/2018-01-04/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年01月13日 - 12:01</p>
+  <p><span>最后更新:</span>2018年01月13日 - 14:01</p>
+  <p><span>原始链接:</span><a href="/2018/01/13/sqlite/2018-01-13/" title="SQLite简介">www.cfad.tech/2018/01/13/sqlite/2018-01-13/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2018/01/13/sqlite/2018-01-13/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -529,7 +519,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/zookeeper/" rel="tag"># zookeeper</a>
+            <a href="/tags/SQLite/" rel="tag"># SQLite</a>
           
         </div>
       
@@ -542,8 +532,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/20/netty/netty3/" rel="next" title="Working principle of the Netty">
-                <i class="fa fa-chevron-left"></i> Working principle of the Netty
+              <a href="/2018/01/13/sqlite/2018-01-14-1/" rel="next" title="SQLite网址大全">
+                <i class="fa fa-chevron-left"></i> SQLite网址大全
               </a>
             
           </div>
@@ -552,8 +542,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/01/linux/2018-01-02/" rel="prev" title="linux卸载openJDK安装sun下jdk">
-                linux卸载openJDK安装sun下jdk <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/13/sqlite/2018-01-14/" rel="prev" title="SQLite源码解析-操作数据库">
+                SQLite源码解析-操作数据库 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -661,7 +651,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -672,7 +662,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -683,7 +673,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -756,7 +746,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="zookeeper-qi-dong-lei">zookeeper&#x542F;&#x52A8;&#x7C7B;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="runfromconfig-li-yong-pei-zhi-wen-jian-qi-dong-guo-cheng">runFromConfig&#x5229;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x542F;&#x52A8;&#x8FC7;&#x7A0B;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.1.</span> <span class="nav-text"><span id="qi-dong-quorumpeer">&#x542F;&#x52A8;QuorumPeer</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.2.</span> <span class="nav-text"><span id="quorumpeer-join">quorumPeer.join</span></span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="sqlite-de-zu-cheng">SQLite&#x7684;&#x7EC4;&#x6210;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="sqlite-de-shu-ju-jie-gou">SQLite&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.</span> <span class="nav-text"><span id="connections-he-statements">Connections&#x548C;Statements</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.</span> <span class="nav-text"><span id="b-tree-he-pager">B-tree&#x548C;pager</span></span></a></li></ol></li></ol></div>
             
 
           </div>

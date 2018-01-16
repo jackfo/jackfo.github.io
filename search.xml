@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[zookeeper选举机制]]></title>
+    <url>%2F2018%2F01%2F18%2Fzookeeper%2F2018-01-11%2F</url>
+    <content type="text"><![CDATA[znode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zookeeper集群自身维护了一套数据结构。这个存储结构是一个树形结构，其上的每一个节点，我们称之为“znode” lookForLeader方法:]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQLite源码解析-操作数据库]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14%2F</url>
+    <content type="text"><![CDATA[SQLite基本操作方式 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SQLite的基本操作方式同大多数关系型数据库是一样的执行sqlite3_open打开数据库,若返回结果是SQLITE_OK即0则表示打开成功,利用sqlite3_exec执行相应的sql语句,返回函数同样是执行状态,SQLITE_OK表示执行成功,最终利用sqlite3_close关闭数据库 SQLite打开数据库&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SQLite打开数据库可以通过三种方式sqlite3_open、sqlite3_open_v2、sqlite3_open16他们的具体实现都是调用openDatabase,只有具体的参数有所不同，openDatabase的具体过程中进行了初始化和创建校对规则，以及加载相应的数据驱动。 123456789101112131415SQLITE_API int sqlite3_open(const char *zFilename, sqlite3 **ppDb )&#123; return openDatabase(zFilename, ppDb, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);&#125;SQLITE_API int sqlite3_open_v2( const char *filename, /* Database filename (UTF-8) */ sqlite3 **ppDb, /* OUT: SQLite db handle 返回一个数据库连接对象*/ int flags, /* Flags */ const char *zVfs /* Name of VFS module to use 数据库连接应该使用的操作系统接口的sqlite3_vfs对象的名称*/)&#123; return openDatabase(filename, ppDb, (unsigned int)flags, zVfs);&#125;SQLITE_API int sqlite3_open16(const void *zFilename, sqlite3 **ppDb) SQLite执行sql语句 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sqlite3exec()函数一次可以执行多条SQL命令。执行完成后返回一个SQLITE success/failure代码，还会将错误信息写到*pzErrMsg中。首先进行安全检查以及检查sql语句是为空，在获取线程锁，调用sqlite3Error将errCode赋值为SQLITE_OK之后调用sqlte3_prepare_v2编译一条语句，通过sqlite3_step进行具体执行，如果SQL是查询，查询结果中的每一行都会调用xCallback()函数。pArg为传递给xCallback()的第一个参数。如果xCallback==NULL，即使对查询命令也没有回叫调用。 sqlte3_prepare_v2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;它调用sqlite3GetToken对SQL语句zSql进行分词，然后调用sqlite3Parser进行语法分析。而sqlite3Parser在语法规则发生规约时调用相应的opcode生成子例程，生成opcode。 SQLite关闭数据库]]></content>
+      <categories>
+        <category>SQLite</category>
+      </categories>
+      <tags>
+        <tag>SQLite</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQLite简介]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-13%2F</url>
+    <content type="text"><![CDATA[SQLite的组成 parser tokenize virtual machine SQLite的数据结构 Connections和Statements&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表在一个独立的事务环境下的一个连接A (connection represents a single connection to a database as well as a single transaction context)。每一个statement都和一个connection关联，它通常表示一个编译过的SQL语句，在内部，它以VDBE字节码表示。Statement包括执行一个命令所需要一切，包括保存VDBE程序执行状态所需的资源，指向硬盘记录的B-树游标，以及参数等等 B-tree和pager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个connection可以有多个database对象—一个主要的数据库以及附加的数据库，每一个数据库对象有一个B-tree对象，一个B-tree有一个pager对象(这里的对象不是面向对象的“对象”，只是为了说清楚问题)。 Statement最终都是通过connection的B-tree和pager从数据库读或者写数据，通过B-tree的游标(cursor)遍历存储在页面(page)中的记录。游标在访问页面之前要把数所从disk加载到内存，而这就是pager的任务。任何时候，如果B-tree需要页面，它都会请求pager从disk读取数据，然后把页面(page)加载到页面缓冲区(page cache)，之后，B-tree和与之关联的游标就可以访问位于page中的记录了。 如果cursor改变了page，为了防止事务回滚，pager必须采取特殊的方式保存原来的page。总的来说，pager负责读写数据库，管理内存缓存和页面（page），以及管理事务，锁和崩溃恢复(这些在事务一节会详细介绍)。 总之，关于connection和transaction，你必须知道两件事： (1)对数据库的任何操作，一个连接存在于一个事务下。 (2)一个连接决不会同时存在多个事务下。]]></content>
+      <categories>
+        <category>SQLite</category>
+      </categories>
+      <tags>
+        <tag>SQLite</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQLite网址大全]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14-1%2F</url>
+    <content type="text"><![CDATA[SQLite API手册http://www.yfvb.com/help/sqlite3/ SQLite源码分析http://huili.github.io/sqlite/sqliteintro.html]]></content>
+      <categories>
+        <category>SQLite</category>
+      </categories>
+      <tags>
+        <tag>SQLite</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[zookeeper 源码分析一 zookeeper启动]]></title>
+    <url>%2F2018%2F01%2F11%2Fzookeeper%2F2018-01-04%2F</url>
+    <content type="text"><![CDATA[zookeeper启动类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程 zookeeper的启动通过调用zkServer.sh start启动，这个过程实际上是以QuorumPeerMain的main方法为函数入口,具体步骤如下: 1调用初始化方法 1.1初始化过程中实例化QuorumPeerConfig解析配置文件 1.2创建文件清理器DatadirCleanupManager并启动 1.3判断启动方式，验证条件如果是有参数或者解析配置文件过程中给config的Server句柄具有相应的集群服务则通过运行配置文件启动，否则就是一个伪分布式直接通过ZooKeeperServerMain主函数启动服务 2.正常退出程序 runFromConfig利用配置文件启动过程位置: QuorumPeerMain.java runFromConfig &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 运行配置文件的过程中，主要将quorumPeer启动。具体步骤如下:1.注册JMX,作用是可以通过jconsole或者浏览器来管理各个对象2.创建ServerCnxnFactory这个server工厂,默认是NIOServerCnxnFactory,可以在配置文件中进行配置, 属性名是zookeeper.serverCnxnFactory, 在zookeeper中还提供另一种工程NettyServerCnxnFactory3.根据传入的地址通过configure方法打开socket通道，绑定ip地址,并注册相应的选择键4.实例化QuorumPeer并启动-待补录 启动QuorumPeerQuorumPeerMain.java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.加载基础数据&nbsp;&nbsp; 2.创建相应的服务工厂&nbsp;&nbsp; 3.startLeaderElection开始选举&nbsp;&nbsp; 4.调用start启动当前线程即本实例方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1 利用JMX注册MbeanServer jmxQuorumBean和LocalPeerBean，RemotePeerBean 这里是根据myId来进行注册，myId是在加载属性实例化QuorumPeer的时候注入。id是QuorumServer的属性，其在解析属性的过程中解析server.0=SY-001:2888:3888 这个0就是解析的id所以如果myid 和这个id相等则采用LocalPeerBean, myid和这个id定义不同则是RemotePeerBean， 可以看出其实定义的主zookeeper节点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2在循环的过程中有四种 LOOKING, FOLLOWING, LEADING, OBSERVING针对当前状态执行相应的指令 1234LOOKING，竞选状态。这里是进行选举算法，将票投给谁setCurrentVote(makeLEStrategy().lookForLeader());FOLLOWING，随从状态，同步leader状态，参与投票。OBSERVING，观察状态,同步leader状态，不参与投票。LEADING，领导者状态。 quorumPeer.joinQuorumPeerMain.java 主要目的是为了让quorumPeer启动完毕,才继续向下执行。]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[持续集成5--搭建maven私服(nexus)]]></title>
     <url>%2F2018%2F01%2F04%2Flinux%2F2018-01-04-4%2F</url>
     <content type="text"><![CDATA[安装nexus]]></content>
@@ -12,7 +67,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[持续集成3--tomcat部署svnadmin]]></title>
+    <title><![CDATA[持续集成4--tomcat部署svnadmin]]></title>
     <url>%2F2018%2F01%2F04%2Flinux%2F2018-01-04-3%2F</url>
     <content type="text"><![CDATA[安装tomcat部署svnadmin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将svnadmin.war包部署到tomcat的服务器上解压,编辑配置文件 vim /usr/local/svn-tomcat/webapps/svnadmin/WEB-INF/jdbc.properties #tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out]]></content>
       <categories>
@@ -67,9 +122,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[虚拟机vm-tools安装]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-1%2F</url>
-    <content type="text"><![CDATA[虚拟机vm-tools安装##centos下 ###点击vm fusion下安装VMware Tools ###解压 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在点击上面安装之后会出现一个CD文件，里面存在VmwareTools-10* 的包 这是一个tar.gz的压缩包，现在我们通过tar -zxvf 文件名tar.gz来进行解压（可以自行存放位置） ###安装 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转到上面解压文件的目录vmware-tools-distrib 下，运行./vmware-install.pl 在安装的过程中不断点击enter 直到安装完成，之后调用reboot重新启动就完成了]]></content>
+    <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -89,6 +144,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[虚拟机vm-tools安装]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-1%2F</url>
+    <content type="text"><![CDATA[虚拟机vm-tools安装##centos下 ###点击vm fusion下安装VMware Tools ###解压 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在点击上面安装之后会出现一个CD文件，里面存在VmwareTools-10* 的包 这是一个tar.gz的压缩包，现在我们通过tar -zxvf 文件名tar.gz来进行解压（可以自行存放位置） ###安装 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转到上面解压文件的目录vmware-tools-distrib 下，运行./vmware-install.pl 在安装的过程中不断点击enter 直到安装完成，之后调用reboot重新启动就完成了]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[zookeeper 环境安装]]></title>
     <url>%2F2018%2F01%2F01%2Fzookeeper%2F2017-12-30%2F</url>
     <content type="text"><![CDATA[解压tar -zvxf zookeeper-3.4.5.tar.gz -C /usr/local #配置环境变量vim /etc/profile 12export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5export PATH=$ZOOKEEPER_HOME/bin:$PATH source /etc/profile #修改配置文件 相对路径:/ZOOKEEPER_HOME/conf/zoo.cfg 修改 1.datadir=/ZOOKEEPER_HOME/data 2.server0=ip地址。。。。。。 ZOOKEEPER_HOME下面创建data文件并创建脚本文件myid #启动 1zkServer.sh start]]></content>
@@ -97,17 +163,6 @@
       </categories>
       <tags>
         <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux下安装httpd]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-04%2F</url>
-    <content type="text"><![CDATA[下载 1yum install httpd httpd-devel 启动 1service httpd start 修改端口： 12vim /etc/httpd/conf/httpd.confServerName localhost:80 然后就可以根据ip进行访问]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
       </tags>
   </entry>
   <entry>
@@ -122,25 +177,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
+    <title><![CDATA[linux下安装httpd]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-04%2F</url>
+    <content type="text"><![CDATA[下载 1yum install httpd httpd-devel 启动 1service httpd start 修改端口： 12vim /etc/httpd/conf/httpd.confServerName localhost:80 然后就可以根据ip进行访问]]></content>
       <categories>
         <category>linux</category>
       </categories>
       <tags>
         <tag>centos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[zookeeper 源码分析一 zookeeper启动]]></title>
-    <url>%2F2018%2F01%2F01%2Fzookeeper%2F2018-01-04%2F</url>
-    <content type="text"><![CDATA[zookeeper启动类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程 zookeeper的启动通过调用zkServer.sh start启动，这个过程实际上是以QuorumPeerMain的main方法为函数入口,具体步骤如下: 1调用初始化方法 1.1初始化过程中实例化QuorumPeerConfig解析配置文件 1.2创建文件清理器DatadirCleanupManager并启动 1.3判断启动方式，验证条件如果是有参数或者解析配置文件过程中给config的Server句柄具有相应的集群服务则通过运行配置文件启动，否则就是一个伪分布式直接通过ZooKeeperServerMain主函数启动服务 2.正常退出程序 runFromConfig利用配置文件启动过程位置: QuorumPeerMain.java runFromConfig &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 运行配置文件的过程中，主要将quorumPeer启动。具体步骤如下:1.注册JMX,作用是可以通过jconsole或者浏览器来管理各个对象2.创建ServerCnxnFactory这个server工厂,默认是NIOServerCnxnFactory,可以在配置文件中进行配置, 属性名是zookeeper.serverCnxnFactory, 在zookeeper中还提供另一种工程NettyServerCnxnFactory3.根据传入的地址通过configure方法打开socket通道，绑定ip地址,并注册相应的选择键4.实例化QuorumPeer并启动-待补录 启动QuorumPeerQuorumPeerMain.java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.加载基础数据&nbsp;&nbsp; 2.创建相应的服务工厂&nbsp;&nbsp; 3.startLeaderElection开始选举&nbsp;&nbsp; 4.调用start启动当前线程即本实例方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1 利用JMX注册MbeanServer jmxQuorumBean和LocalPeerBean，RemotePeerBean 这里是根据myId来进行注册，myId是在加载属性实例化QuorumPeer的时候注入。id是QuorumServer的属性，其在解析属性的过程中解析server.0=SY-001:2888:3888 这个0就是解析的id所以如果myid 和这个id相等则采用LocalPeerBean, myid和这个id定义不同则是RemotePeerBean， 可以看出其实定义的主zookeeper节点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2在循环的过程中有四种 LOOKING, FOLLOWING, LEADING, OBSERVING针对当前状态执行相应的指令 1234LOOKING，竞选状态。这里是进行选举算法，将票投给谁setCurrentVote(makeLEStrategy().lookForLeader());FOLLOWING，随从状态，同步leader状态，参与投票。OBSERVING，观察状态,同步leader状态，不参与投票。LEADING，领导者状态。 quorumPeer.joinQuorumPeerMain.java 主要目的是为了让quorumPeer启动完毕,才继续向下执行。]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -177,17 +221,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[A example of Netty]]></title>
-    <url>%2F2017%2F12%2F12%2Fnetty%2Fnetty1%2F</url>
-    <content type="text"><![CDATA[The introduce of Netty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; we often use an HTTP client library to retrieve information from a web server and to invoke a remote procedure call via web services. Netty is an NIO client server framework which enables quick and easy development of network applications such as protocol servers and clients. It greatly simplifies and streamlines network programming such as TCP and UDP socket server development. A example of NettyThe Main class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, we introduce a simple process for a netty service. At first, we create multithreaded event loop that handles I/O operation and add them into corresponding server and add corresponding channel to transmit message. In this channel, we will create corresponding handle to receive the message, In this process, some handle can encode or decode the message. In the end, it will wait the message from client. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113public class DiscardServer &#123; private int port; public DiscardServer(int port) &#123; this.port = port; &#125; public void run() throws Exception &#123; //bossGroup will accept an incoming connection EventLoopGroup bossGroup = new NioEventLoopGroup(); //workerGroup handles the traffic of the accepted connection once the bossGroup accepts the connection //and registers the accepted the connection to the worker EventLoopGroup workerGroup = new NioEventLoopGroup(); try &#123; //ServerBootstrap is a helper class that sets up a server. you can set up the server using channel ServerBootstrap serverBootstrap = new ServerBootstrap(); //we specify to use the NioServerSocketChannel class which is used to a new channel to accept incoming connection serverBootstrap.group(bossGroup, workerGroup) .channel(NioServerSocketChannel.class) //the handler specified here will always be evaluated by a newly channel //The ChannelInitializer's purpose is to help user configure a new channel and add some handler which can implement network application .childHandler(new ChannelInitializer&lt;SocketChannel&gt;() &#123; @Override public void initChannel(SocketChannel ch) throws Exception &#123; ch.pipeline().addLast(new DiscardServerHandler()); &#125; &#125;) //you can set some socket option by this way //option() is for the NioServerSocketChannel that accepts incoming connections. //childOption() is for the Channels accepted by the parent ServerChannel, which is NioServerSocketChannel in this case. .option(ChannelOption.SO_BACKLOG, 128) .childOption(ChannelOption.SO_KEEPALIVE, true); // Bind and start to accept incoming connections. ChannelFuture f = serverBootstrap.bind(port).sync(); System.out.println("before closeFuture.."); // Wait until the server socket is closed. // In this example, this does not happen, but you can do that to gracefully // shut down your server. f.channel().closeFuture().sync(); System.out.println("after closeFuture.."); &#125; finally &#123; workerGroup.shutdownGracefully(); bossGroup.shutdownGracefully(); &#125; &#125; public static void main(String[] args) throws Exception &#123; int port; if (args.length &gt; 0) &#123; port = Integer.parseInt(args[0]); &#125; else &#123; port = 8080; &#125; new DiscardServer(port).run(); &#125;&#125;``` ## The corresponding handle &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; In this handle, we override the channelRead method from the interface of ChannelInboundHandler to receive the message and do some operation. ```java/*** * * ChannelInboundHandlerAdapter is a implementation for ChannelHandlerAdapter (abstract class) and ChannelInboundHandler(interface) * ChannelInboundHandler provides various event handler methods that you can override * For now, it is just enough to extend ChannelInboundHandlerAdapter rather than to implement the handler interface by yourself. * */public class DiscardServerHandler extends ChannelInboundHandlerAdapter &#123; /** * we override the channelRead method from the interface of ChannelInboundHandler * Invoked when the current channel has read a message from the peer. * * @param ctx this variable provide various operations that enable you to trigger various I/O operations and event * @param msg receive the message from channel * */ @Override public void channelRead(ChannelHandlerContext ctx, Object msg) &#123; ByteBuf in = (ByteBuf) msg; char temp ; try &#123; ctx.write("you message:"); while (in.isReadable()) &#123; temp = (char)in.readByte(); System.out.print(temp); ctx.write(temp); System.out.flush(); &#125; ctx.flush(); &#125; finally &#123; ReferenceCountUtil.release(msg); &#125; &#125; /** * The exceptionCaught() event handler method s called with a Throwable * when an exception was raised by Netty due to an I/O error or by a handler implementation due to the exception thrown while processing events * */ @Override public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) &#123; // Close the connection when an exception is raised. System.out.println("channelRead..."); cause.printStackTrace(); ctx.close(); &#125;&#125; ##The result of this example]]></content>
-      <categories>
-        <category>Netty</category>
-      </categories>
-      <tags>
-        <tag>Netty</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[PriorityQueue]]></title>
     <url>%2F2017%2F12%2F12%2FJdk%2FPriorityQueue%2F</url>
     <content type="text"><![CDATA[The introduce of PriorityQueue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural ordering, or by a Comparator provided at queue construction time, depending on which constructor is used. A priority queue does not permit null elements. A priority queue relying on natural ordering also does not permit insertion of non-comparable objects #The family of PriorityQueue #The structure of PriorityQueue #The method of PriorityQueue]]></content>
@@ -196,6 +229,17 @@
       </categories>
       <tags>
         <tag>jdk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[A example of Netty]]></title>
+    <url>%2F2017%2F12%2F12%2Fnetty%2Fnetty1%2F</url>
+    <content type="text"><![CDATA[The introduce of Netty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; we often use an HTTP client library to retrieve information from a web server and to invoke a remote procedure call via web services. Netty is an NIO client server framework which enables quick and easy development of network applications such as protocol servers and clients. It greatly simplifies and streamlines network programming such as TCP and UDP socket server development. A example of NettyThe Main class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, we introduce a simple process for a netty service. At first, we create multithreaded event loop that handles I/O operation and add them into corresponding server and add corresponding channel to transmit message. In this channel, we will create corresponding handle to receive the message, In this process, some handle can encode or decode the message. In the end, it will wait the message from client. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113public class DiscardServer &#123; private int port; public DiscardServer(int port) &#123; this.port = port; &#125; public void run() throws Exception &#123; //bossGroup will accept an incoming connection EventLoopGroup bossGroup = new NioEventLoopGroup(); //workerGroup handles the traffic of the accepted connection once the bossGroup accepts the connection //and registers the accepted the connection to the worker EventLoopGroup workerGroup = new NioEventLoopGroup(); try &#123; //ServerBootstrap is a helper class that sets up a server. you can set up the server using channel ServerBootstrap serverBootstrap = new ServerBootstrap(); //we specify to use the NioServerSocketChannel class which is used to a new channel to accept incoming connection serverBootstrap.group(bossGroup, workerGroup) .channel(NioServerSocketChannel.class) //the handler specified here will always be evaluated by a newly channel //The ChannelInitializer's purpose is to help user configure a new channel and add some handler which can implement network application .childHandler(new ChannelInitializer&lt;SocketChannel&gt;() &#123; @Override public void initChannel(SocketChannel ch) throws Exception &#123; ch.pipeline().addLast(new DiscardServerHandler()); &#125; &#125;) //you can set some socket option by this way //option() is for the NioServerSocketChannel that accepts incoming connections. //childOption() is for the Channels accepted by the parent ServerChannel, which is NioServerSocketChannel in this case. .option(ChannelOption.SO_BACKLOG, 128) .childOption(ChannelOption.SO_KEEPALIVE, true); // Bind and start to accept incoming connections. ChannelFuture f = serverBootstrap.bind(port).sync(); System.out.println("before closeFuture.."); // Wait until the server socket is closed. // In this example, this does not happen, but you can do that to gracefully // shut down your server. f.channel().closeFuture().sync(); System.out.println("after closeFuture.."); &#125; finally &#123; workerGroup.shutdownGracefully(); bossGroup.shutdownGracefully(); &#125; &#125; public static void main(String[] args) throws Exception &#123; int port; if (args.length &gt; 0) &#123; port = Integer.parseInt(args[0]); &#125; else &#123; port = 8080; &#125; new DiscardServer(port).run(); &#125;&#125;``` ## The corresponding handle &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; In this handle, we override the channelRead method from the interface of ChannelInboundHandler to receive the message and do some operation. ```java/*** * * ChannelInboundHandlerAdapter is a implementation for ChannelHandlerAdapter (abstract class) and ChannelInboundHandler(interface) * ChannelInboundHandler provides various event handler methods that you can override * For now, it is just enough to extend ChannelInboundHandlerAdapter rather than to implement the handler interface by yourself. * */public class DiscardServerHandler extends ChannelInboundHandlerAdapter &#123; /** * we override the channelRead method from the interface of ChannelInboundHandler * Invoked when the current channel has read a message from the peer. * * @param ctx this variable provide various operations that enable you to trigger various I/O operations and event * @param msg receive the message from channel * */ @Override public void channelRead(ChannelHandlerContext ctx, Object msg) &#123; ByteBuf in = (ByteBuf) msg; char temp ; try &#123; ctx.write("you message:"); while (in.isReadable()) &#123; temp = (char)in.readByte(); System.out.print(temp); ctx.write(temp); System.out.flush(); &#125; ctx.flush(); &#125; finally &#123; ReferenceCountUtil.release(msg); &#125; &#125; /** * The exceptionCaught() event handler method s called with a Throwable * when an exception was raised by Netty due to an I/O error or by a handler implementation due to the exception thrown while processing events * */ @Override public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) &#123; // Close the connection when an exception is raised. System.out.println("channelRead..."); cause.printStackTrace(); ctx.close(); &#125;&#125; ##The result of this example]]></content>
+      <categories>
+        <category>Netty</category>
+      </categories>
+      <tags>
+        <tag>Netty</tag>
       </tags>
   </entry>
   <entry>
@@ -210,17 +254,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[QuickSort]]></title>
-    <url>%2F2017%2F12%2F11%2Farithmetic%2FquickSort%2F</url>
-    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot. There are many different versions of quickSort that pick pivot in different ways. 1.Always pick first element as pivot.2.Always pick last element as pivot (implemented below)3.Pick a random element as pivot.4.Pick median as pivot. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The key process in quickSort is partition(). Target of partitions is, given an array and an element x of array as pivot, put x at its correct position in sorted array and put all smaller elements (smaller than x) before x, and put all greater elements (greater than x) after x. All this should be done in linear time. Pseudo Code for recursive QuickSort function :12345678910111213/* low --&gt; Starting index, high --&gt; Ending index */quickSort(arr[], low, high)&#123; if (low &lt; high) &#123; /* pi is partitioning index, arr[p] is now at right place */ pi = partition(arr, low, high); quickSort(arr, low, pi - 1); // Before pi quickSort(arr, pi + 1, high); // After pi &#125;&#125; Partition Algorithm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; There can be many ways to do partition, following pseudo code adopts the method given in CLRS book. The logic is simple, we start from the leftmost element and keep track of index of smaller (or equal to) elements as i. While traversing, if we find a smaller element, we swap current element with arr[i]. Otherwise we ignore current element. 12345678910111213/* low --&gt; Starting index, high --&gt; Ending index */quickSort(arr[], low, high)&#123; if (low &lt; high) &#123; /* pi is partitioning index, arr[p] is now at right place */ pi = partition(arr, low, high); quickSort(arr, low, pi - 1); // Before pi quickSort(arr, pi + 1, high); // After pi &#125;&#125; Pseudo code for partition()12345678910111213141516171819202122232425/* This function takes last element as pivot, places the pivot element at its correct position in sorted array, and places all smaller (smaller than pivot) to left of pivot and all greater elements to right of pivot */partition (arr[], low, high)&#123; // pivot (Element to be placed at right position) pivot = arr[high]; i = (low - 1) // Index of smaller element for (j = low; j &lt;= high- 1; j++) &#123; // If current element is smaller than or // equal to pivot if (arr[j] &lt;= pivot) &#123; i++; // increment index of smaller element swap arr[i] and arr[j] &#125; &#125; swap arr[i + 1] and arr[high]) return (i + 1)&#125; Illustration of partition()12345678910111213141516171819202122232425262728293031323334353637arr[] = &#123;10, 80, 30, 90, 40, 50, 70&#125;Indexes: 0 1 2 3 4 5 6 low = 0, high = 6, pivot = arr[h] = 70Initialize index of smaller element, i = -1Traverse elements from j = low to high-1j = 0 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])i = 0 arr[] = &#123;10, 80, 30, 90, 40, 50, 70&#125; // No change as i and j // are samej = 1 : Since arr[j] &gt; pivot, do nothing// No change in i and arr[]j = 2 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])i = 1arr[] = &#123;10, 30, 80, 90, 40, 50, 70&#125; // We swap 80 and 30 j = 3 : Since arr[j] &gt; pivot, do nothing// No change in i and arr[]j = 4 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])i = 2arr[] = &#123;10, 30, 40, 90, 80, 50, 70&#125; // 80 and 40 Swappedj = 5 : Since arr[j] &lt;= pivot, do i++ and swap arr[i] with arr[j] i = 3 arr[] = &#123;10, 30, 40, 50, 80, 90, 70&#125; // 90 and 50 Swapped We come out of loop because j is now equal to high-1.Finally we place pivot at correct position by swappingarr[i+1] and arr[high] (or pivot) arr[] = &#123;10, 30, 40, 50, 70, 90, 80&#125; // 80 and 70 Swapped Now 70 is at its correct place. All elements smaller than70 are before it and all elements greater than 70 are afterit. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778// Java program for implementation of QuickSortclass QuickSort&#123; /* This function takes last element as pivot, places the pivot element at its correct position in sorted array, and places all smaller (smaller than pivot) to left of pivot and all greater elements to right of pivot */ int partition(int arr[], int low, int high) &#123; int pivot = arr[high]; int i = (low-1); // index of smaller element for (int j=low; j&lt;high; j++) &#123; // If current element is smaller than or // equal to pivot if (arr[j] &lt;= pivot) &#123; i++; // swap arr[i] and arr[j] int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp; &#125; &#125; // swap arr[i+1] and arr[high] (or pivot) int temp = arr[i+1]; arr[i+1] = arr[high]; arr[high] = temp; return i+1; &#125; /* The main function that implements QuickSort() arr[] --&gt; Array to be sorted, low --&gt; Starting index, high --&gt; Ending index */ void sort(int arr[], int low, int high) &#123; if (low &lt; high) &#123; /* pi is partitioning index, arr[pi] is now at right place */ int pi = partition(arr, low, high); // Recursively sort elements before // partition and after partition sort(arr, low, pi-1); sort(arr, pi+1, high); &#125; &#125; /* A utility function to print array of size n */ static void printArray(int arr[]) &#123; int n = arr.length; for (int i=0; i&lt;n; ++i) System.out.print(arr[i]+" "); System.out.println(); &#125; // Driver program public static void main(String args[]) &#123; int arr[] = &#123;10, 7, 8, 9, 1, 5&#125;; int n = arr.length; QuickSort ob = new QuickSort(); ob.sort(arr, 0, n-1); System.out.println("sorted array"); printArray(arr); &#125;&#125; output: 12Sorted array:1 5 7 8 9 10]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[linux基本指令]]></title>
     <url>%2F2017%2F12%2F11%2Flinux%2F2018-01-01%2F</url>
     <content type="text"><![CDATA[解压1tar -zxvf 文件名 移动文件移动命令mv 命令格式：mv [-fiv] source destination 参数说明： -f:force，强制直接移动而不询问 -i:若目标文件(destination)已经存在，就会询问是否覆盖 -u:若目标文件已经存在，且源文件比较新，才会更新 如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令： mv /test1/file1 /test3/file2 重命名关机poweroff 立刻关机shutdown -h now 立刻关机shutdown -h 10 10分钟后自动关机 关闭防火墙关闭命令： service iptables stop永久关闭防火墙：chkconfig iptables off永久关闭需要两条语句都运行 关闭端口1lsof -i:]]></content>
@@ -229,6 +262,17 @@
       </categories>
       <tags>
         <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[QuickSort]]></title>
+    <url>%2F2017%2F12%2F11%2Farithmetic%2FquickSort%2F</url>
+    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot. There are many different versions of quickSort that pick pivot in different ways. 1.Always pick first element as pivot.2.Always pick last element as pivot (implemented below)3.Pick a random element as pivot.4.Pick median as pivot. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The key process in quickSort is partition(). Target of partitions is, given an array and an element x of array as pivot, put x at its correct position in sorted array and put all smaller elements (smaller than x) before x, and put all greater elements (greater than x) after x. All this should be done in linear time. Pseudo Code for recursive QuickSort function :12345678910111213/* low --&gt; Starting index, high --&gt; Ending index */quickSort(arr[], low, high)&#123; if (low &lt; high) &#123; /* pi is partitioning index, arr[p] is now at right place */ pi = partition(arr, low, high); quickSort(arr, low, pi - 1); // Before pi quickSort(arr, pi + 1, high); // After pi &#125;&#125; Partition Algorithm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; There can be many ways to do partition, following pseudo code adopts the method given in CLRS book. The logic is simple, we start from the leftmost element and keep track of index of smaller (or equal to) elements as i. While traversing, if we find a smaller element, we swap current element with arr[i]. Otherwise we ignore current element. 12345678910111213/* low --&gt; Starting index, high --&gt; Ending index */quickSort(arr[], low, high)&#123; if (low &lt; high) &#123; /* pi is partitioning index, arr[p] is now at right place */ pi = partition(arr, low, high); quickSort(arr, low, pi - 1); // Before pi quickSort(arr, pi + 1, high); // After pi &#125;&#125; Pseudo code for partition()12345678910111213141516171819202122232425/* This function takes last element as pivot, places the pivot element at its correct position in sorted array, and places all smaller (smaller than pivot) to left of pivot and all greater elements to right of pivot */partition (arr[], low, high)&#123; // pivot (Element to be placed at right position) pivot = arr[high]; i = (low - 1) // Index of smaller element for (j = low; j &lt;= high- 1; j++) &#123; // If current element is smaller than or // equal to pivot if (arr[j] &lt;= pivot) &#123; i++; // increment index of smaller element swap arr[i] and arr[j] &#125; &#125; swap arr[i + 1] and arr[high]) return (i + 1)&#125; Illustration of partition()12345678910111213141516171819202122232425262728293031323334353637arr[] = &#123;10, 80, 30, 90, 40, 50, 70&#125;Indexes: 0 1 2 3 4 5 6 low = 0, high = 6, pivot = arr[h] = 70Initialize index of smaller element, i = -1Traverse elements from j = low to high-1j = 0 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])i = 0 arr[] = &#123;10, 80, 30, 90, 40, 50, 70&#125; // No change as i and j // are samej = 1 : Since arr[j] &gt; pivot, do nothing// No change in i and arr[]j = 2 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])i = 1arr[] = &#123;10, 30, 80, 90, 40, 50, 70&#125; // We swap 80 and 30 j = 3 : Since arr[j] &gt; pivot, do nothing// No change in i and arr[]j = 4 : Since arr[j] &lt;= pivot, do i++ and swap(arr[i], arr[j])i = 2arr[] = &#123;10, 30, 40, 90, 80, 50, 70&#125; // 80 and 40 Swappedj = 5 : Since arr[j] &lt;= pivot, do i++ and swap arr[i] with arr[j] i = 3 arr[] = &#123;10, 30, 40, 50, 80, 90, 70&#125; // 90 and 50 Swapped We come out of loop because j is now equal to high-1.Finally we place pivot at correct position by swappingarr[i+1] and arr[high] (or pivot) arr[] = &#123;10, 30, 40, 50, 70, 90, 80&#125; // 80 and 70 Swapped Now 70 is at its correct place. All elements smaller than70 are before it and all elements greater than 70 are afterit. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778// Java program for implementation of QuickSortclass QuickSort&#123; /* This function takes last element as pivot, places the pivot element at its correct position in sorted array, and places all smaller (smaller than pivot) to left of pivot and all greater elements to right of pivot */ int partition(int arr[], int low, int high) &#123; int pivot = arr[high]; int i = (low-1); // index of smaller element for (int j=low; j&lt;high; j++) &#123; // If current element is smaller than or // equal to pivot if (arr[j] &lt;= pivot) &#123; i++; // swap arr[i] and arr[j] int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp; &#125; &#125; // swap arr[i+1] and arr[high] (or pivot) int temp = arr[i+1]; arr[i+1] = arr[high]; arr[high] = temp; return i+1; &#125; /* The main function that implements QuickSort() arr[] --&gt; Array to be sorted, low --&gt; Starting index, high --&gt; Ending index */ void sort(int arr[], int low, int high) &#123; if (low &lt; high) &#123; /* pi is partitioning index, arr[pi] is now at right place */ int pi = partition(arr, low, high); // Recursively sort elements before // partition and after partition sort(arr, low, pi-1); sort(arr, pi+1, high); &#125; &#125; /* A utility function to print array of size n */ static void printArray(int arr[]) &#123; int n = arr.length; for (int i=0; i&lt;n; ++i) System.out.print(arr[i]+" "); System.out.println(); &#125; // Driver program public static void main(String args[]) &#123; int arr[] = &#123;10, 7, 8, 9, 1, 5&#125;; int n = arr.length; QuickSort ob = new QuickSort(); ob.sort(arr, 0, n-1); System.out.println("sorted array"); printArray(arr); &#125;&#125; output: 12Sorted array:1 5 7 8 9 10]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
       </tags>
   </entry>
   <entry>
@@ -309,14 +353,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[dubbo源码分析2-远程接口暴露过程]]></title>
-    <url>%2F2017%2F01%2F02%2Fdubbo%2FReferenceConfig%2F</url>
-    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&lt;dubbo:reference interface=&quot;cfs.com.facade.SysUserFacade&quot; id=&quot;sysUserFacade&quot; /&gt; 获取相应ReferenceBean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里我们先要获取的是相应的ReferenceFactoryBean具体过程在dubbo源码分析1-spring方式启动中,首先装载所有标签相应的 DubboNamespaceHandler.java 1registerBeanDefinitionParser("reference", new DubboBeanDefinitionParser(ReferenceBean.class, false)); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据DubboBeanDefinitionParser来解析，在loadBeanDefinitions中将所有的BeanDefinition解析出来生成形影的ReferenceBean DubboBeanDefinitionParser.java 1private static BeanDefinition parse(Element element, ParserContext parserContext, Class&lt;?&gt; beanClass, boolean required) &#123;&#125; 调用ReferenceBean的get方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于ReferenceBean继承ReferenceConfig，且自身没有覆盖get方法所以调用的是ReferenceConfig中. 123456789public synchronized T get() &#123; if (destroyed)&#123; throw new IllegalStateException("Already destroyed!"); &#125; if (ref == null) &#123; init(); &#125; return ref;&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上可以看出其核心方法是调用init 1.验证时候初始化，如果已经初始化直接返回2.保证接口名长度不为空或者03.配置消费者和提供者全局属性4.获取相应的接口全限定类名5.设置基础属性6.将属性添加到context_map这个静态map中去7.创建相应的代理 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142 private void init() &#123; if (initialized) &#123; return; &#125; initialized = true; if (interfaceName == null || interfaceName.length() == 0) &#123; throw new IllegalStateException("&lt;dubbo:reference interface=\"\" /&gt; interface not allow null!"); &#125; // 获取消费者全局配置 checkDefault(); appendProperties(this); if (getGeneric() == null &amp;&amp; getConsumer() != null) &#123; setGeneric(getConsumer().getGeneric()); &#125; if (ProtocolUtils.isGeneric(getGeneric())) &#123; interfaceClass = GenericService.class; &#125; else &#123; try &#123; interfaceClass = Class.forName(interfaceName, true, Thread.currentThread() .getContextClassLoader());&#125; catch (ClassNotFoundException e) &#123; throw new IllegalStateException(e.getMessage(), e);&#125; checkInterfaceAndMethods(interfaceClass, methods); &#125; String resolve = System.getProperty(interfaceName); String resolveFile = null; if (resolve == null || resolve.length() == 0) &#123; resolveFile = System.getProperty("dubbo.resolve.file"); if (resolveFile == null || resolveFile.length() == 0) &#123; File userResolveFile = new File(new File(System.getProperty("user.home")), "dubbo-resolve.properties"); if (userResolveFile.exists()) &#123; resolveFile = userResolveFile.getAbsolutePath(); &#125; &#125; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; Properties properties = new Properties(); FileInputStream fis = null; try &#123; fis = new FileInputStream(new File(resolveFile)); properties.load(fis); &#125; catch (IOException e) &#123; throw new IllegalStateException("Unload " + resolveFile + ", cause: " + e.getMessage(), e); &#125; finally &#123; try &#123; if(null != fis) fis.close(); &#125; catch (IOException e) &#123; logger.warn(e.getMessage(), e); &#125; &#125; resolve = properties.getProperty(interfaceName); &#125; &#125; if (resolve != null &amp;&amp; resolve.length() &gt; 0) &#123; url = resolve; if (logger.isWarnEnabled()) &#123; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; logger.warn("Using default dubbo resolve file " + resolveFile + " replace " + interfaceName + "" + resolve + " to p2p invoke remote service."); &#125; else &#123; logger.warn("Using -D" + interfaceName + "=" + resolve + " to p2p invoke remote service."); &#125; &#125; &#125; if (consumer != null) &#123; if (application == null) &#123; application = consumer.getApplication(); &#125; if (module == null) &#123; module = consumer.getModule(); &#125; if (registries == null) &#123; registries = consumer.getRegistries(); &#125; if (monitor == null) &#123; monitor = consumer.getMonitor(); &#125; &#125; if (module != null) &#123; if (registries == null) &#123; registries = module.getRegistries(); &#125; if (monitor == null) &#123; monitor = module.getMonitor(); &#125; &#125; if (application != null) &#123; if (registries == null) &#123; registries = application.getRegistries(); &#125; if (monitor == null) &#123; monitor = application.getMonitor(); &#125; &#125; checkApplication(); checkStubAndMock(interfaceClass); Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;(); Map&lt;Object, Object&gt; attributes = new HashMap&lt;Object, Object&gt;(); map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE); map.put(Constants.DUBBO_VERSION_KEY, Version.getVersion()); map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis())); if (ConfigUtils.getPid() &gt; 0) &#123; map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid())); &#125; if (! isGeneric()) &#123; String revision = Version.getVersion(interfaceClass, version); if (revision != null &amp;&amp; revision.length() &gt; 0) &#123; map.put("revision", revision); &#125; String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames(); if(methods.length == 0) &#123; logger.warn("NO method found in service interface " + interfaceClass.getName()); map.put("methods", Constants.ANY_VALUE); &#125; else &#123; map.put("methods", StringUtils.join(new HashSet&lt;String&gt;(Arrays.asList(methods)), ",")); &#125; &#125; map.put(Constants.INTERFACE_KEY, interfaceName); appendParameters(map, application); appendParameters(map, module); appendParameters(map, consumer, Constants.DEFAULT_KEY); appendParameters(map, this); String prifix = StringUtils.getServiceKey(map); if (methods != null &amp;&amp; methods.size() &gt; 0) &#123; for (MethodConfig method : methods) &#123; appendParameters(map, method, method.getName()); String retryKey = method.getName() + ".retry"; if (map.containsKey(retryKey)) &#123; String retryValue = map.remove(retryKey); if ("false".equals(retryValue)) &#123; map.put(method.getName() + ".retries", "0"); &#125; &#125; appendAttributes(attributes, method, prifix + "." + method.getName()); checkAndConvertImplicitConfig(method, map, attributes); &#125; &#125; //attributes通过系统context进行存储. StaticContext.getSystemContext().putAll(attributes); ref = createProxy(map); &#125; createProxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个方式是init中的最后一步，创建相应的url 1.先判断是否是本地服务引用injvm 2.判断是否是点对点直连 3.判断是否是通过注册中心连接 4.然后是服务的引用]]></content>
+    <title><![CDATA[git基本指令]]></title>
+    <url>%2F2017%2F01%2F02%2Fgit%2F2017-12-29%2F</url>
+    <content type="text"><![CDATA[The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 objects:该目录存放所有的Git对象，对象的SHA1哈希值的前两位是文件夹名称，后38位作为对象文件名。比如前面log里的HEAD文件里有个哈希值5426426e3ccc9ab4e3330640862a7b96e28828af 5 refs:具体的引用，Reference Specification，这个目录一般包括三个子文件夹，heads、remotes和tags，比如，heads中的master文件标识了项目中的master分支指向的当前commit，其他类似。 6 COMMIT_EDITMSG:保存最新的commit message，Git系统不会用到这个文件，只是给用户一个参考 7 config:这个是GIt仓库的配置文件 8 description:仓库的描述信息，主要给gitweb等git托管系统使用 9 index:这个文件就是我们前面提到的暂存区（stage），是一个二进制文件 10 HEAD:这个文件包含了一个分支（branch）的引用，通过这个文件Git可以得到下一次commit的parent，什么是引用呢，你可以理解为指针，哪儿都可以指，但是不能指向没有的东西哦。详细介绍请看这里： ###git add git add . ：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。 git add -u ：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写） git add -A ：是上面两个功能的合集（git add –all的缩写） git remotegit remote add:命令用于添加远程主机 1git remote add &lt;主机名&gt; &lt;网址&gt; src refspec master does not match any.]]></content>
       <categories>
-        <category>dubbo</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>dubbo</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -328,28 +372,6 @@
       </categories>
       <tags>
         <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[druid分析]]></title>
-    <url>%2F2017%2F01%2F02%2Fdruid%2F2017-12-30%2F</url>
-    <content type="text"><![CDATA[The analysis of DruidInstancing DruidDataSourceDruidDataSource have two Constructor,and the one without any argument will invoke another by writing a argument, as follows At first, We find it will invoke super(fairLock),its default value is false by instancing the constructor without any argument , it wil call the superclass object and invoke the methods of configFromPropety to Set up relevant property values by getting System property values. Its superclass object constructor is shown below: In superclass object constructor,the instance create Creates an instance of ReentrantLock with the given unfairness policy. after that it will create Condition instance for use with this Lock instance. The returned Condition instance supports the same usages as do the Object monitor methods (wait, notify, and notifyAll) when used with the built-in monitor lock.]]></content>
-      <categories>
-        <category>druid</category>
-      </categories>
-      <tags>
-        <tag>druid</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[git基本指令]]></title>
-    <url>%2F2017%2F01%2F02%2Fgit%2F2017-12-29%2F</url>
-    <content type="text"><![CDATA[The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 objects:该目录存放所有的Git对象，对象的SHA1哈希值的前两位是文件夹名称，后38位作为对象文件名。比如前面log里的HEAD文件里有个哈希值5426426e3ccc9ab4e3330640862a7b96e28828af 5 refs:具体的引用，Reference Specification，这个目录一般包括三个子文件夹，heads、remotes和tags，比如，heads中的master文件标识了项目中的master分支指向的当前commit，其他类似。 6 COMMIT_EDITMSG:保存最新的commit message，Git系统不会用到这个文件，只是给用户一个参考 7 config:这个是GIt仓库的配置文件 8 description:仓库的描述信息，主要给gitweb等git托管系统使用 9 index:这个文件就是我们前面提到的暂存区（stage），是一个二进制文件 10 HEAD:这个文件包含了一个分支（branch）的引用，通过这个文件Git可以得到下一次commit的parent，什么是引用呢，你可以理解为指针，哪儿都可以指，但是不能指向没有的东西哦。详细介绍请看这里： ###git add git add . ：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。 git add -u ：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写） git add -A ：是上面两个功能的合集（git add –all的缩写） git remotegit remote add:命令用于添加远程主机 1git remote add &lt;主机名&gt; &lt;网址&gt; src refspec master does not match any.]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -375,9 +397,53 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[druid分析]]></title>
+    <url>%2F2017%2F01%2F02%2Fdruid%2F2017-12-30%2F</url>
+    <content type="text"><![CDATA[The analysis of DruidInstancing DruidDataSourceDruidDataSource have two Constructor,and the one without any argument will invoke another by writing a argument, as follows At first, We find it will invoke super(fairLock),its default value is false by instancing the constructor without any argument , it wil call the superclass object and invoke the methods of configFromPropety to Set up relevant property values by getting System property values. Its superclass object constructor is shown below: In superclass object constructor,the instance create Creates an instance of ReentrantLock with the given unfairness policy. after that it will create Condition instance for use with this Lock instance. The returned Condition instance supports the same usages as do the Object monitor methods (wait, notify, and notifyAll) when used with the built-in monitor lock.]]></content>
+      <categories>
+        <category>druid</category>
+      </categories>
+      <tags>
+        <tag>druid</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[dubbo源码分析2-远程接口暴露过程]]></title>
+    <url>%2F2017%2F01%2F02%2Fdubbo%2FReferenceConfig%2F</url>
+    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&lt;dubbo:reference interface=&quot;cfs.com.facade.SysUserFacade&quot; id=&quot;sysUserFacade&quot; /&gt; 获取相应ReferenceBean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里我们先要获取的是相应的ReferenceFactoryBean具体过程在dubbo源码分析1-spring方式启动中,首先装载所有标签相应的 DubboNamespaceHandler.java 1registerBeanDefinitionParser("reference", new DubboBeanDefinitionParser(ReferenceBean.class, false)); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据DubboBeanDefinitionParser来解析，在loadBeanDefinitions中将所有的BeanDefinition解析出来生成形影的ReferenceBean DubboBeanDefinitionParser.java 1private static BeanDefinition parse(Element element, ParserContext parserContext, Class&lt;?&gt; beanClass, boolean required) &#123;&#125; 调用ReferenceBean的get方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于ReferenceBean继承ReferenceConfig，且自身没有覆盖get方法所以调用的是ReferenceConfig中. 123456789public synchronized T get() &#123; if (destroyed)&#123; throw new IllegalStateException("Already destroyed!"); &#125; if (ref == null) &#123; init(); &#125; return ref;&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上可以看出其核心方法是调用init 1.验证时候初始化，如果已经初始化直接返回2.保证接口名长度不为空或者03.配置消费者和提供者全局属性4.获取相应的接口全限定类名5.设置基础属性6.将属性添加到context_map这个静态map中去7.创建相应的代理 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142 private void init() &#123; if (initialized) &#123; return; &#125; initialized = true; if (interfaceName == null || interfaceName.length() == 0) &#123; throw new IllegalStateException("&lt;dubbo:reference interface=\"\" /&gt; interface not allow null!"); &#125; // 获取消费者全局配置 checkDefault(); appendProperties(this); if (getGeneric() == null &amp;&amp; getConsumer() != null) &#123; setGeneric(getConsumer().getGeneric()); &#125; if (ProtocolUtils.isGeneric(getGeneric())) &#123; interfaceClass = GenericService.class; &#125; else &#123; try &#123; interfaceClass = Class.forName(interfaceName, true, Thread.currentThread() .getContextClassLoader());&#125; catch (ClassNotFoundException e) &#123; throw new IllegalStateException(e.getMessage(), e);&#125; checkInterfaceAndMethods(interfaceClass, methods); &#125; String resolve = System.getProperty(interfaceName); String resolveFile = null; if (resolve == null || resolve.length() == 0) &#123; resolveFile = System.getProperty("dubbo.resolve.file"); if (resolveFile == null || resolveFile.length() == 0) &#123; File userResolveFile = new File(new File(System.getProperty("user.home")), "dubbo-resolve.properties"); if (userResolveFile.exists()) &#123; resolveFile = userResolveFile.getAbsolutePath(); &#125; &#125; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; Properties properties = new Properties(); FileInputStream fis = null; try &#123; fis = new FileInputStream(new File(resolveFile)); properties.load(fis); &#125; catch (IOException e) &#123; throw new IllegalStateException("Unload " + resolveFile + ", cause: " + e.getMessage(), e); &#125; finally &#123; try &#123; if(null != fis) fis.close(); &#125; catch (IOException e) &#123; logger.warn(e.getMessage(), e); &#125; &#125; resolve = properties.getProperty(interfaceName); &#125; &#125; if (resolve != null &amp;&amp; resolve.length() &gt; 0) &#123; url = resolve; if (logger.isWarnEnabled()) &#123; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; logger.warn("Using default dubbo resolve file " + resolveFile + " replace " + interfaceName + "" + resolve + " to p2p invoke remote service."); &#125; else &#123; logger.warn("Using -D" + interfaceName + "=" + resolve + " to p2p invoke remote service."); &#125; &#125; &#125; if (consumer != null) &#123; if (application == null) &#123; application = consumer.getApplication(); &#125; if (module == null) &#123; module = consumer.getModule(); &#125; if (registries == null) &#123; registries = consumer.getRegistries(); &#125; if (monitor == null) &#123; monitor = consumer.getMonitor(); &#125; &#125; if (module != null) &#123; if (registries == null) &#123; registries = module.getRegistries(); &#125; if (monitor == null) &#123; monitor = module.getMonitor(); &#125; &#125; if (application != null) &#123; if (registries == null) &#123; registries = application.getRegistries(); &#125; if (monitor == null) &#123; monitor = application.getMonitor(); &#125; &#125; checkApplication(); checkStubAndMock(interfaceClass); Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;(); Map&lt;Object, Object&gt; attributes = new HashMap&lt;Object, Object&gt;(); map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE); map.put(Constants.DUBBO_VERSION_KEY, Version.getVersion()); map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis())); if (ConfigUtils.getPid() &gt; 0) &#123; map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid())); &#125; if (! isGeneric()) &#123; String revision = Version.getVersion(interfaceClass, version); if (revision != null &amp;&amp; revision.length() &gt; 0) &#123; map.put("revision", revision); &#125; String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames(); if(methods.length == 0) &#123; logger.warn("NO method found in service interface " + interfaceClass.getName()); map.put("methods", Constants.ANY_VALUE); &#125; else &#123; map.put("methods", StringUtils.join(new HashSet&lt;String&gt;(Arrays.asList(methods)), ",")); &#125; &#125; map.put(Constants.INTERFACE_KEY, interfaceName); appendParameters(map, application); appendParameters(map, module); appendParameters(map, consumer, Constants.DEFAULT_KEY); appendParameters(map, this); String prifix = StringUtils.getServiceKey(map); if (methods != null &amp;&amp; methods.size() &gt; 0) &#123; for (MethodConfig method : methods) &#123; appendParameters(map, method, method.getName()); String retryKey = method.getName() + ".retry"; if (map.containsKey(retryKey)) &#123; String retryValue = map.remove(retryKey); if ("false".equals(retryValue)) &#123; map.put(method.getName() + ".retries", "0"); &#125; &#125; appendAttributes(attributes, method, prifix + "." + method.getName()); checkAndConvertImplicitConfig(method, map, attributes); &#125; &#125; //attributes通过系统context进行存储. StaticContext.getSystemContext().putAll(attributes); ref = createProxy(map); &#125; createProxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个方式是init中的最后一步，创建相应的url 1.先判断是否是本地服务引用injvm 2.判断是否是点对点直连 3.判断是否是通过注册中心连接 4.然后是服务的引用]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mac切换jdk]]></title>
+    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
+    <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
+      <categories>
+        <category>other</category>
+      </categories>
+      <tags>
+        <tag>jdk</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[maven错误记录]]></title>
     <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-05%2F</url>
     <content type="text"><![CDATA[不能部署1Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.5: deploy (default-deploy) 这是在发布到私服的过程中，可能]]></content>
+      <categories>
+        <category>other</category>
+      </categories>
+      <tags>
+        <tag>jdk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[maven命令使用指南]]></title>
+    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-03%2F</url>
+    <content type="text"><![CDATA[#基本命令 编译源代码: mvn compile编译测试代码：mvn test-compile运行测试：mvn test产生site：mvn site打包：mvn package -Dmaven.test.skip=true(跳过测试) #编译jar到本地仓库 mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc]]></content>
       <categories>
         <category>other</category>
       </categories>
@@ -397,17 +463,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[maven命令使用指南]]></title>
-    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-03%2F</url>
-    <content type="text"><![CDATA[#基本命令 编译源代码: mvn compile编译测试代码：mvn test-compile运行测试：mvn test产生site：mvn site打包：mvn package -Dmaven.test.skip=true(跳过测试) #编译jar到本地仓库 mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc]]></content>
-      <categories>
-        <category>other</category>
-      </categories>
-      <tags>
-        <tag>jdk</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[idea相关问题]]></title>
     <url>%2F2017%2F01%2F01%2Fother%2F2018-01-02%2F</url>
     <content type="text"><![CDATA[Q1源发行版 1.6 需要目标发行版 1.6 setting-&gt;Compiler-&gt;Java Compiler 设置相应Module的target byte code version的合适版本就行来（搜索首选项）]]></content>
@@ -416,17 +471,6 @@
       </categories>
       <tags>
         <tag>idea</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mac切换jdk]]></title>
-    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
-    <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
-      <categories>
-        <category>other</category>
-      </categories>
-      <tags>
-        <tag>jdk</tag>
       </tags>
   </entry>
 </search>
