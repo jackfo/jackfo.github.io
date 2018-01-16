@@ -514,7 +514,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/01/01/linux/2018-01-02/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/01/01/zookeeper/2017-12-30/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -533,7 +533,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/01/linux/2018-01-02/" itemprop="url">linux卸载openJDK安装sun下jdk</a></h1>
+                <a class="post-title-link" href="/2018/01/01/zookeeper/2017-12-30/" itemprop="url">zookeeper 环境安装</a></h1>
         
 
         <div class="post-meta">
@@ -568,8 +568,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
+                    <span itemprop="name">zookeeper</span>
                   </a>
                 </span>
 
@@ -599,7 +599,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  197
+                  85
                 </span>
               
 
@@ -638,12 +638,13 @@
       
         
           
-          卸载openJDK查看相应openJDK的信息rpm -qa | grep java
-123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65
+          解压tar -zvxf  zookeeper-3.4.5.tar.gz -C /usr/local
+#配置环境变量vim /etc/profile
+12export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5export PATH=$ZOOKEEPER_HO
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/01/linux/2018-01-02/#more" rel="contents">
+            <a class="btn" href="/2018/01/01/zookeeper/2017-12-30/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1275,7 +1276,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/01/01/zookeeper/2017-12-30/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/01/01/linux/2018-01-02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -1294,7 +1295,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/01/zookeeper/2017-12-30/" itemprop="url">zookeeper 环境安装</a></h1>
+                <a class="post-title-link" href="/2018/01/01/linux/2018-01-02/" itemprop="url">linux卸载openJDK安装sun下jdk</a></h1>
         
 
         <div class="post-meta">
@@ -1329,8 +1330,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -1360,7 +1361,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  85
+                  197
                 </span>
               
 
@@ -1399,13 +1400,12 @@
       
         
           
-          解压tar -zvxf  zookeeper-3.4.5.tar.gz -C /usr/local
-#配置环境变量vim /etc/profile
-12export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5export PATH=$ZOOKEEPER_HO
+          卸载openJDK查看相应openJDK的信息rpm -qa | grep java
+123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/01/zookeeper/2017-12-30/#more" rel="contents">
+            <a class="btn" href="/2018/01/01/linux/2018-01-02/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -2255,7 +2255,7 @@ vi /etc/sysconfig/network-scripts/ifcfg-eth0
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">56</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
