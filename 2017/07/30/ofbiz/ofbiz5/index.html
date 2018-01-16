@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 1px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OFBiz," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta name="keywords" content="OFBiz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ofbiz实体引擎(五) ModelGroupReader">
+<meta property="og:url" content="www.cfad.tech/2017/07/30/ofbiz/ofbiz5/index.html">
+<meta property="og:site_name" content="敏而好学,乐以忘忧">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-01-16T13:50:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ofbiz实体引擎(五) ModelGroupReader">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.cfad.tech/2017/07/30/ofbiz/ofbiz5/"/>
+
+
+
+
+
+  <title>ofbiz实体引擎(五) ModelGroupReader | 敏而好学,乐以忘忧</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+        <a href="https://github.com/jackfo" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">敏而好学,乐以忘忧</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/07/30/ofbiz/ofbiz5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cfs">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/dl.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="敏而好学,乐以忘忧">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ofbiz实体引擎(五) ModelGroupReader</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-30T22:36:14+08:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OFBiz/" itemprop="url" rel="index">
+                    <span itemprop="name">OFBiz</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1,662
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ModelGroupReader</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String <span class="keyword">module</span> = ModelGroupReader.class.getName();</span><br><span class="line">    <span class="comment">//缓存所有ModelGroupReader,其k是entity-group-reader属性值</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> UtilCache&lt;String, ModelGroupReader&gt; readers = UtilCache.createUtilCache(<span class="string">"entity.ModelGroupReader"</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, String&gt; groupCache = <span class="keyword">null</span>;<span class="comment">//以entityName为k groupName为v</span></span><br><span class="line">    <span class="keyword">private</span> Set&lt;String&gt; groupNames = <span class="keyword">null</span>;<span class="comment">//delegator所有的组名</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String modelName;<span class="comment">//entity-group-reader属性值</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;ResourceHandler&gt; entityGroupResourceHandlers = <span class="keyword">new</span> LinkedList&lt;ResourceHandler&gt;();<span class="comment">//存放像entity-resource这样标签实例</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> 郑小康</span></span><br><span class="line"><span class="comment">     * 1.获取当前delegatorName的delegator标签的DelegatorElement实例</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 2.获取delegator的entity-group-reader属性值</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 3.根据属性值获取ModelGroupReader</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 4.如果没有获取到根据delegatorName和entity-group-reader属性值构造一个ModelGroupReader实例,具体过程就在本类中</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ModelGroupReader <span class="title">getModelGroupReader</span><span class="params">(String delegatorName)</span> <span class="keyword">throws</span> GenericEntityConfException </span>&#123;</span><br><span class="line">        DelegatorElement delegatorInfo = EntityConfig.getInstance().getDelegator(delegatorName);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (delegatorInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> GenericEntityConfException(<span class="string">"不能发现叫做"</span> + delegatorName+<span class="string">"的delegator"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String tempModelName = delegatorInfo.getEntityGroupReader();</span><br><span class="line">        ModelGroupReader reader = readers.get(tempModelName);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (reader == <span class="keyword">null</span>) &#123;</span><br><span class="line">            reader = readers.putIfAbsentAndGet(tempModelName, <span class="keyword">new</span> ModelGroupReader(delegatorName, tempModelName));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> reader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> 郑小康</span></span><br><span class="line"><span class="comment">     * 1. 赋值entity-group-reader的属性值</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 2. 根据entity-group-reader的属性值获取其对应的EntityGroupReader实例,如果为空就抛出异常</span></span><br><span class="line"><span class="comment">     *    原因:其获取的是EntityConfig实例的中的属性,EntityGroupReader是在EntityConfig实例化是加载的属性标签的对象,所以没有是肯定有问题的</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 3. 添加entityngine.xml中的句柄属性标签MainResourceHandler实例</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 4. 获取component.xml文件中entity-resource标签类型为group,根据与entity-group-reader的属性值对应reader-name构建ComponentResourceHandler实例添加到entityGroupResourceHandlers这个集合</span></span><br><span class="line"><span class="comment">     *    作用是通过这个属性在对应文件中entityName所在的组,后续将其放入到对应的组中，与具体的数据源关联</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 5. 获取delegator中与entity-group-reader的属性值对应的entity-resource中reader-name相同的标签实例</span></span><br><span class="line"><span class="comment">     *    根据entity-resource的路径获取文件下所有entity-group实例,将其以entityName为k,groupNam为v存入到具体的groupCache中</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ModelGroupReader</span><span class="params">(String delegatorName, String modelName)</span> <span class="keyword">throws</span> GenericEntityConfException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.modelName = modelName;</span><br><span class="line">        EntityGroupReader entityGroupReaderInfo = EntityConfig.getInstance().getEntityGroupReader(modelName);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (entityGroupReaderInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> GenericEntityConfException(<span class="string">"Cound not find an entity-group-reader with the name "</span> + modelName);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Resource resourceElement: entityGroupReaderInfo.getResourceList()) &#123;</span><br><span class="line">            <span class="keyword">this</span>.entityGroupResourceHandlers.add(<span class="keyword">new</span> MainResourceHandler(EntityConfig.ENTITY_ENGINE_XML_FILENAME, resourceElement.getLoader(), resourceElement.getLocation()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// get all of the component resource group stuff, ie specified in each fadp-component.xml file</span></span><br><span class="line">        <span class="keyword">for</span> (ComponentConfig.EntityResourceInfo componentResourceInfo: ComponentConfig.getAllEntityResourceInfos(<span class="string">"group"</span>)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (modelName.equals(componentResourceInfo.readerName)) &#123;</span><br><span class="line">                <span class="keyword">this</span>.entityGroupResourceHandlers.add(componentResourceInfo.createResourceHandler());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// preload caches...</span></span><br><span class="line">        getGroupCache(delegatorName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> 郑小康</span></span><br><span class="line"><span class="comment">     * 如果groupCache为空则将当前delegator下,如果不为空才进行下面的操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 1.构建对应的groupCache和groupNames</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 2.加载所有资源句柄文件</span></span><br><span class="line"><span class="comment">     *   即根据与当前entity-group-reader的属性值相同的entity-resource中reader-name的entity-resource标签</span></span><br><span class="line"><span class="comment">     *   根据entity-resource的路径获取文件下所有entity-group实例,将其以entityName为k,groupNam为v存入到具体的groupCache中</span></span><br><span class="line"><span class="comment">     *   以entityName为k groupName为v 这样做的作用就是像getEntityGroupName等方法可以根据实体名获取对应的组名</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">getGroupCache</span><span class="params">(String delegatorName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.groupCache == <span class="keyword">null</span>) &#123; <span class="comment">// don't want to block here</span></span><br><span class="line">            <span class="keyword">synchronized</span> (ModelGroupReader.class) &#123;</span><br><span class="line">                <span class="comment">//再次检查groupCache是否为空,避免其它线程创建</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>.groupCache == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="comment">//构造groupCache这个hashMap 和groupNames这个TreeSet</span></span><br><span class="line">                    <span class="keyword">this</span>.groupCache = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">                    <span class="keyword">this</span>.groupNames = <span class="keyword">new</span> TreeSet&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//做一些时间的通知</span></span><br><span class="line">                    UtilTimer utilTimer = <span class="keyword">new</span> UtilTimer();</span><br><span class="line">                    utilTimer.timerString(<span class="string">"[ModelGroupReader.getGroupCache] Before getDocument"</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">                    <span class="comment">//遍历所有entity-resource标签对应ComponentResourceHandler实例</span></span><br><span class="line">                    <span class="keyword">for</span> (ResourceHandler entityGroupResourceHandler: <span class="keyword">this</span>.entityGroupResourceHandlers) &#123;</span><br><span class="line">                        Document document = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            <span class="comment">//解析为文档元素</span></span><br><span class="line">                            document = entityGroupResourceHandler.getDocument();</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (GenericConfigException e) &#123;</span><br><span class="line">                            Debug.logError(e, <span class="string">"Error loading entity group model"</span>, <span class="keyword">module</span>);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="comment">//如果document为空,缓存置为空,并且返回</span></span><br><span class="line">                        <span class="keyword">if</span> (document == <span class="keyword">null</span>) &#123;</span><br><span class="line">                            <span class="keyword">this</span>.groupCache = <span class="keyword">null</span>;</span><br><span class="line">                            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="comment">// utilTimer.timerString("[ModelGroupReader.getGroupCache] Before getDocumentElement");</span></span><br><span class="line">                        Element docElement = document.getDocumentElement();</span><br><span class="line">                        <span class="keyword">if</span> (docElement == <span class="keyword">null</span>) &#123;</span><br><span class="line">                            <span class="keyword">continue</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">//移除空的文本节点</span></span><br><span class="line">                        docElement.normalize();</span><br><span class="line"></span><br><span class="line">                        <span class="comment">//以获取首个节点,而后进行遍历,处理所有entity-group节点将其组名加到groupNames这个集合,并以entityName为k,groupName为v存到对应groupCache中</span></span><br><span class="line">                        <span class="comment">//注意有一个检查,检查是否具有entityengine.xml对应的group-map的实例,如果没有加载就没有任何意义</span></span><br><span class="line">                        Node curChild = docElement.getFirstChild();</span><br><span class="line">                        <span class="keyword">if</span> (curChild != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            utilTimer.timerString(<span class="string">"[ModelGroupReader.getGroupCache] Before start of entity loop"</span>);</span><br><span class="line">                            <span class="keyword">do</span> &#123;</span><br><span class="line">                                <span class="keyword">if</span> (curChild.getNodeType() == Node.ELEMENT_NODE &amp;&amp; <span class="string">"entity-group"</span>.equals(curChild.getNodeName())) &#123;</span><br><span class="line">                                    Element curEntity = (Element) curChild;</span><br><span class="line">                                    String entityName = UtilXml.checkEmpty(curEntity.getAttribute(<span class="string">"entity"</span>)).intern();</span><br><span class="line">                                    String groupName = UtilXml.checkEmpty(curEntity.getAttribute(<span class="string">"group"</span>)).intern();</span><br><span class="line"></span><br><span class="line">                                    <span class="keyword">if</span> (groupName == <span class="keyword">null</span> || entityName == <span class="keyword">null</span>) <span class="keyword">continue</span>;</span><br><span class="line">                                    <span class="keyword">try</span> &#123;</span><br><span class="line">                                        <span class="keyword">if</span> (<span class="keyword">null</span> == EntityConfig.getInstance().getDelegator(delegatorName).getGroupDataSource(groupName)) &#123;</span><br><span class="line">                                            Debug.logError(<span class="string">"The declared group name "</span> + groupName + <span class="string">" has no corresponding group-map in entityengine.xml: "</span>, <span class="keyword">module</span>);</span><br><span class="line">                                        &#125;</span><br><span class="line">                                    &#125; <span class="keyword">catch</span> (GenericEntityConfException e) &#123;</span><br><span class="line">                                        Debug.logWarning(e, <span class="string">"Exception thrown while getting group name: "</span>, <span class="keyword">module</span>);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                    <span class="keyword">this</span>.groupNames.add(groupName);</span><br><span class="line">                                    <span class="keyword">this</span>.groupCache.put(entityName, groupName);</span><br><span class="line"></span><br><span class="line">                                    i++;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125; <span class="keyword">while</span> ((curChild = curChild.getNextSibling()) != <span class="keyword">null</span>);</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            Debug.logWarning(<span class="string">"[ModelGroupReader.getGroupCache] No child nodes found."</span>, <span class="keyword">module</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    utilTimer.timerString(<span class="string">"[ModelGroupReader.getGroupCache] FINISHED - Total Entity-Groups: "</span> + i + <span class="string">" FINISHED"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.groupCache;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> 郑小康</span></span><br><span class="line"><span class="comment">     * 方法作用:根据entityName和delegatorBaseName获取其对应的组名</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 1.根据方法获取groupCache</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 2.根据entityName获取组名</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 3.如果组名为空,获取delegator标签实体，获取其默认组名</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 4.返回组名</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getEntityGroupName</span><span class="params">(String entityName, String delegatorBaseName)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, String&gt; gc = getGroupCache(delegatorBaseName);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (gc != <span class="keyword">null</span>) &#123;</span><br><span class="line">            String groupName = gc.get(entityName);</span><br><span class="line">            <span class="keyword">if</span> (groupName == <span class="keyword">null</span>) &#123;</span><br><span class="line">                DelegatorElement delegatorInfo = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    delegatorInfo = EntityConfig.getInstance().getDelegator(delegatorBaseName);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (GenericEntityConfException e) &#123;</span><br><span class="line">                    Debug.logWarning(e, <span class="string">"Exception thrown while getting delegator config: "</span>, <span class="keyword">module</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (delegatorInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Could not find DelegatorInfo for delegatorBaseName ["</span> + delegatorBaseName + <span class="string">"]"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                groupName = delegatorInfo.getDefaultGroupName();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> groupName;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> 郑小康</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 1.确保delegatorName是默认的delegatorName</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 2.调用getGroupCache方法的作用确保将对应的groupCache给加载到类属性</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 3.根据delegator的default-group-name获取所有其下面默认group-name标签实例的name,将其添加到一个HashSet集合</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 4.向该集合中添加已经通过getGroupCache方法加载的存放过entityName的groupNames集合</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;String&gt; <span class="title">getGroupNames</span><span class="params">(String delegatorBaseName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (delegatorBaseName.indexOf(<span class="string">'#'</span>) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            delegatorBaseName = delegatorBaseName.substring(<span class="number">0</span>, delegatorBaseName.indexOf(<span class="string">'#'</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        getGroupCache(delegatorBaseName);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.groupNames == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        Set&lt;String&gt; newSet = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            newSet.add(EntityConfig.getInstance().getDelegator(delegatorBaseName).getDefaultGroupName());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (GenericEntityConfException e) &#123;</span><br><span class="line">            Debug.logWarning(e, <span class="string">"Exception thrown while getting delegator config: "</span>, <span class="keyword">module</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        newSet.addAll(<span class="keyword">this</span>.groupNames);</span><br><span class="line">        <span class="keyword">return</span> newSet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> 郑小康</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 1.构造一个Set根据delegatorBaseName和groupName,向该set注入该组里面所有的实体名</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 2.遍历groupCache,将组名相同的entityName添加到enames这个HashSet</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 3.返回对应的enames</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;String&gt; <span class="title">getEntityNamesByGroup</span><span class="params">(String delegatorBaseName, String groupName)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, String&gt; gc = getGroupCache(delegatorBaseName);</span><br><span class="line">        Set&lt;String&gt; enames = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (groupName == <span class="keyword">null</span> || groupName.length() &lt;= <span class="number">0</span>) <span class="keyword">return</span> enames;</span><br><span class="line">        <span class="keyword">if</span> (UtilValidate.isEmpty(gc)) <span class="keyword">return</span> enames;</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry: gc.entrySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (groupName.equals(entry.getValue())) enames.add(entry.getKey());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> enames;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------Thank you for your reading-------------</div>
+    
+</div>
+
+      
+    </div>
+
+    <div>
+          
+            
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/07/30/ofbiz/ofbiz5/">ofbiz实体引擎(五) ModelGroupReader</a></p>
+  <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
+  <p><span>发布时间:</span>2017年07月30日 - 22:07</p>
+  <p><span>最后更新:</span>2018年01月16日 - 21:01</p>
+  <p><span>原始链接:</span><a href="/2017/07/30/ofbiz/ofbiz5/" title="ofbiz实体引擎(五) ModelGroupReader">www.cfad.tech/2017/07/30/ofbiz/ofbiz5/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/07/30/ofbiz/ofbiz5/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+	clipboard.on('success', $(function(){
+	  $(".fa-clipboard").click(function(){
+		swal({
+		  title: "",
+		  text: '复制成功',
+		  html: false,
+		  timer: 500,
+		  showConfirmButton: false
+	    });
+	  });
+    }));
+</script>
+
+
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OFBiz/" rel="tag"># OFBiz</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/30/ofbiz/ofbiz4/" rel="next" title="ofbiz实体引擎(四) ModelReader的作用">
+                <i class="fa fa-chevron-left"></i> ofbiz实体引擎(四) ModelReader的作用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/30/ofbiz/ofbiz6/" rel="prev" title="ofbiz实体引擎(六) GenericHelper的初始化创建">
+                ofbiz实体引擎(六) GenericHelper的初始化创建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/dl.jpg"
+                alt="cfs" />
+            
+              <p class="site-author-name" itemprop="name">cfs</p>
+              <p class="site-description motion-element" itemprop="description">help others, happy myself</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/jackfo" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qq_32541407" target="_blank" title="csdn">
+                    
+                      <i class="fa fa-fw fa-sticky-note-o"></i>csdn</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="zheng.xiaokang@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-at"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/u010349169/article/category/2620885" title="JVM虚拟机原理" target="_blank">JVM虚拟机原理</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://zcheng.ren/archives/" title="Redis" target="_blank">Redis</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cfs</span>
+<span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+  
+</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+
+</body>
+</html>
