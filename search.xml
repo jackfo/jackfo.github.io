@@ -23,9 +23,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[SQLite网址大全]]></title>
-    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14-1%2F</url>
-    <content type="text"><![CDATA[SQLite API手册http://www.yfvb.com/help/sqlite3/ SQLite源码分析http://huili.github.io/sqlite/sqliteintro.html]]></content>
+    <title><![CDATA[SQLite简介]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-13%2F</url>
+    <content type="text"><![CDATA[SQLite的组成 parser tokenize virtual machine SQLite的数据结构 Connections和Statements&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表在一个独立的事务环境下的一个连接A (connection represents a single connection to a database as well as a single transaction context)。每一个statement都和一个connection关联，它通常表示一个编译过的SQL语句，在内部，它以VDBE字节码表示。Statement包括执行一个命令所需要一切，包括保存VDBE程序执行状态所需的资源，指向硬盘记录的B-树游标，以及参数等等 B-tree和pager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个connection可以有多个database对象—一个主要的数据库以及附加的数据库，每一个数据库对象有一个B-tree对象，一个B-tree有一个pager对象(这里的对象不是面向对象的“对象”，只是为了说清楚问题)。 Statement最终都是通过connection的B-tree和pager从数据库读或者写数据，通过B-tree的游标(cursor)遍历存储在页面(page)中的记录。游标在访问页面之前要把数所从disk加载到内存，而这就是pager的任务。任何时候，如果B-tree需要页面，它都会请求pager从disk读取数据，然后把页面(page)加载到页面缓冲区(page cache)，之后，B-tree和与之关联的游标就可以访问位于page中的记录了。 如果cursor改变了page，为了防止事务回滚，pager必须采取特殊的方式保存原来的page。总的来说，pager负责读写数据库，管理内存缓存和页面（page），以及管理事务，锁和崩溃恢复(这些在事务一节会详细介绍)。 总之，关于connection和transaction，你必须知道两件事： (1)对数据库的任何操作，一个连接存在于一个事务下。 (2)一个连接决不会同时存在多个事务下。]]></content>
       <categories>
         <category>SQLite</category>
       </categories>
@@ -45,9 +45,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[SQLite简介]]></title>
-    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-13%2F</url>
-    <content type="text"><![CDATA[SQLite的组成 parser tokenize virtual machine SQLite的数据结构 Connections和Statements&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表在一个独立的事务环境下的一个连接A (connection represents a single connection to a database as well as a single transaction context)。每一个statement都和一个connection关联，它通常表示一个编译过的SQL语句，在内部，它以VDBE字节码表示。Statement包括执行一个命令所需要一切，包括保存VDBE程序执行状态所需的资源，指向硬盘记录的B-树游标，以及参数等等 B-tree和pager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个connection可以有多个database对象—一个主要的数据库以及附加的数据库，每一个数据库对象有一个B-tree对象，一个B-tree有一个pager对象(这里的对象不是面向对象的“对象”，只是为了说清楚问题)。 Statement最终都是通过connection的B-tree和pager从数据库读或者写数据，通过B-tree的游标(cursor)遍历存储在页面(page)中的记录。游标在访问页面之前要把数所从disk加载到内存，而这就是pager的任务。任何时候，如果B-tree需要页面，它都会请求pager从disk读取数据，然后把页面(page)加载到页面缓冲区(page cache)，之后，B-tree和与之关联的游标就可以访问位于page中的记录了。 如果cursor改变了page，为了防止事务回滚，pager必须采取特殊的方式保存原来的page。总的来说，pager负责读写数据库，管理内存缓存和页面（page），以及管理事务，锁和崩溃恢复(这些在事务一节会详细介绍)。 总之，关于connection和transaction，你必须知道两件事： (1)对数据库的任何操作，一个连接存在于一个事务下。 (2)一个连接决不会同时存在多个事务下。]]></content>
+    <title><![CDATA[SQLite网址大全]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14-1%2F</url>
+    <content type="text"><![CDATA[SQLite API手册http://www.yfvb.com/help/sqlite3/ SQLite源码分析http://huili.github.io/sqlite/sqliteintro.html]]></content>
       <categories>
         <category>SQLite</category>
       </categories>
@@ -144,6 +144,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[VMware Fusion实现虚拟机拷贝]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-2%2F</url>
+    <content type="text"><![CDATA[参考链接:http://www.linuxidc.com/Linux/2017-06/144720.htm #拷贝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击需要拷贝的文件,然后进行复制-粘贴,如下: #打开&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;打开相应的虚拟机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击已拷贝 #修改hostname vi /etc/sysconfig/network 将”HOSTNAME=”后的内容改成机器名，比如centos.04，保存退出 vi /etc/hosts 在最后添加一行 127.0.0.1 centos.04，保存退出 如果要马上生效，可再输入hostname centos.04，否则要重启才能生效 shutdown -h now关机 注意最好执行这个命令，下面生成mac地址需要关机 #给新虚拟机的网卡，生成一个新mac地址在设置里面点击网络适配器生成一个新的mac地址 #修改网卡信息 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/udev/rules.d/70-persistent-net.rules&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编辑这个文件，它记录了当前机器上的所有网卡信息根据刚才新生成的mac地址，找到对应的行，把网卡名称改成 eth0，其它的全删除 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/sysconfig/network-scripts/ifcfg-eth0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;把uuid随便改一个数字，保证它跟原来的系统不同即可，然后把HWADDR改成新生成的mac地址，保存退出]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[zookeeper 环境安装]]></title>
     <url>%2F2018%2F01%2F01%2Fzookeeper%2F2017-12-30%2F</url>
     <content type="text"><![CDATA[解压tar -zvxf zookeeper-3.4.5.tar.gz -C /usr/local #配置环境变量vim /etc/profile 12export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5export PATH=$ZOOKEEPER_HOME/bin:$PATH source /etc/profile #修改配置文件 相对路径:/ZOOKEEPER_HOME/conf/zoo.cfg 修改 1.datadir=/ZOOKEEPER_HOME/data 2.server0=ip地址。。。。。。 ZOOKEEPER_HOME下面创建data文件并创建脚本文件myid #启动 1zkServer.sh start]]></content>
@@ -166,17 +177,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[虚拟机vm-tools安装]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-1%2F</url>
-    <content type="text"><![CDATA[虚拟机vm-tools安装##centos下 ###点击vm fusion下安装VMware Tools ###解压 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在点击上面安装之后会出现一个CD文件，里面存在VmwareTools-10* 的包 这是一个tar.gz的压缩包，现在我们通过tar -zxvf 文件名tar.gz来进行解压（可以自行存放位置） ###安装 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转到上面解压文件的目录vmware-tools-distrib 下，运行./vmware-install.pl 在安装的过程中不断点击enter 直到安装完成，之后调用reboot重新启动就完成了]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
     <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
     <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
@@ -188,9 +188,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[VMware Fusion实现虚拟机拷贝]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-2%2F</url>
-    <content type="text"><![CDATA[参考链接:http://www.linuxidc.com/Linux/2017-06/144720.htm #拷贝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击需要拷贝的文件,然后进行复制-粘贴,如下: #打开&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;打开相应的虚拟机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击已拷贝 #修改hostname vi /etc/sysconfig/network 将”HOSTNAME=”后的内容改成机器名，比如centos.04，保存退出 vi /etc/hosts 在最后添加一行 127.0.0.1 centos.04，保存退出 如果要马上生效，可再输入hostname centos.04，否则要重启才能生效 shutdown -h now关机 注意最好执行这个命令，下面生成mac地址需要关机 #给新虚拟机的网卡，生成一个新mac地址在设置里面点击网络适配器生成一个新的mac地址 #修改网卡信息 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/udev/rules.d/70-persistent-net.rules&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编辑这个文件，它记录了当前机器上的所有网卡信息根据刚才新生成的mac地址，找到对应的行，把网卡名称改成 eth0，其它的全删除 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/sysconfig/network-scripts/ifcfg-eth0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;把uuid随便改一个数字，保证它跟原来的系统不同即可，然后把HWADDR改成新生成的mac地址，保存退出]]></content>
+    <title><![CDATA[虚拟机vm-tools安装]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-1%2F</url>
+    <content type="text"><![CDATA[虚拟机vm-tools安装##centos下 ###点击vm fusion下安装VMware Tools ###解压 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在点击上面安装之后会出现一个CD文件，里面存在VmwareTools-10* 的包 这是一个tar.gz的压缩包，现在我们通过tar -zxvf 文件名tar.gz来进行解压（可以自行存放位置） ###安装 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转到上面解压文件的目录vmware-tools-distrib 下，运行./vmware-install.pl 在安装的过程中不断点击enter 直到安装完成，之后调用reboot重新启动就完成了]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -232,17 +232,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[PriorityQueue]]></title>
-    <url>%2F2017%2F12%2F12%2FJdk%2FPriorityQueue%2F</url>
-    <content type="text"><![CDATA[The introduce of PriorityQueue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural ordering, or by a Comparator provided at queue construction time, depending on which constructor is used. A priority queue does not permit null elements. A priority queue relying on natural ordering also does not permit insertion of non-comparable objects #The family of PriorityQueue #The structure of PriorityQueue #The method of PriorityQueue]]></content>
-      <categories>
-        <category>jdk</category>
-      </categories>
-      <tags>
-        <tag>jdk</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[A example of Netty]]></title>
     <url>%2F2017%2F12%2F12%2Fnetty%2Fnetty1%2F</url>
     <content type="text"><![CDATA[The introduce of Netty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; we often use an HTTP client library to retrieve information from a web server and to invoke a remote procedure call via web services. Netty is an NIO client server framework which enables quick and easy development of network applications such as protocol servers and clients. It greatly simplifies and streamlines network programming such as TCP and UDP socket server development. A example of NettyThe Main class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, we introduce a simple process for a netty service. At first, we create multithreaded event loop that handles I/O operation and add them into corresponding server and add corresponding channel to transmit message. In this channel, we will create corresponding handle to receive the message, In this process, some handle can encode or decode the message. In the end, it will wait the message from client. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113public class DiscardServer &#123; private int port; public DiscardServer(int port) &#123; this.port = port; &#125; public void run() throws Exception &#123; //bossGroup will accept an incoming connection EventLoopGroup bossGroup = new NioEventLoopGroup(); //workerGroup handles the traffic of the accepted connection once the bossGroup accepts the connection //and registers the accepted the connection to the worker EventLoopGroup workerGroup = new NioEventLoopGroup(); try &#123; //ServerBootstrap is a helper class that sets up a server. you can set up the server using channel ServerBootstrap serverBootstrap = new ServerBootstrap(); //we specify to use the NioServerSocketChannel class which is used to a new channel to accept incoming connection serverBootstrap.group(bossGroup, workerGroup) .channel(NioServerSocketChannel.class) //the handler specified here will always be evaluated by a newly channel //The ChannelInitializer's purpose is to help user configure a new channel and add some handler which can implement network application .childHandler(new ChannelInitializer&lt;SocketChannel&gt;() &#123; @Override public void initChannel(SocketChannel ch) throws Exception &#123; ch.pipeline().addLast(new DiscardServerHandler()); &#125; &#125;) //you can set some socket option by this way //option() is for the NioServerSocketChannel that accepts incoming connections. //childOption() is for the Channels accepted by the parent ServerChannel, which is NioServerSocketChannel in this case. .option(ChannelOption.SO_BACKLOG, 128) .childOption(ChannelOption.SO_KEEPALIVE, true); // Bind and start to accept incoming connections. ChannelFuture f = serverBootstrap.bind(port).sync(); System.out.println("before closeFuture.."); // Wait until the server socket is closed. // In this example, this does not happen, but you can do that to gracefully // shut down your server. f.channel().closeFuture().sync(); System.out.println("after closeFuture.."); &#125; finally &#123; workerGroup.shutdownGracefully(); bossGroup.shutdownGracefully(); &#125; &#125; public static void main(String[] args) throws Exception &#123; int port; if (args.length &gt; 0) &#123; port = Integer.parseInt(args[0]); &#125; else &#123; port = 8080; &#125; new DiscardServer(port).run(); &#125;&#125;``` ## The corresponding handle &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; In this handle, we override the channelRead method from the interface of ChannelInboundHandler to receive the message and do some operation. ```java/*** * * ChannelInboundHandlerAdapter is a implementation for ChannelHandlerAdapter (abstract class) and ChannelInboundHandler(interface) * ChannelInboundHandler provides various event handler methods that you can override * For now, it is just enough to extend ChannelInboundHandlerAdapter rather than to implement the handler interface by yourself. * */public class DiscardServerHandler extends ChannelInboundHandlerAdapter &#123; /** * we override the channelRead method from the interface of ChannelInboundHandler * Invoked when the current channel has read a message from the peer. * * @param ctx this variable provide various operations that enable you to trigger various I/O operations and event * @param msg receive the message from channel * */ @Override public void channelRead(ChannelHandlerContext ctx, Object msg) &#123; ByteBuf in = (ByteBuf) msg; char temp ; try &#123; ctx.write("you message:"); while (in.isReadable()) &#123; temp = (char)in.readByte(); System.out.print(temp); ctx.write(temp); System.out.flush(); &#125; ctx.flush(); &#125; finally &#123; ReferenceCountUtil.release(msg); &#125; &#125; /** * The exceptionCaught() event handler method s called with a Throwable * when an exception was raised by Netty due to an I/O error or by a handler implementation due to the exception thrown while processing events * */ @Override public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) &#123; // Close the connection when an exception is raised. System.out.println("channelRead..."); cause.printStackTrace(); ctx.close(); &#125;&#125; ##The result of this example]]></content>
@@ -254,14 +243,25 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux基本指令]]></title>
-    <url>%2F2017%2F12%2F11%2Flinux%2F2018-01-01%2F</url>
-    <content type="text"><![CDATA[解压1tar -zxvf 文件名 移动文件移动命令mv 命令格式：mv [-fiv] source destination 参数说明： -f:force，强制直接移动而不询问 -i:若目标文件(destination)已经存在，就会询问是否覆盖 -u:若目标文件已经存在，且源文件比较新，才会更新 如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令： mv /test1/file1 /test3/file2 重命名关机poweroff 立刻关机shutdown -h now 立刻关机shutdown -h 10 10分钟后自动关机 关闭防火墙关闭命令： service iptables stop永久关闭防火墙：chkconfig iptables off永久关闭需要两条语句都运行 关闭端口1lsof -i:]]></content>
+    <title><![CDATA[PriorityQueue]]></title>
+    <url>%2F2017%2F12%2F12%2FJdk%2FPriorityQueue%2F</url>
+    <content type="text"><![CDATA[The introduce of PriorityQueue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural ordering, or by a Comparator provided at queue construction time, depending on which constructor is used. A priority queue does not permit null elements. A priority queue relying on natural ordering also does not permit insertion of non-comparable objects #The family of PriorityQueue #The structure of PriorityQueue #The method of PriorityQueue]]></content>
       <categories>
-        <category>linux</category>
+        <category>jdk</category>
       </categories>
       <tags>
-        <tag>centos</tag>
+        <tag>jdk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java NIO Selector]]></title>
+    <url>%2F2017%2F12%2F11%2FNIO%2Fnio4%2F</url>
+    <content type="text"><![CDATA[#The Selector, SelectableChannel, and SelectionKey Classes Selector&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready. ##]]></content>
+      <categories>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>NIO</tag>
       </tags>
   </entry>
   <entry>
@@ -276,14 +276,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[java NIO Selector]]></title>
-    <url>%2F2017%2F12%2F11%2FNIO%2Fnio4%2F</url>
-    <content type="text"><![CDATA[#The Selector, SelectableChannel, and SelectionKey Classes Selector&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready. ##]]></content>
+    <title><![CDATA[linux基本指令]]></title>
+    <url>%2F2017%2F12%2F11%2Flinux%2F2018-01-01%2F</url>
+    <content type="text"><![CDATA[解压1tar -zxvf 文件名 移动文件移动命令mv 命令格式：mv [-fiv] source destination 参数说明： -f:force，强制直接移动而不询问 -i:若目标文件(destination)已经存在，就会询问是否覆盖 -u:若目标文件已经存在，且源文件比较新，才会更新 如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令： mv /test1/file1 /test3/file2 重命名关机poweroff 立刻关机shutdown -h now 立刻关机shutdown -h 10 10分钟后自动关机 关闭防火墙关闭命令： service iptables stop永久关闭防火墙：chkconfig iptables off永久关闭需要两条语句都运行 关闭端口1lsof -i:]]></content>
       <categories>
-        <category>NIO</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>NIO</tag>
+        <tag>centos</tag>
       </tags>
   </entry>
   <entry>
@@ -386,9 +386,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[ofbiz实体引擎(二) delegator实例化具体方式]]></title>
-    <url>%2F2017%2F07%2F30%2Fofbiz%2Fofbiz2%2F</url>
-    <content type="text"><![CDATA[123456789101112131415/** * @author 郑小康 * 采用spi创建对应实例DelegatorFactoryImpl * */ public static &lt;A, R&gt; R getObjectFromFactory(Class&lt;? extends Factory&lt;R, A&gt;&gt; factoryInterface, A obj) throws ClassNotFoundException &#123; Iterator&lt;? extends Factory&lt;R, A&gt;&gt; it = ServiceLoader.load(factoryInterface).iterator(); while (it.hasNext()) &#123; Factory&lt;R, A&gt; factory = it.next(); R instance = factory.getInstance(obj); if (instance != null) &#123; return instance; &#125; &#125; throw new ClassNotFoundException(factoryInterface.getClass().getName()); &#125; 注：上下代码不是在一个类 1234567891011121314151617181920 /** * @author 郑小康 * 根据delegatorName创建一个GenericDelegator * 所以实际delegator引用的是一个GenericDelegator实例 * */public class DelegatorFactoryImpl extends DelegatorFactory &#123; public static final String module = DelegatorFactoryImpl.class.getName(); public Delegator getInstance(String delegatorName) &#123; if (Debug.infoOn()) Debug.logInfo("Creating new delegator [" + delegatorName + "] (" + Thread.currentThread().getName() + ")", module); //Debug.logInfo(new Exception(), "Showing stack where new delegator is being created...", module); try &#123; return new GenericDelegator(delegatorName); &#125; catch (GenericEntityException e) &#123; Debug.logError(e, "Error creating delegator", module); return null; &#125; &#125;&#125;]]></content>
+    <title><![CDATA[ofbiz实体引擎(三) GenericDelegator实例化的具体过程]]></title>
+    <url>%2F2017%2F07%2F30%2Fofbiz%2Fofbiz3%2F</url>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182/** * @author 郑小康 * 1.设置delegatorFullName 基本delegatorName+"#"+tenantId 如果tenantId为空 则就是默认的delegatorName * * 2.获取EntityConfig实例,并获取基本delegatorBaseName的delegator标签,并解析为对应的DelegatorElement实例 * &lt;delegator name="default" entity-model-reader="main" entity-group-reader="main"&gt;&lt;/delegator&gt; * * 3.判断delegatorTenantId是否为空,这是租户id * 第一种情况租户id不为空:获取默认的Delegator,用delegator查询Tenant表中当前tenantId的对应GenericValue * :获取对应租户的kekText FIXME:暂时未应用 网上搜索说对数据库连接密码进行解密的操作 * 第二种情况租户id为空 :获取delegator标签实例的key-encrypting-key * * 4.获取ModelReader 检查了实体缓存之类的操作,获取所有ModelEntity * * 5.获取所有ModelGroupReader * 该类的主要操作是构造对应groupCache缓存,将entity-name为k,groupName为v这样存放,并提供一些获取方法,如获取所有组名,根据实体名获取组名 * * 6.缓存当前delegatorFullName * * 7.对实体进行检查 有检查组里面是否有对应实体 实体名是否是保留字 建立视图一个字段是否被引用多次 * * 8.获取组名集合 * * 9.遍历delegaot组,通过ThreadPoolExecutor线程池提交Future中任务,对每个组的实体创建到其组对应数据源的数据库 * 调用Future的原因是,是因为建表很耗时间,所以采用异步执行 * * */ protected GenericDelegator(String delegatorFullName) throws GenericEntityException &#123; this.setDelegatorNames(delegatorFullName); //获取基本的delegator中的信息 this.delegatorInfo = EntityConfig.getInstance().getDelegator(delegatorBaseName); String kekText; // before continuing, if there is a tenantId use the base delegator to see if it is valid if (UtilValidate.isNotEmpty(this.delegatorTenantId)) &#123; Delegator baseDelegator = DelegatorFactory.getDelegator(this.delegatorBaseName); GenericValue tenant = EntityQuery.use(baseDelegator).from("Tenant").where("tenantId", this.delegatorTenantId).cache(true).queryOne(); if (tenant == null) &#123; throw new GenericEntityException("No Tenant record found for delegator [" + this.delegatorFullName + "] with tenantId [" + this.delegatorTenantId + "]"); &#125; else if ("Y".equals(tenant.getString("disabled"))) &#123; throw new GenericEntityException("No Tenant record found for delegator [" + this.delegatorFullName + "] with tenantId [" + this.delegatorTenantId + "]"); &#125; GenericValue kekValue = EntityQuery.use(baseDelegator).from("TenantKeyEncryptingKey").where("tenantId", getDelegatorTenantId()).cache(true).queryOne(); if (kekValue != null) &#123; kekText = kekValue.getString("kekText"); &#125; else &#123; kekText = this.delegatorInfo.getKeyEncryptingKey(); &#125; &#125; else &#123; kekText = this.delegatorInfo.getKeyEncryptingKey(); &#125; this.modelReader = ModelReader.getModelReader(delegatorBaseName); this.modelGroupReader = ModelGroupReader.getModelGroupReader(delegatorBaseName); cache = new Cache(delegatorFullName); //对实体进行检查 有检查组里面是否有对应实体 实体名是否是保留字 建立视图一个字段是否被引用多次 List&lt;String&gt; warningList = new LinkedList&lt;String&gt;(); Debug.logInfo("Doing entity definition check...", module); ModelEntityChecker.checkEntities(this, warningList); if (warningList.size() &gt; 0) &#123; Debug.logWarning("=-=-=-=-= Found " + warningList.size() + " warnings when checking the entity definitions:", module); for (String warning: warningList) &#123; Debug.logWarning(warning, module); &#125; &#125; //获取当前delegator中的groupNames集合,遍历创建对应的GenericHelper,同时在数据库中创建未创建的表和字段 Set&lt;String&gt; groupNames = getModelGroupReader().getGroupNames(delegatorBaseName); List&lt;Future&lt;Void&gt;&gt; futures = new LinkedList&lt;Future&lt;Void&gt;&gt;(); for (String groupName: groupNames) &#123; futures.add(ExecutionPool.GLOBAL_BATCH.submit(createHelperCallable(groupName))); &#125; ExecutionPool.getAllFutures(futures); // NOTE: doing some things before the ECAs and such to make sure it is in place just in case it is used in a service engine startup thing or something // setup the crypto class; this also after the delegator is in the cache otherwise we get infinite recursion this.crypto = new EntityCrypto(this, kekText); &#125;]]></content>
       <categories>
         <category>OFBiz</category>
       </categories>
@@ -397,9 +397,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[ofbiz实体引擎(三) GenericDelegator实例化的具体过程]]></title>
-    <url>%2F2017%2F07%2F30%2Fofbiz%2Fofbiz3%2F</url>
-    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182/** * @author 郑小康 * 1.设置delegatorFullName 基本delegatorName+"#"+tenantId 如果tenantId为空 则就是默认的delegatorName * * 2.获取EntityConfig实例,并获取基本delegatorBaseName的delegator标签,并解析为对应的DelegatorElement实例 * &lt;delegator name="default" entity-model-reader="main" entity-group-reader="main"&gt;&lt;/delegator&gt; * * 3.判断delegatorTenantId是否为空,这是租户id * 第一种情况租户id不为空:获取默认的Delegator,用delegator查询Tenant表中当前tenantId的对应GenericValue * :获取对应租户的kekText FIXME:暂时未应用 网上搜索说对数据库连接密码进行解密的操作 * 第二种情况租户id为空 :获取delegator标签实例的key-encrypting-key * * 4.获取ModelReader 检查了实体缓存之类的操作,获取所有ModelEntity * * 5.获取所有ModelGroupReader * 该类的主要操作是构造对应groupCache缓存,将entity-name为k,groupName为v这样存放,并提供一些获取方法,如获取所有组名,根据实体名获取组名 * * 6.缓存当前delegatorFullName * * 7.对实体进行检查 有检查组里面是否有对应实体 实体名是否是保留字 建立视图一个字段是否被引用多次 * * 8.获取组名集合 * * 9.遍历delegaot组,通过ThreadPoolExecutor线程池提交Future中任务,对每个组的实体创建到其组对应数据源的数据库 * 调用Future的原因是,是因为建表很耗时间,所以采用异步执行 * * */ protected GenericDelegator(String delegatorFullName) throws GenericEntityException &#123; this.setDelegatorNames(delegatorFullName); //获取基本的delegator中的信息 this.delegatorInfo = EntityConfig.getInstance().getDelegator(delegatorBaseName); String kekText; // before continuing, if there is a tenantId use the base delegator to see if it is valid if (UtilValidate.isNotEmpty(this.delegatorTenantId)) &#123; Delegator baseDelegator = DelegatorFactory.getDelegator(this.delegatorBaseName); GenericValue tenant = EntityQuery.use(baseDelegator).from("Tenant").where("tenantId", this.delegatorTenantId).cache(true).queryOne(); if (tenant == null) &#123; throw new GenericEntityException("No Tenant record found for delegator [" + this.delegatorFullName + "] with tenantId [" + this.delegatorTenantId + "]"); &#125; else if ("Y".equals(tenant.getString("disabled"))) &#123; throw new GenericEntityException("No Tenant record found for delegator [" + this.delegatorFullName + "] with tenantId [" + this.delegatorTenantId + "]"); &#125; GenericValue kekValue = EntityQuery.use(baseDelegator).from("TenantKeyEncryptingKey").where("tenantId", getDelegatorTenantId()).cache(true).queryOne(); if (kekValue != null) &#123; kekText = kekValue.getString("kekText"); &#125; else &#123; kekText = this.delegatorInfo.getKeyEncryptingKey(); &#125; &#125; else &#123; kekText = this.delegatorInfo.getKeyEncryptingKey(); &#125; this.modelReader = ModelReader.getModelReader(delegatorBaseName); this.modelGroupReader = ModelGroupReader.getModelGroupReader(delegatorBaseName); cache = new Cache(delegatorFullName); //对实体进行检查 有检查组里面是否有对应实体 实体名是否是保留字 建立视图一个字段是否被引用多次 List&lt;String&gt; warningList = new LinkedList&lt;String&gt;(); Debug.logInfo("Doing entity definition check...", module); ModelEntityChecker.checkEntities(this, warningList); if (warningList.size() &gt; 0) &#123; Debug.logWarning("=-=-=-=-= Found " + warningList.size() + " warnings when checking the entity definitions:", module); for (String warning: warningList) &#123; Debug.logWarning(warning, module); &#125; &#125; //获取当前delegator中的groupNames集合,遍历创建对应的GenericHelper,同时在数据库中创建未创建的表和字段 Set&lt;String&gt; groupNames = getModelGroupReader().getGroupNames(delegatorBaseName); List&lt;Future&lt;Void&gt;&gt; futures = new LinkedList&lt;Future&lt;Void&gt;&gt;(); for (String groupName: groupNames) &#123; futures.add(ExecutionPool.GLOBAL_BATCH.submit(createHelperCallable(groupName))); &#125; ExecutionPool.getAllFutures(futures); // NOTE: doing some things before the ECAs and such to make sure it is in place just in case it is used in a service engine startup thing or something // setup the crypto class; this also after the delegator is in the cache otherwise we get infinite recursion this.crypto = new EntityCrypto(this, kekText); &#125;]]></content>
+    <title><![CDATA[ofbiz实体引擎(二) delegator实例化具体方式]]></title>
+    <url>%2F2017%2F07%2F30%2Fofbiz%2Fofbiz2%2F</url>
+    <content type="text"><![CDATA[123456789101112131415/** * @author 郑小康 * 采用spi创建对应实例DelegatorFactoryImpl * */ public static &lt;A, R&gt; R getObjectFromFactory(Class&lt;? extends Factory&lt;R, A&gt;&gt; factoryInterface, A obj) throws ClassNotFoundException &#123; Iterator&lt;? extends Factory&lt;R, A&gt;&gt; it = ServiceLoader.load(factoryInterface).iterator(); while (it.hasNext()) &#123; Factory&lt;R, A&gt; factory = it.next(); R instance = factory.getInstance(obj); if (instance != null) &#123; return instance; &#125; &#125; throw new ClassNotFoundException(factoryInterface.getClass().getName()); &#125; 注：上下代码不是在一个类 1234567891011121314151617181920 /** * @author 郑小康 * 根据delegatorName创建一个GenericDelegator * 所以实际delegator引用的是一个GenericDelegator实例 * */public class DelegatorFactoryImpl extends DelegatorFactory &#123; public static final String module = DelegatorFactoryImpl.class.getName(); public Delegator getInstance(String delegatorName) &#123; if (Debug.infoOn()) Debug.logInfo("Creating new delegator [" + delegatorName + "] (" + Thread.currentThread().getName() + ")", module); //Debug.logInfo(new Exception(), "Showing stack where new delegator is being created...", module); try &#123; return new GenericDelegator(delegatorName); &#125; catch (GenericEntityException e) &#123; Debug.logError(e, "Error creating delegator", module); return null; &#125; &#125;&#125;]]></content>
       <categories>
         <category>OFBiz</category>
       </categories>
@@ -496,9 +496,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[dubbo环境搭建]]></title>
-    <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[#解压dubbo-admin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面 解压命令unzip dubbo-admin.war -d dubbp-admin #修改属性文件 1.将用户密码都改成root2.修改相应地址 截图如下: #启动tomcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，启动命令：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行startup.sh日志命令:tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out]]></content>
+    <title><![CDATA[dubbo源码分析2-远程接口暴露过程]]></title>
+    <url>%2F2017%2F01%2F02%2Fdubbo%2FReferenceConfig%2F</url>
+    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&lt;dubbo:reference interface=&quot;cfs.com.facade.SysUserFacade&quot; id=&quot;sysUserFacade&quot; /&gt; 获取相应ReferenceBean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里我们先要获取的是相应的ReferenceFactoryBean具体过程在dubbo源码分析1-spring方式启动中,首先装载所有标签相应的 DubboNamespaceHandler.java 1registerBeanDefinitionParser("reference", new DubboBeanDefinitionParser(ReferenceBean.class, false)); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据DubboBeanDefinitionParser来解析，在loadBeanDefinitions中将所有的BeanDefinition解析出来生成形影的ReferenceBean DubboBeanDefinitionParser.java 1private static BeanDefinition parse(Element element, ParserContext parserContext, Class&lt;?&gt; beanClass, boolean required) &#123;&#125; 调用ReferenceBean的get方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于ReferenceBean继承ReferenceConfig，且自身没有覆盖get方法所以调用的是ReferenceConfig中. 123456789public synchronized T get() &#123; if (destroyed)&#123; throw new IllegalStateException("Already destroyed!"); &#125; if (ref == null) &#123; init(); &#125; return ref;&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上可以看出其核心方法是调用init 1.验证时候初始化，如果已经初始化直接返回2.保证接口名长度不为空或者03.配置消费者和提供者全局属性4.获取相应的接口全限定类名5.设置基础属性6.将属性添加到context_map这个静态map中去7.创建相应的代理 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142 private void init() &#123; if (initialized) &#123; return; &#125; initialized = true; if (interfaceName == null || interfaceName.length() == 0) &#123; throw new IllegalStateException("&lt;dubbo:reference interface=\"\" /&gt; interface not allow null!"); &#125; // 获取消费者全局配置 checkDefault(); appendProperties(this); if (getGeneric() == null &amp;&amp; getConsumer() != null) &#123; setGeneric(getConsumer().getGeneric()); &#125; if (ProtocolUtils.isGeneric(getGeneric())) &#123; interfaceClass = GenericService.class; &#125; else &#123; try &#123; interfaceClass = Class.forName(interfaceName, true, Thread.currentThread() .getContextClassLoader());&#125; catch (ClassNotFoundException e) &#123; throw new IllegalStateException(e.getMessage(), e);&#125; checkInterfaceAndMethods(interfaceClass, methods); &#125; String resolve = System.getProperty(interfaceName); String resolveFile = null; if (resolve == null || resolve.length() == 0) &#123; resolveFile = System.getProperty("dubbo.resolve.file"); if (resolveFile == null || resolveFile.length() == 0) &#123; File userResolveFile = new File(new File(System.getProperty("user.home")), "dubbo-resolve.properties"); if (userResolveFile.exists()) &#123; resolveFile = userResolveFile.getAbsolutePath(); &#125; &#125; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; Properties properties = new Properties(); FileInputStream fis = null; try &#123; fis = new FileInputStream(new File(resolveFile)); properties.load(fis); &#125; catch (IOException e) &#123; throw new IllegalStateException("Unload " + resolveFile + ", cause: " + e.getMessage(), e); &#125; finally &#123; try &#123; if(null != fis) fis.close(); &#125; catch (IOException e) &#123; logger.warn(e.getMessage(), e); &#125; &#125; resolve = properties.getProperty(interfaceName); &#125; &#125; if (resolve != null &amp;&amp; resolve.length() &gt; 0) &#123; url = resolve; if (logger.isWarnEnabled()) &#123; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; logger.warn("Using default dubbo resolve file " + resolveFile + " replace " + interfaceName + "" + resolve + " to p2p invoke remote service."); &#125; else &#123; logger.warn("Using -D" + interfaceName + "=" + resolve + " to p2p invoke remote service."); &#125; &#125; &#125; if (consumer != null) &#123; if (application == null) &#123; application = consumer.getApplication(); &#125; if (module == null) &#123; module = consumer.getModule(); &#125; if (registries == null) &#123; registries = consumer.getRegistries(); &#125; if (monitor == null) &#123; monitor = consumer.getMonitor(); &#125; &#125; if (module != null) &#123; if (registries == null) &#123; registries = module.getRegistries(); &#125; if (monitor == null) &#123; monitor = module.getMonitor(); &#125; &#125; if (application != null) &#123; if (registries == null) &#123; registries = application.getRegistries(); &#125; if (monitor == null) &#123; monitor = application.getMonitor(); &#125; &#125; checkApplication(); checkStubAndMock(interfaceClass); Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;(); Map&lt;Object, Object&gt; attributes = new HashMap&lt;Object, Object&gt;(); map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE); map.put(Constants.DUBBO_VERSION_KEY, Version.getVersion()); map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis())); if (ConfigUtils.getPid() &gt; 0) &#123; map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid())); &#125; if (! isGeneric()) &#123; String revision = Version.getVersion(interfaceClass, version); if (revision != null &amp;&amp; revision.length() &gt; 0) &#123; map.put("revision", revision); &#125; String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames(); if(methods.length == 0) &#123; logger.warn("NO method found in service interface " + interfaceClass.getName()); map.put("methods", Constants.ANY_VALUE); &#125; else &#123; map.put("methods", StringUtils.join(new HashSet&lt;String&gt;(Arrays.asList(methods)), ",")); &#125; &#125; map.put(Constants.INTERFACE_KEY, interfaceName); appendParameters(map, application); appendParameters(map, module); appendParameters(map, consumer, Constants.DEFAULT_KEY); appendParameters(map, this); String prifix = StringUtils.getServiceKey(map); if (methods != null &amp;&amp; methods.size() &gt; 0) &#123; for (MethodConfig method : methods) &#123; appendParameters(map, method, method.getName()); String retryKey = method.getName() + ".retry"; if (map.containsKey(retryKey)) &#123; String retryValue = map.remove(retryKey); if ("false".equals(retryValue)) &#123; map.put(method.getName() + ".retries", "0"); &#125; &#125; appendAttributes(attributes, method, prifix + "." + method.getName()); checkAndConvertImplicitConfig(method, map, attributes); &#125; &#125; //attributes通过系统context进行存储. StaticContext.getSystemContext().putAll(attributes); ref = createProxy(map); &#125; createProxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个方式是init中的最后一步，创建相应的url 1.先判断是否是本地服务引用injvm 2.判断是否是点对点直连 3.判断是否是通过注册中心连接 4.然后是服务的引用]]></content>
       <categories>
         <category>dubbo</category>
       </categories>
@@ -507,9 +507,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[dubbo源码分析2-远程接口暴露过程]]></title>
-    <url>%2F2017%2F01%2F02%2Fdubbo%2FReferenceConfig%2F</url>
-    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在提供接口服务的过程，都是围绕着一行代码展开，如下:&lt;dubbo:reference interface=&quot;cfs.com.facade.SysUserFacade&quot; id=&quot;sysUserFacade&quot; /&gt; 获取相应ReferenceBean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里我们先要获取的是相应的ReferenceFactoryBean具体过程在dubbo源码分析1-spring方式启动中,首先装载所有标签相应的 DubboNamespaceHandler.java 1registerBeanDefinitionParser("reference", new DubboBeanDefinitionParser(ReferenceBean.class, false)); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据DubboBeanDefinitionParser来解析，在loadBeanDefinitions中将所有的BeanDefinition解析出来生成形影的ReferenceBean DubboBeanDefinitionParser.java 1private static BeanDefinition parse(Element element, ParserContext parserContext, Class&lt;?&gt; beanClass, boolean required) &#123;&#125; 调用ReferenceBean的get方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于ReferenceBean继承ReferenceConfig，且自身没有覆盖get方法所以调用的是ReferenceConfig中. 123456789public synchronized T get() &#123; if (destroyed)&#123; throw new IllegalStateException("Already destroyed!"); &#125; if (ref == null) &#123; init(); &#125; return ref;&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上可以看出其核心方法是调用init 1.验证时候初始化，如果已经初始化直接返回2.保证接口名长度不为空或者03.配置消费者和提供者全局属性4.获取相应的接口全限定类名5.设置基础属性6.将属性添加到context_map这个静态map中去7.创建相应的代理 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142 private void init() &#123; if (initialized) &#123; return; &#125; initialized = true; if (interfaceName == null || interfaceName.length() == 0) &#123; throw new IllegalStateException("&lt;dubbo:reference interface=\"\" /&gt; interface not allow null!"); &#125; // 获取消费者全局配置 checkDefault(); appendProperties(this); if (getGeneric() == null &amp;&amp; getConsumer() != null) &#123; setGeneric(getConsumer().getGeneric()); &#125; if (ProtocolUtils.isGeneric(getGeneric())) &#123; interfaceClass = GenericService.class; &#125; else &#123; try &#123; interfaceClass = Class.forName(interfaceName, true, Thread.currentThread() .getContextClassLoader());&#125; catch (ClassNotFoundException e) &#123; throw new IllegalStateException(e.getMessage(), e);&#125; checkInterfaceAndMethods(interfaceClass, methods); &#125; String resolve = System.getProperty(interfaceName); String resolveFile = null; if (resolve == null || resolve.length() == 0) &#123; resolveFile = System.getProperty("dubbo.resolve.file"); if (resolveFile == null || resolveFile.length() == 0) &#123; File userResolveFile = new File(new File(System.getProperty("user.home")), "dubbo-resolve.properties"); if (userResolveFile.exists()) &#123; resolveFile = userResolveFile.getAbsolutePath(); &#125; &#125; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; Properties properties = new Properties(); FileInputStream fis = null; try &#123; fis = new FileInputStream(new File(resolveFile)); properties.load(fis); &#125; catch (IOException e) &#123; throw new IllegalStateException("Unload " + resolveFile + ", cause: " + e.getMessage(), e); &#125; finally &#123; try &#123; if(null != fis) fis.close(); &#125; catch (IOException e) &#123; logger.warn(e.getMessage(), e); &#125; &#125; resolve = properties.getProperty(interfaceName); &#125; &#125; if (resolve != null &amp;&amp; resolve.length() &gt; 0) &#123; url = resolve; if (logger.isWarnEnabled()) &#123; if (resolveFile != null &amp;&amp; resolveFile.length() &gt; 0) &#123; logger.warn("Using default dubbo resolve file " + resolveFile + " replace " + interfaceName + "" + resolve + " to p2p invoke remote service."); &#125; else &#123; logger.warn("Using -D" + interfaceName + "=" + resolve + " to p2p invoke remote service."); &#125; &#125; &#125; if (consumer != null) &#123; if (application == null) &#123; application = consumer.getApplication(); &#125; if (module == null) &#123; module = consumer.getModule(); &#125; if (registries == null) &#123; registries = consumer.getRegistries(); &#125; if (monitor == null) &#123; monitor = consumer.getMonitor(); &#125; &#125; if (module != null) &#123; if (registries == null) &#123; registries = module.getRegistries(); &#125; if (monitor == null) &#123; monitor = module.getMonitor(); &#125; &#125; if (application != null) &#123; if (registries == null) &#123; registries = application.getRegistries(); &#125; if (monitor == null) &#123; monitor = application.getMonitor(); &#125; &#125; checkApplication(); checkStubAndMock(interfaceClass); Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;(); Map&lt;Object, Object&gt; attributes = new HashMap&lt;Object, Object&gt;(); map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE); map.put(Constants.DUBBO_VERSION_KEY, Version.getVersion()); map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis())); if (ConfigUtils.getPid() &gt; 0) &#123; map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid())); &#125; if (! isGeneric()) &#123; String revision = Version.getVersion(interfaceClass, version); if (revision != null &amp;&amp; revision.length() &gt; 0) &#123; map.put("revision", revision); &#125; String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames(); if(methods.length == 0) &#123; logger.warn("NO method found in service interface " + interfaceClass.getName()); map.put("methods", Constants.ANY_VALUE); &#125; else &#123; map.put("methods", StringUtils.join(new HashSet&lt;String&gt;(Arrays.asList(methods)), ",")); &#125; &#125; map.put(Constants.INTERFACE_KEY, interfaceName); appendParameters(map, application); appendParameters(map, module); appendParameters(map, consumer, Constants.DEFAULT_KEY); appendParameters(map, this); String prifix = StringUtils.getServiceKey(map); if (methods != null &amp;&amp; methods.size() &gt; 0) &#123; for (MethodConfig method : methods) &#123; appendParameters(map, method, method.getName()); String retryKey = method.getName() + ".retry"; if (map.containsKey(retryKey)) &#123; String retryValue = map.remove(retryKey); if ("false".equals(retryValue)) &#123; map.put(method.getName() + ".retries", "0"); &#125; &#125; appendAttributes(attributes, method, prifix + "." + method.getName()); checkAndConvertImplicitConfig(method, map, attributes); &#125; &#125; //attributes通过系统context进行存储. StaticContext.getSystemContext().putAll(attributes); ref = createProxy(map); &#125; createProxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个方式是init中的最后一步，创建相应的url 1.先判断是否是本地服务引用injvm 2.判断是否是点对点直连 3.判断是否是通过注册中心连接 4.然后是服务的引用]]></content>
+    <title><![CDATA[dubbo环境搭建]]></title>
+    <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[#解压dubbo-admin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面 解压命令unzip dubbo-admin.war -d dubbp-admin #修改属性文件 1.将用户密码都改成root2.修改相应地址 截图如下: #启动tomcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，启动命令：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行startup.sh日志命令:tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out]]></content>
       <categories>
         <category>dubbo</category>
       </categories>
@@ -526,6 +526,17 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[dubbo源码分析1-spring方式启动]]></title>
+    <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-07%2F</url>
+    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在一下的代码中主要是装载标签元素并进行解析，其中装载是根据namespaceUri找到对应的句柄，然后通过句柄来解析自己定义的元素. 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd) &#123; String namespaceUri = getNamespaceURI(ele); NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri); if (handler == null) &#123; error("Unable to locate Spring NamespaceHandler for XML schema namespace [" + namespaceUri + "]", ele); return null; &#125; return handler.parse(ele, new ParserContext(this.readerContext, this, containingBd));&#125; 装载标签元素Spring为了支持用户自定义类加载到Spring容器，提供了org.springframework.beans.factory.xml.NamespaceHandler接口org.springframework.beans.factory.xml.NamespaceHandlerSupport抽象类，NamespaceHandler#init方法会在对象的构造函数调用之后、属性初始化之前被DefaultNamespaceHandlerResolver调用。dubbo的DubboNamespaceHandler类正是继承了NamespaceHandlerSupport所以在spring加载过程中会执行这个类中的内容 1234567891011121314151617181920public class DubboNamespaceHandler extends NamespaceHandlerSupport &#123; static &#123; Version.checkDuplicate(DubboNamespaceHandler.class); &#125; public void init() &#123; registerBeanDefinitionParser("application", new DubboBeanDefinitionParser(ApplicationConfig.class, true)); registerBeanDefinitionParser("module", new DubboBeanDefinitionParser(ModuleConfig.class, true)); registerBeanDefinitionParser("registry", new DubboBeanDefinitionParser(RegistryConfig.class, true)); registerBeanDefinitionParser("monitor", new DubboBeanDefinitionParser(MonitorConfig.class, true)); registerBeanDefinitionParser("provider", new DubboBeanDefinitionParser(ProviderConfig.class, true)); registerBeanDefinitionParser("consumer", new DubboBeanDefinitionParser(ConsumerConfig.class, true)); registerBeanDefinitionParser("protocol", new DubboBeanDefinitionParser(ProtocolConfig.class, true)); registerBeanDefinitionParser("service", new DubboBeanDefinitionParser(ServiceBean.class, true)); registerBeanDefinitionParser("reference", new DubboBeanDefinitionParser(ReferenceBean.class, false)); registerBeanDefinitionParser("annotation", new DubboBeanDefinitionParser(AnnotationBean.class, true)); &#125;&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过上面发现所有的标签元素都是通过registerBeanDefinitionParser注册，这个方法主要是将所有的标签对应的解析定义注入一个parsers这个Map 123protected final void registerBeanDefinitionParser(String elementName, BeanDefinitionParser parser) &#123; this.parsers.put(elementName, parser);&#125; #解析标签元素&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将所有dubbo的标签给装载之后，就是对具体的标签进行解析，首先展示一下解析逻辑,从这里可以看出来，它是根据具体的标签元素找到DubboBeanDefinitionParser这个实例,然后开始进行解析。 12345678910111213141516171819202122232425/** * Parse the elements at the root level in the document: * "import", "alias", "bean". * @param root the DOM root element of the document */protected void parseBeanDefinitions(Element root, BeanDefinitionParserDelegate delegate) &#123; if (delegate.isDefaultNamespace(root)) &#123; NodeList nl = root.getChildNodes(); for (int i = 0; i &lt; nl.getLength(); i++) &#123; Node node = nl.item(i); if (node instanceof Element) &#123; Element ele = (Element) node; if (delegate.isDefaultNamespace(ele)) &#123; parseDefaultElement(ele, delegate); &#125; else &#123; delegate.parseCustomElement(ele); &#125; &#125; &#125; &#125; else &#123; delegate.parseCustomElement(root); &#125;&#125; 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd) &#123; String namespaceUri = getNamespaceURI(ele); NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri); if (handler == null) &#123; error("Unable to locate Spring NamespaceHandler for XML schema namespace [" + namespaceUri + "]", ele); return null; &#125; return handler.parse(ele, new ParserContext(this.readerContext, this, containingBd));&#125; 1234@Overridepublic BeanDefinition parse(Element element, ParserContext parserContext) &#123; return findParserForElement(element, parserContext).parse(element, parserContext);&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意在这里将上面注册的beanClass给传入进去，所以在解析beanDefinition的时候就可以获取到这个标签的具体类实例 123public BeanDefinition parse(Element element, ParserContext parserContext) &#123; return parse(element, parserContext, beanClass, required);&#125;]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
       </tags>
   </entry>
   <entry>
@@ -551,31 +562,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[dubbo源码分析1-spring方式启动]]></title>
-    <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-07%2F</url>
-    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在一下的代码中主要是装载标签元素并进行解析，其中装载是根据namespaceUri找到对应的句柄，然后通过句柄来解析自己定义的元素. 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd) &#123; String namespaceUri = getNamespaceURI(ele); NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri); if (handler == null) &#123; error("Unable to locate Spring NamespaceHandler for XML schema namespace [" + namespaceUri + "]", ele); return null; &#125; return handler.parse(ele, new ParserContext(this.readerContext, this, containingBd));&#125; 装载标签元素Spring为了支持用户自定义类加载到Spring容器，提供了org.springframework.beans.factory.xml.NamespaceHandler接口org.springframework.beans.factory.xml.NamespaceHandlerSupport抽象类，NamespaceHandler#init方法会在对象的构造函数调用之后、属性初始化之前被DefaultNamespaceHandlerResolver调用。dubbo的DubboNamespaceHandler类正是继承了NamespaceHandlerSupport所以在spring加载过程中会执行这个类中的内容 1234567891011121314151617181920public class DubboNamespaceHandler extends NamespaceHandlerSupport &#123; static &#123; Version.checkDuplicate(DubboNamespaceHandler.class); &#125; public void init() &#123; registerBeanDefinitionParser("application", new DubboBeanDefinitionParser(ApplicationConfig.class, true)); registerBeanDefinitionParser("module", new DubboBeanDefinitionParser(ModuleConfig.class, true)); registerBeanDefinitionParser("registry", new DubboBeanDefinitionParser(RegistryConfig.class, true)); registerBeanDefinitionParser("monitor", new DubboBeanDefinitionParser(MonitorConfig.class, true)); registerBeanDefinitionParser("provider", new DubboBeanDefinitionParser(ProviderConfig.class, true)); registerBeanDefinitionParser("consumer", new DubboBeanDefinitionParser(ConsumerConfig.class, true)); registerBeanDefinitionParser("protocol", new DubboBeanDefinitionParser(ProtocolConfig.class, true)); registerBeanDefinitionParser("service", new DubboBeanDefinitionParser(ServiceBean.class, true)); registerBeanDefinitionParser("reference", new DubboBeanDefinitionParser(ReferenceBean.class, false)); registerBeanDefinitionParser("annotation", new DubboBeanDefinitionParser(AnnotationBean.class, true)); &#125;&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过上面发现所有的标签元素都是通过registerBeanDefinitionParser注册，这个方法主要是将所有的标签对应的解析定义注入一个parsers这个Map 123protected final void registerBeanDefinitionParser(String elementName, BeanDefinitionParser parser) &#123; this.parsers.put(elementName, parser);&#125; #解析标签元素&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将所有dubbo的标签给装载之后，就是对具体的标签进行解析，首先展示一下解析逻辑,从这里可以看出来，它是根据具体的标签元素找到DubboBeanDefinitionParser这个实例,然后开始进行解析。 12345678910111213141516171819202122232425/** * Parse the elements at the root level in the document: * "import", "alias", "bean". * @param root the DOM root element of the document */protected void parseBeanDefinitions(Element root, BeanDefinitionParserDelegate delegate) &#123; if (delegate.isDefaultNamespace(root)) &#123; NodeList nl = root.getChildNodes(); for (int i = 0; i &lt; nl.getLength(); i++) &#123; Node node = nl.item(i); if (node instanceof Element) &#123; Element ele = (Element) node; if (delegate.isDefaultNamespace(ele)) &#123; parseDefaultElement(ele, delegate); &#125; else &#123; delegate.parseCustomElement(ele); &#125; &#125; &#125; &#125; else &#123; delegate.parseCustomElement(root); &#125;&#125; 123456789public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd) &#123; String namespaceUri = getNamespaceURI(ele); NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri); if (handler == null) &#123; error("Unable to locate Spring NamespaceHandler for XML schema namespace [" + namespaceUri + "]", ele); return null; &#125; return handler.parse(ele, new ParserContext(this.readerContext, this, containingBd));&#125; 1234@Overridepublic BeanDefinition parse(Element element, ParserContext parserContext) &#123; return findParserForElement(element, parserContext).parse(element, parserContext);&#125; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意在这里将上面注册的beanClass给传入进去，所以在解析beanDefinition的时候就可以获取到这个标签的具体类实例 123public BeanDefinition parse(Element element, ParserContext parserContext) &#123; return parse(element, parserContext, beanClass, required);&#125;]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[maven错误记录]]></title>
-    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-05%2F</url>
-    <content type="text"><![CDATA[不能部署1Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.5: deploy (default-deploy) 这是在发布到私服的过程中，可能]]></content>
+    <title><![CDATA[idea相关问题]]></title>
+    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[Q1源发行版 1.6 需要目标发行版 1.6 setting-&gt;Compiler-&gt;Java Compiler 设置相应Module的target byte code version的合适版本就行来（搜索首选项）]]></content>
       <categories>
         <category>other</category>
       </categories>
       <tags>
-        <tag>jdk</tag>
+        <tag>idea</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[maven命令使用指南]]></title>
-    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-03%2F</url>
-    <content type="text"><![CDATA[#基本命令 编译源代码: mvn compile编译测试代码：mvn test-compile运行测试：mvn test产生site：mvn site打包：mvn package -Dmaven.test.skip=true(跳过测试) #编译jar到本地仓库 mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc]]></content>
+    <title><![CDATA[mac切换jdk]]></title>
+    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
+    <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
       <categories>
         <category>other</category>
       </categories>
@@ -595,9 +595,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mac切换jdk]]></title>
-    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
-    <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
+    <title><![CDATA[maven命令使用指南]]></title>
+    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-03%2F</url>
+    <content type="text"><![CDATA[#基本命令 编译源代码: mvn compile编译测试代码：mvn test-compile运行测试：mvn test产生site：mvn site打包：mvn package -Dmaven.test.skip=true(跳过测试) #编译jar到本地仓库 mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc]]></content>
       <categories>
         <category>other</category>
       </categories>
@@ -606,14 +606,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[idea相关问题]]></title>
-    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[Q1源发行版 1.6 需要目标发行版 1.6 setting-&gt;Compiler-&gt;Java Compiler 设置相应Module的target byte code version的合适版本就行来（搜索首选项）]]></content>
+    <title><![CDATA[maven错误记录]]></title>
+    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-05%2F</url>
+    <content type="text"><![CDATA[不能部署1Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.5: deploy (default-deploy) 这是在发布到私服的过程中，可能]]></content>
       <categories>
         <category>other</category>
       </categories>
       <tags>
-        <tag>idea</tag>
+        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
