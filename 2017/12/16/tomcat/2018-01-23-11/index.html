@@ -108,15 +108,15 @@
 <meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;session的作用是在一次会话中（从打开浏览器到关闭浏览器同当前服务器的交流）当客户端第一次请求session对象时候，服务器会为客户端创建一个session，并将通过特殊算法算出一个session的ID，用来标识该session对象，当浏览器下次（session继续有效时）请求别的资源的时候，浏览器会sessionID放置">
 <meta name="keywords" content="tomcat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tomcat源码解读五 tomcat中的session生命历程">
+<meta property="og:title" content="tomcat源码解读六 tomcat中的session生命历程">
 <meta property="og:url" content="www.cfad.tech/2017/12/16/tomcat/2018-01-23-11/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;session的作用是在一次会话中（从打开浏览器到关闭浏览器同当前服务器的交流）当客户端第一次请求session对象时候，服务器会为客户端创建一个session，并将通过特殊算法算出一个session的ID，用来标识该session对象，当浏览器下次（session继续有效时）请求别的资源的时候，浏览器会sessionID放置">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/15166875980188.jpg">
-<meta property="og:updated_time" content="2018-01-23T06:33:42.000Z">
+<meta property="og:updated_time" content="2018-01-23T06:34:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tomcat源码解读五 tomcat中的session生命历程">
+<meta name="twitter:title" content="tomcat源码解读六 tomcat中的session生命历程">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;session的作用是在一次会话中（从打开浏览器到关闭浏览器同当前服务器的交流）当客户端第一次请求session对象时候，服务器会为客户端创建一个session，并将通过特殊算法算出一个session的ID，用来标识该session对象，当浏览器下次（session继续有效时）请求别的资源的时候，浏览器会sessionID放置">
 <meta name="twitter:image" content="/media/15166875980188.jpg">
 
@@ -154,7 +154,7 @@
 
 
 
-  <title>tomcat源码解读五 tomcat中的session生命历程 | 敏而好学,乐以忘忧</title>
+  <title>tomcat源码解读六 tomcat中的session生命历程 | 敏而好学,乐以忘忧</title>
   
 
 
@@ -344,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">tomcat源码解读五 tomcat中的session生命历程</h1>
+          <h1 class="post-title" itemprop="name headline">tomcat源码解读六 tomcat中的session生命历程</h1>
         
 
         <div class="post-meta">
@@ -489,11 +489,11 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/12/16/tomcat/2018-01-23-11/">tomcat源码解读五 tomcat中的session生命历程</a></p>
+  <p><span>本文标题:</span><a href="/2017/12/16/tomcat/2018-01-23-11/">tomcat源码解读六 tomcat中的session生命历程</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
   <p><span>发布时间:</span>2017年12月16日 - 00:12</p>
   <p><span>最后更新:</span>2018年01月23日 - 14:01</p>
-  <p><span>原始链接:</span><a href="/2017/12/16/tomcat/2018-01-23-11/" title="tomcat源码解读五 tomcat中的session生命历程">www.cfad.tech/2017/12/16/tomcat/2018-01-23-11/</a>
+  <p><span>原始链接:</span><a href="/2017/12/16/tomcat/2018-01-23-11/" title="tomcat源码解读六 tomcat中的session生命历程">www.cfad.tech/2017/12/16/tomcat/2018-01-23-11/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/12/16/tomcat/2018-01-23-11/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
