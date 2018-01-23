@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="OFBiz," />
+  <meta name="keywords" content="tomcat," />
 
 
 
@@ -105,18 +105,18 @@
 
 
 
-<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 一般我们在ofbiz下的hot-deploy下直接创建模块组件就可以进行访问，但是我觉得文件过多话，就不方便管理，所以我们可以分离出来单独建立一个文件模块，原理大家可以从启动类开始看，在这里我只说明一下操作步骤,因为好多东西我也没看懂呢。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;">
-<meta name="keywords" content="OFBiz">
+<meta name="description" content="启动mapperListener 这个方法的核心就是注册Host的 123456789101112131415161718192021222324public void startInternal() throws LifecycleException&amp;#123;    setState(LifecycleState.STARTING);    //获取当前service的container，其实">
+<meta name="keywords" content="tomcat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ofbiz模块加载机制即创建独立模块（脱离热部署)">
-<meta property="og:url" content="www.cfad.tech/2016/07/25/ofbiz/ofbiz13/index.html">
+<meta property="og:title" content="tomcat请求处理分析(二) 启动mapperListener">
+<meta property="og:url" content="www.cfad.tech/2017/08/18/tomcat/2018-01-23-1/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 一般我们在ofbiz下的hot-deploy下直接创建模块组件就可以进行访问，但是我觉得文件过多话，就不方便管理，所以我们可以分离出来单独建立一个文件模块，原理大家可以从启动类开始看，在这里我只说明一下操作步骤,因为好多东西我也没看懂呢。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;">
+<meta property="og:description" content="启动mapperListener 这个方法的核心就是注册Host的 123456789101112131415161718192021222324public void startInternal() throws LifecycleException&amp;#123;    setState(LifecycleState.STARTING);    //获取当前service的container，其实">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-16T14:54:44.000Z">
+<meta property="og:updated_time" content="2018-01-23T02:42:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ofbiz模块加载机制即创建独立模块（脱离热部署)">
-<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 一般我们在ofbiz下的hot-deploy下直接创建模块组件就可以进行访问，但是我觉得文件过多话，就不方便管理，所以我们可以分离出来单独建立一个文件模块，原理大家可以从启动类开始看，在这里我只说明一下操作步骤,因为好多东西我也没看懂呢。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;">
+<meta name="twitter:title" content="tomcat请求处理分析(二) 启动mapperListener">
+<meta name="twitter:description" content="启动mapperListener 这个方法的核心就是注册Host的 123456789101112131415161718192021222324public void startInternal() throws LifecycleException&amp;#123;    setState(LifecycleState.STARTING);    //获取当前service的container，其实">
 
 
 
@@ -146,13 +146,13 @@
 
 
 
-  <link rel="canonical" href="www.cfad.tech/2016/07/25/ofbiz/ofbiz13/"/>
+  <link rel="canonical" href="www.cfad.tech/2017/08/18/tomcat/2018-01-23-1/"/>
 
 
 
 
 
-  <title>Ofbiz模块加载机制即创建独立模块（脱离热部署) | 敏而好学,乐以忘忧</title>
+  <title>tomcat请求处理分析(二) 启动mapperListener | 敏而好学,乐以忘忧</title>
   
 
 
@@ -325,7 +325,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2016/07/25/ofbiz/ofbiz13/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/08/18/tomcat/2018-01-23-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -342,7 +342,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Ofbiz模块加载机制即创建独立模块（脱离热部署)</h1>
+          <h1 class="post-title" itemprop="name headline">tomcat请求处理分析(二) 启动mapperListener</h1>
         
 
         <div class="post-meta">
@@ -354,8 +354,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-25T18:50:14+08:00">
-                2016-07-25
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-18T23:56:14+08:00">
+                2017-08-18
               </time>
             
 
@@ -377,8 +377,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OFBiz/" itemprop="url" rel="index">
-                    <span itemprop="name">OFBiz</span>
+                  <a href="/categories/tomcat/" itemprop="url" rel="index">
+                    <span itemprop="name">tomcat</span>
                   </a>
                 </span>
 
@@ -408,7 +408,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  475
+                  1,031
                 </span>
               
 
@@ -424,7 +424,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  2
+                  5
                 </span>
               
             </div>
@@ -445,15 +445,19 @@
       
 
       
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 一般我们在ofbiz下的hot-deploy下直接创建模块组件就可以进行访问，但是我觉得文件过多话，就不方便管理，所以我们可以分离出来单独建立一个文件模块，原理大家可以从启动类开始看，在这里我只说明一下操作步骤,因为好多东西我也没看懂呢。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第一步：找到framework\base\config\component-load.xml这个文件，内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;component-loaderxmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line"></span><br><span class="line">       xsi:noNamespaceSchemaLocation=&quot;http://ofbiz.apache.org/dtds/component-loader.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">   &lt;load-components parent-directory=&quot;framework&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;load-components parent-directory=&quot;themes&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;load-components parent-directory=&quot;applications&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;load-components parent-directory=&quot;specialpurpose&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;load-components parent-directory=&quot;hot-deploy&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;load-components parent-directory=&quot;wuliys&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/component-loader&gt;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 很显然start类通过该文件属性，找到相应的子目录，如图所示：</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当然这里的runtime和tools文件夹并没有加载进来，因为它们一个是运行，一个是工具存放的.而其它模块则加载进来了，文件夹是加载进来了，然后怎么进行具体操作.看第二步.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二步:因为上面的除了最后一个都是系统存在的，所以我就拿自己创建的一个模块做例子讲述.，文件分级如下：</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我们先看看component-load.xml文件里面是什么(文件路径已经从同级开始往下哈哈)如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xmlversion=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line"></span><br><span class="line">&lt;component-loaderxmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line"></span><br><span class="line">       xsi:noNamespaceSchemaLocation=&quot;http://ofbiz.apache.org/dtds/component-loader.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">         &lt;load-componentcomponent-location=&quot;mytest&quot;/&gt;</span><br><span class="line"></span><br><span class="line">         &lt;load-componentcomponent-location=&quot;myparty&quot;/&gt;    </span><br><span class="line"></span><br><span class="line">&lt;/component-loader&gt;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  很显然就是通过load-component这一元素将mytest和myparty这两个文件加给加载进来。至于这两个模块就是我们能够写具体请求应用的模块。至于具体请求可以参考网上的热部署hello,world差不多</p>
+        <h1><span id="qi-dong-mapperlistener">启动mapperListener</span></h1>
+<p>这个方法的核心就是注册Host的</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException</span>&#123;</span><br><span class="line"></span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line">    <span class="comment">//获取当前service的container，其实也就是engine</span></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"deprecation"</span>)</span><br><span class="line">    Engine engine = (Engine) service.getContainer();</span><br><span class="line">    <span class="keyword">if</span> (engine == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    findDefaultHost();<span class="comment">//获取当前engine默认的host</span></span><br><span class="line">    addListeners(engine);<span class="comment">//给当前Mapper添加监听时间</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//找到当前engine下所有host主机</span></span><br><span class="line">    Container[] conHosts =engine.findChildren();</span><br><span class="line">    <span class="keyword">for</span> (Container conHost :conHosts) &#123;</span><br><span class="line">        Host host = (Host) conHost;</span><br><span class="line">        <span class="keyword">if</span> (!LifecycleState.NEW.equals(host.getState()))&#123;</span><br><span class="line">            <span class="comment">// 登记host会注册context和 wrappers</span></span><br><span class="line">            registerHost(host);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="zhu-ce-host">注册Host</span></h2>
+<p>注册Host主要进行了两步操作，第一步是添加Host 第二步是registerContext</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">registerHost</span><span class="params">(Host host)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String[] aliases = host.findAliases();</span><br><span class="line">    mapper.addHost(host.getName(), aliases, host);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (Container container :host.findChildren()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (container.getState().isAvailable())&#123;</span><br><span class="line">            registerContext((Context)container);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(log.isDebugEnabled())&#123;</span><br><span class="line">        log.debug(sm.getString(<span class="string">"mapperListener.registerHost"</span>,</span><br><span class="line">                host.getName(), domain, service));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="tian-jia-host">添加Host</span></h2>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> synchronizedvoid <span class="title">addHost</span><span class="params">(String name, String[]aliases,</span></span></span><br><span class="line"><span class="function"><span class="params">                                 Host host)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//StandardEngine[Catalina].StandardHost[localhost]</span></span><br><span class="line">    <span class="comment">//创建MappedHost对象的数组，这里长度需要加1</span></span><br><span class="line">    MappedHost[]newHosts = <span class="keyword">new</span> MappedHost[hosts.length + <span class="number">1</span>];</span><br><span class="line">    <span class="comment">//创建一个MappedHost对象，用于保存host的map信息</span></span><br><span class="line">    MappedHostnewHost = <span class="keyword">new</span> MappedHost(name, host);</span><br><span class="line">    <span class="comment">//insertMap将hosts这个数组迁移到newHosts并将newHost按name添加到指定位置</span></span><br><span class="line">    <span class="keyword">if</span> (insertMap(hosts, newHosts, newHost)) &#123;</span><br><span class="line">        hosts= newHosts;   <span class="comment">//指向新的数组</span></span><br><span class="line">        <span class="keyword">if</span> (log.isDebugEnabled()) &#123;</span><br><span class="line">            log.debug(sm.getString(<span class="string">"mapper.addHost.success"</span>, name));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//不能插入这说明有相同名字的,有两种情况，第一种是在先前通过addContextVersion加入让那个newHost指向，另一种名字相同则直接返回</span></span><br><span class="line">        MappedHostduplicate = hosts[find(hosts, name)];</span><br><span class="line">        <span class="keyword">if</span> (duplicate.object == host) &#123;</span><br><span class="line">            <span class="keyword">if</span>(log.isDebugEnabled()) &#123;</span><br><span class="line">                log.debug(sm.getString(<span class="string">"mapper.addHost.sameHost"</span>, name));</span><br><span class="line">            &#125;</span><br><span class="line">            newHost = duplicate;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            log.error(sm.getString(<span class="string">"mapper.duplicateHost"</span>, name,</span><br><span class="line">                    duplicate.getRealHostName()));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;MappedHost&gt; newAliases = <span class="keyword">new</span> ArrayList&lt;&gt;(aliases.length);</span><br><span class="line">    <span class="keyword">for</span> (Stringalias : aliases) &#123;</span><br><span class="line">        MappedHost newAlias = <span class="keyword">new</span> MappedHost(alias, newHost);</span><br><span class="line">        <span class="keyword">if</span> (addHostAliasImpl(newAlias)) &#123;</span><br><span class="line">            newAliases.add(newAlias);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    newHost.addAliases(newAliases);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>       这个方法的作用将新的host插入到已有的集合，如果存在，直接返回，不存在则按字母排序有序插入，其中实现有序插入主要是调用了find这个二分查找，找到跟当前name最近的一个，然后进行插入，数组迁移</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; <span class="keyword">boolean</span> insertMap</span><br><span class="line">    (MapElement&lt;T&gt;[]oldMap, MapElement&lt;T&gt;[] newMap, MapElement&lt;T&gt;newElement) &#123;</span><br><span class="line">    <span class="keyword">int</span> pos = find(oldMap, newElement.name);<span class="comment">//在old里面，最近接新的元素的name的位置，这里返回的pos要么name相当，要么最左侧</span></span><br><span class="line">    <span class="keyword">if</span> ((pos != -<span class="number">1</span>) &amp;&amp;(newElement.name.equals(oldMap[pos].name))) &#123; <span class="comment">//这里表示有名字相同的，那么失败</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//分段拷贝，这样拷贝完了之后也是排好序的</span></span><br><span class="line">    System.arraycopy(oldMap, <span class="number">0</span>, newMap, <span class="number">0</span>, pos + <span class="number">1</span>); <span class="comment">//对数组拷贝，这里相当于先拷贝小的</span></span><br><span class="line">    newMap[pos + <span class="number">1</span>] =newElement;</span><br><span class="line">    System.arraycopy</span><br><span class="line">        (oldMap, pos + <span class="number">1</span>, newMap, pos + <span class="number">2</span>, oldMap.length - pos - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">二分查找方法如下:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; <span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(MapElement&lt;T&gt;[] map, String name)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = map.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Special cases: -1 and 0</span></span><br><span class="line">    <span class="keyword">if</span> (b == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (name.compareTo(map[<span class="number">0</span>].name) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (b == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        i = (b + a) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">int</span> result =name.compareTo(map[i].name);</span><br><span class="line">        <span class="keyword">if</span> (result &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            a = i;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (result == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            b = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((b - a) == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> result2 =name.compareTo(map[b].name);</span><br><span class="line">            <span class="keyword">if</span> (result2 &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> a;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> b;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="zhu-ce-web-ying-yong">注册web应用</span></h3>
+<p>在这里注册路由，经过http请求能够找到对应的web 应用，一个context对应一个web应用</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">registerContext</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String contextPath =context.getPath(); <span class="comment">//获取context的路径</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="string">"/"</span>.equals(contextPath))&#123;</span><br><span class="line">        contextPath = <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Host host = (Host)context.getParent(); <span class="comment">//获取的其host</span></span><br><span class="line">    WebResourceRootresources = context.getResources(); <span class="comment">//获取root</span></span><br><span class="line">    String[] welcomeFiles =context.findWelcomeFiles(); <span class="comment">//获取欢迎页</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 准备context 下的所有 wrapper 信息</span></span><br><span class="line">    List&lt;WrapperMappingInfo&gt;wrappers = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (Container container :context.findChildren()) &#123;</span><br><span class="line">        prepareWrapperMappingInfo(context, (Wrapper)container, wrappers);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(log.isDebugEnabled())&#123;</span><br><span class="line">            log.debug(sm.getString(<span class="string">"mapperListener.registerWrapper"</span>,</span><br><span class="line">                    container.getName(), contextPath, service));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加 contextVersion，在这里面会将该context下的所有wrapper映射信息也构建</span></span><br><span class="line">    mapper.addContextVersion(host.getName(), host, contextPath,</span><br><span class="line">            context.getWebappVersion(), context, welcomeFiles, resources,</span><br><span class="line">            wrappers);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(log.isDebugEnabled())&#123;</span><br><span class="line">        log.debug(sm.getString(<span class="string">"mapperListener.registerContext"</span>,</span><br><span class="line">                contextPath, service));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -482,12 +486,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2016/07/25/ofbiz/ofbiz13/">Ofbiz模块加载机制即创建独立模块（脱离热部署)</a></p>
+  <p><span>本文标题:</span><a href="/2017/08/18/tomcat/2018-01-23-1/">tomcat请求处理分析(二) 启动mapperListener</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
-  <p><span>发布时间:</span>2016年07月25日 - 18:07</p>
-  <p><span>最后更新:</span>2018年01月16日 - 22:01</p>
-  <p><span>原始链接:</span><a href="/2016/07/25/ofbiz/ofbiz13/" title="Ofbiz模块加载机制即创建独立模块（脱离热部署)">www.cfad.tech/2016/07/25/ofbiz/ofbiz13/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2016/07/25/ofbiz/ofbiz13/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2017年08月18日 - 23:08</p>
+  <p><span>最后更新:</span>2018年01月23日 - 10:01</p>
+  <p><span>原始链接:</span><a href="/2017/08/18/tomcat/2018-01-23-1/" title="tomcat请求处理分析(二) 启动mapperListener">www.cfad.tech/2017/08/18/tomcat/2018-01-23-1/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/08/18/tomcat/2018-01-23-1/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -520,7 +524,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/OFBiz/" rel="tag"># OFBiz</a>
+            <a href="/tags/tomcat/" rel="tag"># tomcat</a>
           
         </div>
       
@@ -533,8 +537,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/24/ofbiz/2018-01-16/" rel="next" title="ofbiz连接mysql并创建独立数据库">
-                <i class="fa fa-chevron-left"></i> ofbiz连接mysql并创建独立数据库
+              <a href="/2017/08/18/tomcat/2018-01-23/" rel="next" title="tomcat请求处理分析(一) 启动container实例">
+                <i class="fa fa-chevron-left"></i> tomcat请求处理分析(一) 启动container实例
               </a>
             
           </div>
@@ -543,8 +547,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/01/maven/2018-01-03/" rel="prev" title="maven命令使用指南">
-                maven命令使用指南 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/18/tomcat/2018-01-23-2/" rel="prev" title="tomcat请求处理分析(三) 绑定本地端口监听请求">
+                tomcat请求处理分析(三) 绑定本地端口监听请求 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -623,8 +627,17 @@ var jiathis_config={
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -728,6 +741,22 @@ var jiathis_config={
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="qi-dong-mapperlistener">&#x542F;&#x52A8;mapperListener</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="zhu-ce-host">&#x6CE8;&#x518C;Host</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text"><span id="tian-jia-host">&#x6DFB;&#x52A0;Host</span></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.1.</span> <span class="nav-text"><span id="zhu-ce-web-ying-yong">&#x6CE8;&#x518C;web&#x5E94;&#x7528;</span></span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
