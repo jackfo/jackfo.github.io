@@ -14,7 +14,7 @@
   <entry>
     <title><![CDATA[IO流相关问题]]></title>
     <url>%2F2018%2F01%2F22%2Fjava%2F2018-01-22-1%2F</url>
-    <content type="text"><![CDATA[Q1GC能关闭IO资源？ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;垃圾回收主要回收的是内存资源，而io开辟的资源是磁盘资源，所以不能被回收，需要手动释放。 #Q2java7之后怎么样可以不写流close()代码而实现流的自动关闭 jdk为我们做了什么 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java7增强了try语句的功能，它允许在try关键字后紧跟一对圆括号，圆括号可以声明、初始化一个或多个资源（此处的资源是指那些必须在程序结束时显式关闭的资源，比如数据库连接，网络连接等），try-with-resources 是一个定义了一个或多个资源的try 声明，try语句在该语句结束时自动关闭这些资源。try-with-resources确保每一个资源在处理完成后都会被关闭。这些资源必须实现AutoCloseable或者Closeable接口，实现这两个接口就必须实现close() 方法。 #Q3 有一个很大的文件，超过24字节大小，里面有中英文掺杂，现在用一个24字节的数组不断读取，会有什么问题吗？]]></content>
+    <content type="text"><![CDATA[Q1GC能关闭IO资源？ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;垃圾回收主要回收的是内存资源，而io开辟的资源是磁盘资源，所以不能被回收，需要手动释放。 Q2java7之后怎么样可以不写流close()代码而实现流的自动关闭 jdk为我们做了什么 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java7增强了try语句的功能，它允许在try关键字后紧跟一对圆括号，圆括号可以声明、初始化一个或多个资源（此处的资源是指那些必须在程序结束时显式关闭的资源，比如数据库连接，网络连接等），try-with-resources 是一个定义了一个或多个资源的try 声明，try语句在该语句结束时自动关闭这些资源。try-with-resources确保每一个资源在处理完成后都会被关闭。这些资源必须实现AutoCloseable或者Closeable接口，实现这两个接口就必须实现close() 方法。 Q3 有一个很大的文件，超过24字节大小，里面有中英文掺杂，现在用一个24字节的数组不断读取，会有什么问题吗？ 编码不一致 Q4推回输入流 http://blog.longjiazuo.com/archives/4462 Q5随机访问流，也就是RandomAccessFile流 http://blog.longjiazuo.com/archives/4576 Q6流中的命令模式 http://blog.longjiazuo.com/archives/4488 Q7]]></content>
       <categories>
         <category>java</category>
       </categories>
