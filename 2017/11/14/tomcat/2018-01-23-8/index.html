@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 1px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="tomcat," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="JMX即Java 管理扩展（Java Management Extensions，JMX）用来管理检测 Java 程序（同时 JMX 也在 J2EE 1.4 中被发布）它的作用是可以在程序运行的时候对其进行动态处理,调用相应方法来进行对指定属性值进行修改,在下面我将以代码结合jconsole进行分析（注意:在实际的程序管理过程中并不支持使用jconsole,因为它是一个java的客户端">
+<meta name="keywords" content="tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tomcat源码解读三 jmx">
+<meta property="og:url" content="www.cfad.tech/2017/11/14/tomcat/2018-01-23-8/index.html">
+<meta property="og:site_name" content="敏而好学,乐以忘忧">
+<meta property="og:description" content="JMX即Java 管理扩展（Java Management Extensions，JMX）用来管理检测 Java 程序（同时 JMX 也在 J2EE 1.4 中被发布）它的作用是可以在程序运行的时候对其进行动态处理,调用相应方法来进行对指定属性值进行修改,在下面我将以代码结合jconsole进行分析（注意:在实际的程序管理过程中并不支持使用jconsole,因为它是一个java的客户端">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="/media/15166845217995.jpg">
+<meta property="og:image" content="/media/15166847677194.jpg">
+<meta property="og:updated_time" content="2018-01-23T05:34:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tomcat源码解读三 jmx">
+<meta name="twitter:description" content="JMX即Java 管理扩展（Java Management Extensions，JMX）用来管理检测 Java 程序（同时 JMX 也在 J2EE 1.4 中被发布）它的作用是可以在程序运行的时候对其进行动态处理,调用相应方法来进行对指定属性值进行修改,在下面我将以代码结合jconsole进行分析（注意:在实际的程序管理过程中并不支持使用jconsole,因为它是一个java的客户端">
+<meta name="twitter:image" content="/media/15166845217995.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.cfad.tech/2017/11/14/tomcat/2018-01-23-8/"/>
+
+
+
+
+
+  <title>tomcat源码解读三 jmx | 敏而好学,乐以忘忧</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+        <a href="https://github.com/jackfo" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">敏而好学,乐以忘忧</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/11/14/tomcat/2018-01-23-8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cfs">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/dl.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="敏而好学,乐以忘忧">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">tomcat源码解读三 jmx</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-14T00:01:14+08:00">
+                2017-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tomcat/" itemprop="url" rel="index">
+                    <span itemprop="name">tomcat</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  5,432
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  26
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>      JMX即Java 管理扩展（Java Management Extensions，JMX）用来管理检测 Java 程序（同时 JMX 也在 J2EE 1.4 中被发布）它的作用是可以在程序运行的时候对其进行动态处理,调用相应方法来进行对指定属性值进行修改,在下面我将以代码结合jconsole进行分析（注意:在实际的程序管理过程中并不支持使用jconsole,因为它是一个java的客户端）源代码在下一节进行分析</p>
+<h1><span id="tomcat-zhong-jmx-de-shi-yong-demo">tomcat中JMX的使用Demo</span></h1>
+<p>      请注意这个JMX的展示仅仅针对与tomcat中的,因为tomcat对JMX做了改动,导致setter和getter方法不显示以及其他相关属性操作展示与原生jmx有所出入</p>
+<h2><span id="java-dai-ma">java代码:</span></h2>
+<p>父类:</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MbeanTestExtend</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String unSetGetAttrP;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String onlySetAttrP;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String onlyGetAttrP;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String includeSetGetAttrP;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnlySetAttrP</span><span class="params">(String onlySetAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.onlySetAttrP = onlySetAttr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getOnlyGetAttrP</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> onlyGetAttrP;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getIncludeSetGetAttrP</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> includeSetGetAttrP;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIncludeSetGetAttrP</span><span class="params">(String includeSetGetAttrP)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.includeSetGetAttrP = includeSetGetAttrP;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">setAttrTestP</span><span class="params">(String attrTestP)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"attrTestP"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invokeMethodP</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"invokeMethodP..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>子类:</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MBeanTest</span> <span class="keyword">extends</span> <span class="title">MbeanTestExtend</span> <span class="keyword">implements</span> <span class="title">MBeanRegistration</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String unSetGetAttr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String onlySetAttr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String onlyGetAttr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String includeSetGetAttr;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnlySetAttr</span><span class="params">(String onlySetAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.onlySetAttr = onlySetAttr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getOnlyGetAttr</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> onlyGetAttr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getIncludeSetGetAttr</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> includeSetGetAttr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIncludeSetGetAttr</span><span class="params">(String includeSetGetAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.includeSetGetAttr = includeSetGetAttr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">setAttrTest</span><span class="params">(String attrTest)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"attrTest"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invokeMethod</span><span class="params">(String value)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"传入值:"</span>+value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUnHandle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"测试"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDomain</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"mainTest1"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//MBeanServer实例能够用MBeanServerFactory类提供的方法获取</span></span><br><span class="line">        <span class="comment">//MBeanServer mserver = null;</span></span><br><span class="line"></span><br><span class="line">        MBeanTest mBeanTest = <span class="keyword">new</span> MBeanTest();</span><br><span class="line"></span><br><span class="line">        mBeanTest.register(mBeanTest, <span class="string">"type=MBeanTest"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> ObjectName <span class="title">register</span><span class="params">(Object obj, String objectNameKeyProperties)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//根据domain构造一个对象名 形式一般 domain:type=className 这个最终构成 jmxStudy:type=mainTest</span></span><br><span class="line">        <span class="comment">//StringBuilder name = new StringBuilder(getDomain());</span></span><br><span class="line">        StringBuilder name = <span class="keyword">new</span> StringBuilder(<span class="string">"jmxStudy"</span>);</span><br><span class="line">        name.append(<span class="string">':'</span>);</span><br><span class="line">        name.append(objectNameKeyProperties);</span><br><span class="line">        ObjectName on = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//将上面构建的对象名字符串转化为对应的对象</span></span><br><span class="line">            on = <span class="keyword">new</span> ObjectName(name.toString());</span><br><span class="line">            <span class="comment">//获取MBeans建模注册表并注册组件</span></span><br><span class="line">            Registry.getRegistry(<span class="keyword">null</span>, <span class="keyword">null</span>).registerComponent(obj, on, <span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (MalformedObjectNameException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e.toString());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e.toString());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> on;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ObjectName <span class="title">preRegister</span><span class="params">(MBeanServer server, ObjectName name)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"preRegister......."</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postRegister</span><span class="params">(Boolean registrationDone)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"postRegister......."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preDeregister</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"preDeregister......."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postDeregister</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"postDeregister......."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="jconsole-xiao-guo">jconsole效果</span></h2>
+<p><img src="/media/15166845217995.jpg" alt=""></p>
+<h2><span id="jie-lun">结论</span></h2>
+<p>1.无setter和getter方法的变量不会显示
+2.有getter方法无setter方法的即使没有变量会去掉前面get然后显示属性
+3.有setter方法无getter方法且无变量的不会显示
+4.有setter方法无getter方法存在变量的属性会显示
+5.由1 2 3 4可知一个属性是否显示跟其句柄和setter/getter方法有关
+6.一个属性显示后仅当具有getter方法的则这个属性可读,在值的地方会显示
+7.一个属性显示后仅当具有setter方法的则这个属性可写,在值得地方输入新值会进行更新
+8.一个操作方法必须满足一下的条件才能显示并且实现调用</p>
+<blockquote>
+<p>①public修饰
+②不是static方法
+③不是setter/getter方法
+④不是Object类中的方法（这是由于继承类中的方法也会被显示）</p>
+</blockquote>
+<h1><span id="tomcat-zhong-jmx-de-yuan-ma-fen-xi">tomcat中JMX的源码分析</span></h1>
+<p>      在这里我是将tomcat中的jmx给拆分出来进行单独分析,希望通过此种方式能够尽可能的出现更多的问题,以便对其有更多的了解,首先需要声明的是tomcat的JMX是在jsvase原有的基础上做了一些复用,这就必须了解一些JMX的实现过程</p>
+<h2><span id="tomcat-zhong-jmx-de-uml-tu">tomcat中JMX的UML图</span></h2>
+<p><img src="/media/15166847677194.jpg" alt=""></p>
+<h2><span id="qi-dong-dai-ma-jie-xi">启动代码解析</span></h2>
+<p>      注意：本人是在剥离下来的代码上分析的,跟源代码可能有所出入,但不会太大，主要是将它的思想分析一下在这个分析过程中以LifecycleMBeanBase类的register方法为入口分析</p>
+<p>1.1.2.1 register方法
+这个方法是总共分为三步逻辑如下：
+第一步：构建ObjectName
+第二步：获取Mbean的注册表
+第三步 : 注册当前Mbean组件</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> ObjectName <span class="title">register</span><span class="params">(Object obj, String objectNameKeyProperties)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//根据domain构造一个对象名 形式一般 domain:type=className 这个最终构成 jmxStudy:type=mainTest</span></span><br><span class="line">    <span class="comment">//StringBuilder name = new StringBuilder(getDomain());</span></span><br><span class="line">    StringBuilder name = <span class="keyword">new</span> StringBuilder(<span class="string">"jmxStudy"</span>);</span><br><span class="line">    name.append(<span class="string">':'</span>);</span><br><span class="line">    name.append(objectNameKeyProperties);</span><br><span class="line">    ObjectName on = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//将上面构建的对象名字符串转化为对应的对象</span></span><br><span class="line">        on = <span class="keyword">new</span> ObjectName(name.toString());</span><br><span class="line">        <span class="comment">//获取MBeans建模注册表并注册组件</span></span><br><span class="line">        Registry.getRegistry(<span class="keyword">null</span>, <span class="keyword">null</span>).registerComponent(obj, on, <span class="keyword">null</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (MalformedObjectNameException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e.toString());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e.toString());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>      就这样tomcat的JMX是注册成功的,但是既然分析源码,我们肯定要知根问底,下面就看看如何获取Mbean注册表以及注册组件</p>
+<h3><span id="huo-qu-mbean-zhu-ce-biao">获取Mbean注册表</span></h3>
+<p>主要调用Registry类的静态方法getRegistry</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * tomcat中的JMX传入的两个参数都是null</span></span><br><span class="line"><span class="comment"> * 所以最终返回registry这个静态句柄的值 当然第一次为空是实例化了一个Registry实例</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Registry <span class="title">getRegistry</span><span class="params">(Object key, Object guard)</span> </span>&#123;</span><br><span class="line">    Registry localRegistry;</span><br><span class="line">    <span class="comment">//perLoaderRegistries是一个HashMap集合</span></span><br><span class="line">    <span class="keyword">if</span>( perLoaderRegistries!=<span class="keyword">null</span> ) &#123;</span><br><span class="line">        <span class="keyword">if</span>( key==<span class="keyword">null</span> )&#123;</span><br><span class="line">            <span class="comment">//获取当前线程加载器</span></span><br><span class="line">            key=Thread.currentThread().getContextClassLoader();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果key不为空 则从perLoaderRegistries中获取,如果没有的话实例化一个并放入perLoaderRegistries句柄</span></span><br><span class="line">        <span class="keyword">if</span>( key != <span class="keyword">null</span> ) &#123;</span><br><span class="line">            localRegistry = perLoaderRegistries.get(key);</span><br><span class="line">            <span class="keyword">if</span>( localRegistry == <span class="keyword">null</span> ) &#123;</span><br><span class="line">                localRegistry=<span class="keyword">new</span> Registry();</span><br><span class="line">                localRegistry.guard=guard;</span><br><span class="line">                perLoaderRegistries.put( key, localRegistry );</span><br><span class="line">                <span class="keyword">return</span> localRegistry;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>( localRegistry.guard != <span class="keyword">null</span> &amp;&amp;</span><br><span class="line">                    localRegistry.guard != guard ) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> localRegistry;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//实例化一个静态的Registry</span></span><br><span class="line">    <span class="keyword">if</span> (registry == <span class="keyword">null</span>) &#123;</span><br><span class="line">        registry = <span class="keyword">new</span> Registry();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//这里的逻辑就是guard不为空则必须与传入的相同</span></span><br><span class="line">    <span class="keyword">if</span>( registry.guard != <span class="keyword">null</span> &amp;&amp; registry.guard != guard ) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (registry);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="zhu-ce-mbean-zu-jian">注册Mbean组件</span></h3>
+<p>      注册Mbean组件即注册当前实例,在验证注册实例不为空之后,根据其全限定类型在mbean管理器中找到相应的ManagedBean实例,如果找不到则创建一个,并在验证ObjectName（如果有则将原有的注册的取消掉）情况下将当前Mbean注册进去</p>
+<p>主要调用Registry类的静态方法getRegistry</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * tomcat中的JMX传入的两个参数都是null</span></span><br><span class="line"><span class="comment"> * 所以最终返回registry这个静态句柄的值 当然第一次为空是实例化了一个Registry实例</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Registry <span class="title">getRegistry</span><span class="params">(Object key, Object guard)</span> </span>&#123;</span><br><span class="line">    Registry localRegistry;</span><br><span class="line">    <span class="comment">//perLoaderRegistries是一个HashMap集合</span></span><br><span class="line">    <span class="keyword">if</span>( perLoaderRegistries!=<span class="keyword">null</span> ) &#123;</span><br><span class="line">        <span class="keyword">if</span>( key==<span class="keyword">null</span> )&#123;</span><br><span class="line">            <span class="comment">//获取当前线程加载器</span></span><br><span class="line">            key=Thread.currentThread().getContextClassLoader();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果key不为空 则从perLoaderRegistries中获取,如果没有的话实例化一个并放入perLoaderRegistries句柄</span></span><br><span class="line">        <span class="keyword">if</span>( key != <span class="keyword">null</span> ) &#123;</span><br><span class="line">            localRegistry = perLoaderRegistries.get(key);</span><br><span class="line">            <span class="keyword">if</span>( localRegistry == <span class="keyword">null</span> ) &#123;</span><br><span class="line">                localRegistry=<span class="keyword">new</span> Registry();</span><br><span class="line">                localRegistry.guard=guard;</span><br><span class="line">                perLoaderRegistries.put( key, localRegistry );</span><br><span class="line">                <span class="keyword">return</span> localRegistry;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>( localRegistry.guard != <span class="keyword">null</span> &amp;&amp;</span><br><span class="line">                    localRegistry.guard != guard ) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> localRegistry;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//实例化一个静态的Registry</span></span><br><span class="line">    <span class="keyword">if</span> (registry == <span class="keyword">null</span>) &#123;</span><br><span class="line">        registry = <span class="keyword">new</span> Registry();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//这里的逻辑就是guard不为空则必须与传入的相同</span></span><br><span class="line">    <span class="keyword">if</span>( registry.guard != <span class="keyword">null</span> &amp;&amp; registry.guard != guard ) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (registry);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="zhu-ce-mbean-zu-jian">注册Mbean组件</span></h3>
+<p>      注册Mbean组件即注册当前实例,在验证注册实例不为空之后,根据其全限定类型在mbean管理器中找到相应的ManagedBean实例,如果找不到则创建一个,并在验证ObjectName（如果有则将原有的注册的取消掉）情况下将当前Mbean注册进去</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponent</span><span class="params">(Object bean, ObjectName oname, String type)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//如果要注册的bean为空 则直接返回</span></span><br><span class="line">    <span class="keyword">if</span>( bean ==<span class="keyword">null</span> ) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//如果类型为空则获取bean的全限定类名</span></span><br><span class="line">        <span class="keyword">if</span>( type==<span class="keyword">null</span> ) &#123;</span><br><span class="line">            type=bean.getClass().getName();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//mbean的管理器</span></span><br><span class="line">        ManagedBean managed = findManagedBean(<span class="keyword">null</span>, bean.getClass(), type);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//真实的mbean</span></span><br><span class="line">        DynamicMBean mbean = managed.createMBean(bean);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果当前oname被注册先解除其注册</span></span><br><span class="line">        <span class="keyword">if</span>( getMBeanServer().isRegistered( oname )) &#123;</span><br><span class="line">            getMBeanServer().unregisterMBean( oname );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//传入的mbean==&gt;JMX.MBeanTest  oname==&gt;mainTest1:type=MBeanTest</span></span><br><span class="line">        getMBeanServer().registerMBean( mbean, oname);</span><br><span class="line">    &#125; <span class="keyword">catch</span>( Exception ex) &#123;</span><br><span class="line">        ex.printStackTrace();</span><br><span class="line">        <span class="keyword">throw</span> ex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="cha-zhao-mbean-guan-li-qi">查找Mbean管理器</span></h3>
+<p>      根据类型从descriptors和descriptorsByClass这两个HashMap结构中去寻找，优先级descriptors&gt;descriptorsByClass。在没有找到的情况下会进行一下操作:
+      1. findDescriptor 方法根据bean找到对应描述文件,将实例加载到Registry类的registry句柄中去,然后再进行查找(后文描述),一般这种情况是找的到的
+      2. 在1中没有找到的情况下,修改ModelerSource再进行查找
+依上面顺序找到了就返回,没找到则返回空</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ManagedBean <span class="title">findManagedBean</span><span class="params">(Object bean, Class&lt;?&gt; beanClass, String type)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">//如果bean不为空 beanClass为空 获取beanClass</span></span><br><span class="line">    <span class="keyword">if</span>( bean!=<span class="keyword">null</span> &amp;&amp; beanClass==<span class="keyword">null</span> ) &#123;</span><br><span class="line">        beanClass=bean.getClass();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果type为空 获取beanClass的name</span></span><br><span class="line">    <span class="keyword">if</span>( type==<span class="keyword">null</span> ) &#123;</span><br><span class="line">        type=beanClass.getName();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从descriptors和descriptorsByClass中获取相应的ManagedBean实例 这里首次回去的为空</span></span><br><span class="line">    ManagedBean managed = findManagedBean(type);</span><br><span class="line">    <span class="comment">// 寻找相同包下的描述符</span></span><br><span class="line">    <span class="keyword">if</span>( managed==<span class="keyword">null</span> ) &#123;</span><br><span class="line">        <span class="comment">// check package and parent packages</span></span><br><span class="line">        findDescriptor( beanClass, type );</span><br><span class="line">        managed=findManagedBean(type);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 还是没有找到 再根据beanClass来load一遍</span></span><br><span class="line">    <span class="keyword">if</span>( managed==<span class="keyword">null</span> ) &#123;</span><br><span class="line">        <span class="comment">// introspection</span></span><br><span class="line">        load(<span class="string">"MbeansDescriptorsIntrospectionSource"</span>, beanClass, type);</span><br><span class="line">        managed=findManagedBean(type);</span><br><span class="line">        <span class="keyword">if</span>( managed==<span class="keyword">null</span> ) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        managed.setName( type );</span><br><span class="line">        addManagedBean(managed);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> managed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="chuang-jian-zui-zhong-shi-yong-de-mbean">创建最终使用的Mbean</span></h3>
+<p>      这个过程中最终创建的是BaseModelMBean实例其继承了DynamicMBean接口,并将mbean管理器注入到其句柄</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> DynamicMBean <span class="title">createMBean</span><span class="params">(Object instance)</span> <span class="keyword">throws</span> InstanceNotFoundException, MBeanException, RuntimeOperationsException </span>&#123;</span><br><span class="line"></span><br><span class="line">    BaseModelMBean mbean = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 如果当前ManagedBean继承了BASE_MBEAN 则实例化一个BaseModelMBean tomcat的默认实现方式就是这种方式</span></span><br><span class="line">    <span class="keyword">if</span>(getClassName().equals(BASE_MBEAN)) &#123;</span><br><span class="line">        mbean = <span class="keyword">new</span> BaseModelMBean();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//跟还有全限定类名实例化mbean</span></span><br><span class="line">        Class&lt;?&gt; clazz = <span class="keyword">null</span>;</span><br><span class="line">        Exception ex = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            clazz = Class.forName(getClassName());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>( clazz==<span class="keyword">null</span> ) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ClassLoader cl= Thread.currentThread().getContextClassLoader();</span><br><span class="line">                <span class="keyword">if</span> ( cl != <span class="keyword">null</span>)&#123;</span><br><span class="line">                    clazz= cl.loadClass(getClassName());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                ex=e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>( clazz==<span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> MBeanException</span><br><span class="line">                    (ex, <span class="string">"Cannot load ModelMBean class "</span> + getClassName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// Stupid - this will set the default minfo first....</span></span><br><span class="line">            mbean = (BaseModelMBean) clazz.newInstance();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeOperationsException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> e;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> MBeanException</span><br><span class="line">                    (e, <span class="string">"Cannot instantiate ModelMBean of class "</span> +</span><br><span class="line">                            getClassName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置当前对象为实例化mbean的managedBean句柄</span></span><br><span class="line">    mbean.setManagedBean(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance != <span class="keyword">null</span>)&#123;</span><br><span class="line">            mbean.setManagedResource(instance, <span class="string">"ObjectReference"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InstanceNotFoundException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> mbean;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="registermbean-zhu-ce-zu-jian">registerMBean注册组件</span></h3>
+<p>      从管理工厂ManagementFactory获取MbeanServer,并通过registerMBean方法将属性和操作注册到Mbean
+栈帧如下:</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">registerComponent(Object, ObjectName, String):127, Registry (JMX), Registry.java</span><br><span class="line"></span><br><span class="line">registerMBean(Object, ObjectName):522, JmxMBeanServer (com.sun.jmx.mbeanserver), JmxMBeanServer.java</span><br><span class="line"></span><br><span class="line">registerMBean(Object, ObjectName):319, DefaultMBeanServerInterceptor (com.sun.jmx.interceptor), DefaultMBeanServerInterceptor.java</span><br><span class="line"></span><br><span class="line">getNewMBeanClassName(Object):333, DefaultMBeanServerInterceptor (com.sun.jmx.interceptor), DefaultMBeanServerInterceptor.java</span><br><span class="line"></span><br><span class="line">getMBeanInfo():88, BaseModelMBean (JMX), BaseModelMBean.java</span><br><span class="line"></span><br><span class="line">getMBeanInfo():160, ManagedBean (JMX), ManagedBean.java</span><br></pre></td></tr></table></figure></p>
+<p>      通过getMBeanInfo方法会将属性、操作和通知注册到对应实例MBeanAttributeInfo、MBeanOperationInfo以及NotificationInfo然后统一注入到MBeanInfo,最终其会注入到Mbean的管理器从而实现在jconsole等上进行使用</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MBeanInfo <span class="title">getMBeanInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mBeanInfoLock.readLock().lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (info != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> info;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        mBeanInfoLock.readLock().unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    mBeanInfoLock.writeLock().lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (info == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//创建必要的信息说明</span></span><br><span class="line">            AttributeInfo attrs[] = getAttributes();</span><br><span class="line">            MBeanAttributeInfo attributes[] =</span><br><span class="line">                    <span class="keyword">new</span> MBeanAttributeInfo[attrs.length];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; attrs.length; i++)&#123;</span><br><span class="line">                attributes[i] = attrs[i].createAttributeInfo();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            OperationInfo opers[] = getOperations();</span><br><span class="line">            MBeanOperationInfo operations[] =</span><br><span class="line">                    <span class="keyword">new</span> MBeanOperationInfo[opers.length];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; opers.length; i++)&#123;</span><br><span class="line">                operations[i] = opers[i].createOperationInfo();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//获取所有的通知对象</span></span><br><span class="line">            NotificationInfo notifs[] = getNotifications();</span><br><span class="line">            <span class="comment">//MBeanNotificationInfo类用于描述由MBean发出的不同通知实例的特征</span></span><br><span class="line">            MBeanNotificationInfo notifications[] =</span><br><span class="line">                    <span class="keyword">new</span> MBeanNotificationInfo[notifs.length];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; notifs.length; i++)&#123;</span><br><span class="line">                notifications[i] = notifs[i].createNotificationInfo();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//创建一个MBeanInfo对象实例 注入相关属性和操作</span></span><br><span class="line">            info = <span class="keyword">new</span> MBeanInfo(getClassName(),</span><br><span class="line">                    getDescription(),</span><br><span class="line">                    attributes,</span><br><span class="line">                    <span class="keyword">new</span> MBeanConstructorInfo[] &#123;&#125;,</span><br><span class="line">                    operations,</span><br><span class="line">                    notifications);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> info;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        mBeanInfoLock.writeLock().unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="jia-zai-zi-yuan-miao-shu">加载资源描述</span></h3>
+<p>      这是一个比较核心的方法,其获取相应的类加载器,找到相应包下的mbeans-descriptors.xml，然后获取模型资源实例，根据字符串MbeansDescriptorsIntrospectionSource的到其实例,注入相应registry，然后在其execute方法中根据createManagedBean 创建ManagedBean，也就是在这里根据对象方法设置属相的的具体操作(如:是否可读,可写),根据initMethods方法将相关属相操作进行区分，下面展示execute和initMethods方法代码</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ManagedBean <span class="title">createManagedBean</span><span class="params">(Registry registry, String domain, Class&lt;?&gt; realClass, String type)</span> </span>&#123;</span><br><span class="line">    ManagedBean mbean= <span class="keyword">new</span> ManagedBean();</span><br><span class="line">    Method methods[]=<span class="keyword">null</span>;</span><br><span class="line">    Hashtable&lt;String,Method&gt; attMap = <span class="keyword">new</span> Hashtable&lt;&gt;();</span><br><span class="line">    <span class="comment">// key: attribute val: getter method</span></span><br><span class="line">    Hashtable&lt;String,Method&gt; getAttMap = <span class="keyword">new</span> Hashtable&lt;&gt;();</span><br><span class="line">    <span class="comment">// key: attribute val: setter method</span></span><br><span class="line">    Hashtable&lt;String,Method&gt; setAttMap = <span class="keyword">new</span> Hashtable&lt;&gt;();</span><br><span class="line">    <span class="comment">// key: operation val: invoke method</span></span><br><span class="line">    Hashtable&lt;String,Method&gt; invokeAttMap = <span class="keyword">new</span> Hashtable&lt;&gt;();</span><br><span class="line">    methods = realClass.getMethods();</span><br><span class="line">    <span class="comment">//初始化属性与操作 在这个过程主要将方法加载到对应Hashtable集合 从而分成属性 操作 以及后面在JMX中设置值调用的setAttMap</span></span><br><span class="line">    initMethods(realClass, methods, attMap, getAttMap, setAttMap, invokeAttMap );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//将所有的attMap中的属性添加到ManagedBean的attributes句柄中</span></span><br><span class="line">        Enumeration&lt;String&gt; en = attMap.keys();</span><br><span class="line">        <span class="keyword">while</span>( en.hasMoreElements() ) &#123;</span><br><span class="line">            String name = en.nextElement();</span><br><span class="line">            AttributeInfo ai=<span class="keyword">new</span> AttributeInfo();</span><br><span class="line">            ai.setName( name );</span><br><span class="line">            <span class="comment">//根据name从getAttMap获取相关方法 如果不为空 给属性设置这个get方法 如果返回类型不为空 设置相应的返回类型</span></span><br><span class="line">            Method gm = getAttMap.get(name);</span><br><span class="line">            <span class="keyword">if</span>( gm!=<span class="keyword">null</span> ) &#123;</span><br><span class="line">                ai.setGetMethod( gm.getName());</span><br><span class="line">                Class&lt;?&gt; t=gm.getReturnType();</span><br><span class="line">                <span class="keyword">if</span>( t!=<span class="keyword">null</span> )&#123;</span><br><span class="line">                    ai.setType(t.getName() );</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//根据name从setAttMap获取相关方法 如果不为空 给属性设置这个set方法 如果返回类型不为空 设置相应的返回类型</span></span><br><span class="line">            Method sm = setAttMap.get(name);</span><br><span class="line">            <span class="keyword">if</span>( sm!=<span class="keyword">null</span> ) &#123;</span><br><span class="line">                Class&lt;?&gt; t = sm.getParameterTypes()[<span class="number">0</span>];</span><br><span class="line">                <span class="keyword">if</span>( t!=<span class="keyword">null</span> )&#123;</span><br><span class="line">                    ai.setType( t.getName());</span><br><span class="line">                    ai.setSetMethod( sm.getName());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            ai.setDescription(<span class="string">"自省属性"</span> + name);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//如果gm为空 设置当前属性不可读</span></span><br><span class="line">            <span class="keyword">if</span>( gm==<span class="keyword">null</span> )&#123;</span><br><span class="line">                ai.setReadable(<span class="keyword">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//如果sm为空 设置当前属性不可写</span></span><br><span class="line">            <span class="keyword">if</span>( sm==<span class="keyword">null</span> )&#123;</span><br><span class="line">                ai.setWriteable(<span class="keyword">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//主要sm和gm中有一个不为 则像mbean中添加当前属性</span></span><br><span class="line">            <span class="keyword">if</span>( sm!=<span class="keyword">null</span> || gm!=<span class="keyword">null</span> )&#123;</span><br><span class="line">                mbean.addAttribute(ai);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//遍历所有invokeAttMap中的方法 这些方法排除的有setter getter方法 静态方法 非public方法 object类中的方法</span></span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String,Method&gt; entry : invokeAttMap.entrySet()) &#123;</span><br><span class="line">            String name = entry.getKey();</span><br><span class="line">            Method m = entry.getValue();</span><br><span class="line">            <span class="keyword">if</span>(m != <span class="keyword">null</span>) &#123;</span><br><span class="line">                OperationInfo op=<span class="keyword">new</span> OperationInfo();</span><br><span class="line">                op.setName(name);</span><br><span class="line">                op.setReturnType(m.getReturnType().getName());</span><br><span class="line">                op.setDescription(<span class="string">"自省操作 "</span> + name);</span><br><span class="line">                Class&lt;?&gt; parms[] = m.getParameterTypes();</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;parms.length; i++ ) &#123;</span><br><span class="line">                    ParameterInfo pi=<span class="keyword">new</span> ParameterInfo();</span><br><span class="line">                    pi.setType(parms[i].getName());</span><br><span class="line">                    pi.setName( <span class="string">"参数名"</span> + i);</span><br><span class="line">                    pi.setDescription(<span class="string">"参数说明"</span> + i);</span><br><span class="line">                    op.addParameter(pi);</span><br><span class="line">                &#125;</span><br><span class="line">                mbean.addOperation(op);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Null arg method for ["</span> + name + <span class="string">"]"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置mbean的name</span></span><br><span class="line">        mbean.setName( type );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> mbean;</span><br><span class="line">    &#125; <span class="keyword">catch</span>( Exception ex ) &#123;</span><br><span class="line">        ex.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>initMethods方法代码：</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initMethods</span><span class="params">(Class&lt;?&gt; realClass,</span></span></span><br><span class="line"><span class="function"><span class="params">                         Method methods[],</span></span></span><br><span class="line"><span class="function"><span class="params">                         Hashtable&lt;String,Method&gt; attMap,</span></span></span><br><span class="line"><span class="function"><span class="params">                         Hashtable&lt;String,Method&gt; getAttMap,</span></span></span><br><span class="line"><span class="function"><span class="params">                         Hashtable&lt;String,Method&gt; setAttMap,</span></span></span><br><span class="line"><span class="function"><span class="params">                         Hashtable&lt;String,Method&gt; invokeAttMap)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; methods.length; ++j) &#123;</span><br><span class="line">        String name=methods[j].getName();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果是一个静态方法则跳过</span></span><br><span class="line">        <span class="keyword">if</span>( Modifier.isStatic(methods[j].getModifiers()))&#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//不是public方法 跳过</span></span><br><span class="line">        <span class="keyword">if</span>( ! Modifier.isPublic( methods[j].getModifiers() ) ) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//获取该方法所在的类这是因为Object类中的方法都不需要注册到Mbean</span></span><br><span class="line">        <span class="keyword">if</span>( methods[j].getDeclaringClass() == Object.class )&#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Class&lt;?&gt; params[] = methods[j].getParameterTypes();</span><br><span class="line">        <span class="comment">//如果方法以get开始并且参数个数为0,其返回类型是支持的返回类型 则获取其添加到attMap和getAttMap</span></span><br><span class="line">        <span class="keyword">if</span>( name.startsWith( <span class="string">"get"</span> ) &amp;&amp; params.length==<span class="number">0</span>) &#123;</span><br><span class="line">            Class&lt;?&gt; ret = methods[j].getReturnType();</span><br><span class="line">            <span class="keyword">if</span>(!supportedType(ret) ) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            name=unCapitalize( name.substring(<span class="number">3</span>));</span><br><span class="line">            getAttMap.put( name, methods[j] );</span><br><span class="line">            attMap.put( name, methods[j] );</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>( name.startsWith( <span class="string">"is"</span> ) &amp;&amp; params.length==<span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//如果方法是is开头 则如果其返回类型为Boolean 则获取其添加到attMap和getAttMap</span></span><br><span class="line">            Class&lt;?&gt; ret = methods[j].getReturnType();</span><br><span class="line">            <span class="keyword">if</span>( Boolean.TYPE != ret  ) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            name=unCapitalize( name.substring(<span class="number">2</span>));</span><br><span class="line">            getAttMap.put( name, methods[j] );</span><br><span class="line">            <span class="comment">// just a marker, we don't use the value</span></span><br><span class="line">            attMap.put( name, methods[j] );</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>( name.startsWith( <span class="string">"set"</span> ) &amp;&amp; params.length==<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">//如果方法是set开头 则如果其返回类型为Boolean 则获取其添加到attMap和setAttMap</span></span><br><span class="line">            <span class="keyword">if</span>( ! supportedType( params[<span class="number">0</span>] ) ) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            name=unCapitalize( name.substring(<span class="number">3</span>));</span><br><span class="line">            setAttMap.put( name, methods[j] );</span><br><span class="line">            attMap.put( name, methods[j] );</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//如果参数长度为0,根据方法名从specialMethods中获取,如果不为空则直接返回 反之将其添加到invokeAttMap</span></span><br><span class="line">            <span class="comment">//默认去掉preDeregister postDeregister</span></span><br><span class="line">            <span class="keyword">if</span>( params.length == <span class="number">0</span> ) &#123;</span><br><span class="line">                <span class="keyword">if</span>( specialMethods.get( methods[j].getName() ) != <span class="keyword">null</span> )&#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                invokeAttMap.put( name, methods[j]);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//如果参数长度不为空 满足所有参数类型是支持类型将其添加到invokeAttMap中</span></span><br><span class="line">                <span class="keyword">boolean</span> supported=<span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">for</span>( <span class="keyword">int</span> i=<span class="number">0</span>; i&lt;params.length; i++ ) &#123;</span><br><span class="line">                    <span class="keyword">if</span>( ! supportedType( params[i])) &#123;</span><br><span class="line">                        supported=<span class="keyword">false</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>( supported )&#123;</span><br><span class="line">                    invokeAttMap.put( name, methods[j]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="diao-yong-dai-ma-jie-xi">调用代码解析</span></h2>
+<p>      在这例结合jconsole的Mbean对tomcat代码中的设置属性值、获取属性值、调用方法、发送通知四种方法进行分析。为减少篇幅在这里只是展示入口方法,核心调用的方法都标红</p>
+<h3><span id="she-zhi-shu-xing-zhi">设置属性值</span></h3>
+<p>      设置属性值是BaseModelMBean中setAttribute方法作为入口根据方法名获取相关属性，根据Mbean实例来获取相应的方法,并进行调用</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAttribute</span><span class="params">(Attribute attribute)</span> <span class="keyword">throws</span> AttributeNotFoundException, MBeanException, ReflectionException</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//如果是动态Mbean并且不是BaseModelMBean 将属性直接设置到资源</span></span><br><span class="line">    <span class="keyword">if</span>( (resource <span class="keyword">instanceof</span> DynamicMBean) &amp;&amp;</span><br><span class="line">            ! ( resource <span class="keyword">instanceof</span> BaseModelMBean )) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ((DynamicMBean)resource).setAttribute(attribute);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvalidAttributeValueException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> MBeanException(e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 验证输入参数</span></span><br><span class="line">    <span class="keyword">if</span> (attribute == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeOperationsException(<span class="keyword">new</span> IllegalArgumentException(<span class="string">"Attribute is null"</span>), <span class="string">"Attribute is null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    String name = attribute.getName();</span><br><span class="line">    Object value = attribute.getValue();</span><br><span class="line">    <span class="keyword">if</span> (name == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeOperationsException(<span class="keyword">new</span> IllegalArgumentException(<span class="string">"Attribute name is null"</span>), <span class="string">"Attribute name is null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Object oldValue=<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//根据name获取指定的方法并调用相应的方法</span></span><br><span class="line">    Method m=managedBean.getSetter(name,<span class="keyword">this</span>,resource);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//检查这个方法所在的类是否与当前实例类相同或是当前实例的超类或接口 如果是调用当前实例的方法 反之调用资源类的方法</span></span><br><span class="line">        <span class="keyword">if</span>( m.getDeclaringClass().isAssignableFrom( <span class="keyword">this</span>.getClass()) ) &#123;</span><br><span class="line">            m.invoke(<span class="keyword">this</span>, <span class="keyword">new</span> Object[] &#123; value &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            m.invoke(resource, <span class="keyword">new</span> Object[] &#123; value &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">      。。。。</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="huo-qu-shu-xing-zhi">获取属性值</span></h3>
+<p>      获取属性入口 BaseModelMBean—》getAttribute
+      获取属性是点击到管理界面具体属性的时候进行显示然后会调用到当前方法</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getAttribute</span><span class="params">(String name)</span> <span class="keyword">throws</span> AttributeNotFoundException, MBeanException, ReflectionException </span>&#123;</span><br><span class="line">    <span class="comment">//如果name为空扔出异常</span></span><br><span class="line">    <span class="keyword">if</span> (name == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeOperationsException(<span class="keyword">new</span> IllegalArgumentException(<span class="string">"Attribute name is null"</span>), <span class="string">"Attribute name is null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果实例是继承DynamicMBean并且不是BaseModelMBean则调用其自己获取属性的方式</span></span><br><span class="line">    <span class="comment">//这种情况在tomcat比较常见 如ConnectorMBean它利用自己的setter/getter属性 resource是注册的实例</span></span><br><span class="line">    <span class="keyword">if</span>( (resource <span class="keyword">instanceof</span> DynamicMBean) &amp;&amp; ! ( resource <span class="keyword">instanceof</span> BaseModelMBean )) &#123;</span><br><span class="line">        <span class="keyword">return</span> ((DynamicMBean)resource).getAttribute(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这个方法的功能是根据name获取的相关属性,再根据属性实例找到方法名,利用反射获取这个方法</span></span><br><span class="line">    Method m=managedBean.getGetter(name, <span class="keyword">this</span>, resource);</span><br><span class="line"></span><br><span class="line">    Object result = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//获取这个方法所在的类 可能是当前类也有可能是其父类</span></span><br><span class="line">        Class&lt;?&gt; declaring = m.getDeclaringClass();</span><br><span class="line">        <span class="comment">//如果条件为真,declaring是其父类 这直接通过当前实例调用 这样完全java继承方法的实现思想</span></span><br><span class="line">        <span class="comment">//这种情况出现于Mbean实例继承BaseModelMBean</span></span><br><span class="line">        <span class="keyword">if</span>( declaring.isAssignableFrom(<span class="keyword">this</span>.getClass()) ) &#123;</span><br><span class="line">            result = m.invoke(<span class="keyword">this</span>, NO_ARGS_PARAM );</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//利用Mbean实例直接调用方法 这种情况是常见的</span></span><br><span class="line">            result = m.invoke(resource, NO_ARGS_PARAM );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">     。。。。。。</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="diao-yong-fang-fa">调用方法</span></h3>
+<p>      调用入口: BaseModelMBean—》invoke
+      点击相应操作则会调用</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(String name, Object[] params, String[] signature)</span> <span class="keyword">throws</span> MBeanException, ReflectionException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>( (resource <span class="keyword">instanceof</span> DynamicMBean) &amp;&amp;</span><br><span class="line">            ! ( resource <span class="keyword">instanceof</span> BaseModelMBean )) &#123;</span><br><span class="line">        <span class="keyword">return</span> ((DynamicMBean)resource).invoke(name, params, signature);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (name == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeOperationsException(<span class="keyword">new</span> IllegalArgumentException(<span class="string">"Method name is null"</span>), <span class="string">"Method name is null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//根据参数和签名获取相应的方法</span></span><br><span class="line">    Method method= managedBean.getInvoke(name, params, signature, <span class="keyword">this</span>, resource);</span><br><span class="line"></span><br><span class="line">    Object result = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>( method.getDeclaringClass().isAssignableFrom( <span class="keyword">this</span>.getClass()) ) &#123;</span><br><span class="line">            result = method.invoke(<span class="keyword">this</span>, params );</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = method.invoke(resource, params);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">     。。。。。。</span><br><span class="line">    <span class="keyword">return</span> (result);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3><span id="fa-song-tong-zhi">发送通知</span></h3>
+<p>      发送通知需要从两方面进行考虑,第一方面是客户端进行连接要将相应的监听器加入另一方面是在调用相应事件则通过相应方法发送给注入的监听器，这样就实现了相应的消息通知</p>
+<p>      接受接听器: BaseModelMBean –》addNotificationListener</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addNotificationListener</span><span class="params">(NotificationListener listener, NotificationFilter filter, Object handback)</span> <span class="keyword">throws</span> IllegalArgumentException </span>&#123;</span><br><span class="line">    <span class="comment">//如果监听器为空 则扔出异常不合法参数</span></span><br><span class="line">    <span class="keyword">if</span> (listener == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Listener is null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//广播实例句柄为空则实例化一个BaseNotificationBroadcaster实例</span></span><br><span class="line">    <span class="keyword">if</span> (generalBroadcaster == <span class="keyword">null</span>)&#123;</span><br><span class="line">        generalBroadcaster = <span class="keyword">new</span> BaseNotificationBroadcaster();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    generalBroadcaster.addNotificationListener(listener, filter, handback);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (attributeBroadcaster == <span class="keyword">null</span>)&#123;</span><br><span class="line">        attributeBroadcaster = <span class="keyword">new</span> BaseNotificationBroadcaster();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    attributeBroadcaster.addNotificationListener(listener, filter, handback);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>      发送消息: BaseModelMBean –-&gt; sendAttributeChangeNotification</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendAttributeChangeNotification</span><span class="params">(AttributeChangeNotification notification)</span> <span class="keyword">throws</span> MBeanException, RuntimeOperationsException </span>&#123;</span><br><span class="line">    <span class="comment">//这个通知是在做了修改操作之后构建的一个操作 如果为空 则必然扔出异常</span></span><br><span class="line">    <span class="keyword">if</span> (notification == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeOperationsException(<span class="keyword">new</span> IllegalArgumentException(<span class="string">"Notification is null"</span>), <span class="string">"Notification is null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果广播为空则意味着没有监听器 其是在连接的时候实例化了一个BaseNotificationBroadcaster</span></span><br><span class="line">    <span class="keyword">if</span> (attributeBroadcaster == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="comment">//意味着没有注册监听器</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    attributeBroadcaster.sendNotification(notification);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>      由上可值Mbean得动态操作都是在BaseModelMBean这个类中，JMX的分析到这里告一段落 要想更清除的理解则需要再次到tomcat这个环境以及从底层rmi实现方面进行了解，后期会补上这些内容</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------Thank you for your reading-------------</div>
+    
+</div>
+
+      
+    </div>
+
+    <div>
+          
+            
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/11/14/tomcat/2018-01-23-8/">tomcat源码解读三 jmx</a></p>
+  <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
+  <p><span>发布时间:</span>2017年11月14日 - 00:11</p>
+  <p><span>最后更新:</span>2018年01月23日 - 13:01</p>
+  <p><span>原始链接:</span><a href="/2017/11/14/tomcat/2018-01-23-8/" title="tomcat源码解读三 jmx">www.cfad.tech/2017/11/14/tomcat/2018-01-23-8/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/11/14/tomcat/2018-01-23-8/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+	clipboard.on('success', $(function(){
+	  $(".fa-clipboard").click(function(){
+		swal({
+		  title: "",
+		  text: '复制成功',
+		  html: false,
+		  timer: 500,
+		  showConfirmButton: false
+	    });
+	  });
+    }));
+</script>
+
+
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/13/tomcat/2018-01-23-7/" rel="next" title="tomcat源码解读一 Digester的解析方式">
+                <i class="fa fa-chevron-left"></i> tomcat源码解读一 Digester的解析方式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/15/tomcat/2018-01-23-9/" rel="prev" title="tomcat源码解读四 tomcat中的processer">
+                tomcat源码解读四 tomcat中的processer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/dl.jpg"
+                alt="cfs" />
+            
+              <p class="site-author-name" itemprop="name">cfs</p>
+              <p class="site-description motion-element" itemprop="description">help others, happy myself</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/jackfo" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qq_32541407" target="_blank" title="csdn">
+                    
+                      <i class="fa fa-fw fa-sticky-note-o"></i>csdn</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="zheng.xiaokang@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-at"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/u010349169/article/category/2620885" title="JVM虚拟机原理" target="_blank">JVM虚拟机原理</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://zcheng.ren/archives/" title="Redis" target="_blank">Redis</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="tomcat-zhong-jmx-de-shi-yong-demo">tomcat&#x4E2D;JMX&#x7684;&#x4F7F;&#x7528;Demo</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="java-dai-ma">java&#x4EE3;&#x7801;:</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text"><span id="jconsole-xiao-guo">jconsole&#x6548;&#x679C;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text"><span id="jie-lun">&#x7ED3;&#x8BBA;</span></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="tomcat-zhong-jmx-de-yuan-ma-fen-xi">tomcat&#x4E2D;JMX&#x7684;&#x6E90;&#x7801;&#x5206;&#x6790;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.</span> <span class="nav-text"><span id="tomcat-zhong-jmx-de-uml-tu">tomcat&#x4E2D;JMX&#x7684;UML&#x56FE;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.</span> <span class="nav-text"><span id="qi-dong-dai-ma-jie-xi">&#x542F;&#x52A8;&#x4EE3;&#x7801;&#x89E3;&#x6790;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.1.</span> <span class="nav-text"><span id="huo-qu-mbean-zhu-ce-biao">&#x83B7;&#x53D6;Mbean&#x6CE8;&#x518C;&#x8868;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.2.</span> <span class="nav-text"><span id="zhu-ce-mbean-zu-jian">&#x6CE8;&#x518C;Mbean&#x7EC4;&#x4EF6;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.3.</span> <span class="nav-text"><span id="zhu-ce-mbean-zu-jian">&#x6CE8;&#x518C;Mbean&#x7EC4;&#x4EF6;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.4.</span> <span class="nav-text"><span id="cha-zhao-mbean-guan-li-qi">&#x67E5;&#x627E;Mbean&#x7BA1;&#x7406;&#x5668;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.5.</span> <span class="nav-text"><span id="chuang-jian-zui-zhong-shi-yong-de-mbean">&#x521B;&#x5EFA;&#x6700;&#x7EC8;&#x4F7F;&#x7528;&#x7684;Mbean</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.6.</span> <span class="nav-text"><span id="registermbean-zhu-ce-zu-jian">registerMBean&#x6CE8;&#x518C;&#x7EC4;&#x4EF6;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.7.</span> <span class="nav-text"><span id="jia-zai-zi-yuan-miao-shu">&#x52A0;&#x8F7D;&#x8D44;&#x6E90;&#x63CF;&#x8FF0;</span></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.3.</span> <span class="nav-text"><span id="diao-yong-dai-ma-jie-xi">&#x8C03;&#x7528;&#x4EE3;&#x7801;&#x89E3;&#x6790;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.3.1.</span> <span class="nav-text"><span id="she-zhi-shu-xing-zhi">&#x8BBE;&#x7F6E;&#x5C5E;&#x6027;&#x503C;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.3.2.</span> <span class="nav-text"><span id="huo-qu-shu-xing-zhi">&#x83B7;&#x53D6;&#x5C5E;&#x6027;&#x503C;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.3.3.</span> <span class="nav-text"><span id="diao-yong-fang-fa">&#x8C03;&#x7528;&#x65B9;&#x6CD5;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.3.4.</span> <span class="nav-text"><span id="fa-song-tong-zhi">&#x53D1;&#x9001;&#x901A;&#x77E5;</span></span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cfs</span>
+<span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+  
+</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+
+</body>
+</html>

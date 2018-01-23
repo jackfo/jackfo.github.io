@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 1px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="tomcat," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="启动container实例       其主要是进行了生命周期中一系列的操作之后调用StandardEngine中的 startInternal方法,不难看出其调用其父类的startInternal方法, 其父类是ContainerBase.java 12345protected synchronized void startInternal() throws LifecycleException">
+<meta name="keywords" content="tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tomcat请求处理分析(一) 启动container实例">
+<meta property="og:url" content="www.cfad.tech/2017/08/18/tomcat/2018-01-23/index.html">
+<meta property="og:site_name" content="敏而好学,乐以忘忧">
+<meta property="og:description" content="启动container实例       其主要是进行了生命周期中一系列的操作之后调用StandardEngine中的 startInternal方法,不难看出其调用其父类的startInternal方法, 其父类是ContainerBase.java 12345protected synchronized void startInternal() throws LifecycleException">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-01-23T02:37:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tomcat请求处理分析(一) 启动container实例">
+<meta name="twitter:description" content="启动container实例       其主要是进行了生命周期中一系列的操作之后调用StandardEngine中的 startInternal方法,不难看出其调用其父类的startInternal方法, 其父类是ContainerBase.java 12345protected synchronized void startInternal() throws LifecycleException">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.cfad.tech/2017/08/18/tomcat/2018-01-23/"/>
+
+
+
+
+
+  <title>tomcat请求处理分析(一) 启动container实例 | 敏而好学,乐以忘忧</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+        <a href="https://github.com/jackfo" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">敏而好学,乐以忘忧</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/08/18/tomcat/2018-01-23/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cfs">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/dl.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="敏而好学,乐以忘忧">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">tomcat请求处理分析(一) 启动container实例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-18T23:52:14+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tomcat/" itemprop="url" rel="index">
+                    <span itemprop="name">tomcat</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  5,234
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  26
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1><span id="qi-dong-container-shi-li">启动container实例</span></h1>
+<p>      其主要是进行了生命周期中一系列的操作之后调用StandardEngine中的 startInternal方法,不难看出其调用其父类的startInternal方法, 其父类是ContainerBase.java</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(log.isInfoEnabled())</span><br><span class="line">        log.info( <span class="string">"StartingServlet Engine: "</span> + ServerInfo.getServerInfo());</span><br><span class="line">    <span class="keyword">super</span>.startInternal();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>父类ContainerBase.java中的startInternal</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** <span class="doctag">@author</span> 郑小康</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 1.如果配置了集群组件Cluster则启动</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 2.如果配置了安全组件,则启动</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 3启动子节点，默认为StandContext</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 4.启动Host所持有的Pipeline组件</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 5.设置Host状态为STARTING 此时会触发START_EVENT生命周期事件</span></span><br><span class="line"><span class="comment"> *  HostConfig 中的lifecycleEvent 为START_EVENT时会调用其start方法</span></span><br><span class="line"><span class="comment"> *  HostConfig监听该事件扫描web部署对于部署文件、WAR包、会自动创建StandardContext实例，添加到Host并启动</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 6.启动Host层级的后台任务处理包括部署变更</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function">protectedsynchronized <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Start our subordinatecomponents, if any</span></span><br><span class="line">    logger = <span class="keyword">null</span>;</span><br><span class="line">    getLogger();</span><br><span class="line">    <span class="comment">//集群</span></span><br><span class="line">    Cluster cluster =getClusterInternal();</span><br><span class="line">    <span class="keyword">if</span> ((cluster != <span class="keyword">null</span>) &amp;&amp;(cluster <span class="keyword">instanceof</span> Lifecycle))</span><br><span class="line">        ((Lifecycle) cluster).start();</span><br><span class="line">    Realm realm =getRealmInternal();</span><br><span class="line">    <span class="keyword">if</span> ((realm != <span class="keyword">null</span>) &amp;&amp;(realm <span class="keyword">instanceof</span> Lifecycle))</span><br><span class="line">        ((Lifecycle) realm).start();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取子容器获取HOST</span></span><br><span class="line">    Container children[] =findChildren();</span><br><span class="line">    List&lt;Future&lt;Void&gt;&gt;results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;children.length; i++) &#123;</span><br><span class="line">        results.add(startStopExecutor.submit(<span class="keyword">new</span> StartChild(children[i])));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">boolean</span> fail = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (Future&lt;Void&gt;result : results) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            result.get();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exceptione) &#123;</span><br><span class="line">            log.error(sm.getString(<span class="string">"containerBase.threadedStartFailed"</span>), e);</span><br><span class="line">            fail = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (fail) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> LifecycleException(</span><br><span class="line">                sm.getString(<span class="string">"containerBase.threadedStartFailed"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Start the Valves in ourpipeline (including the basic), if any</span></span><br><span class="line">    <span class="keyword">if</span> (pipeline <span class="keyword">instanceof</span> Lifecycle)</span><br><span class="line">        ((Lifecycle) pipeline).start();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//当前方法加载web应用</span></span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Start our thread</span></span><br><span class="line">    threadStart();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="qi-dong-standhost">启动StandHost</span></h2>
+<p>      获取engine下所有的host的实例，这个是在server.xml文件中定义的，其默认实现类是StandHost,在这里通过future模式进行处理,将所有StandHost给启动,默认server.xml中只有一个实例，所以在这里只是启动了一个标准的host虚拟主机</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Container children[] =findChildren();</span><br><span class="line">List&lt;Future&lt;Void&gt;&gt;results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;children.length; i++) &#123;</span><br><span class="line">    results.add(startStopExecutor.submit(<span class="keyword">new</span> StartChild(children[i])));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">boolean</span> fail = <span class="keyword">false</span>;</span><br><span class="line"><span class="keyword">for</span> (Future&lt;Void&gt;result : results) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        result.get();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exceptione) &#123;</span><br><span class="line">        log.error(sm.getString(<span class="string">"containerBase.threadedStartFailed"</span>), e);</span><br><span class="line">        fail = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>      StartChild类的内部结构，通过future模式进行get的时候会调用其call方法，将standHost给启动</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">StartChild</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Void</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Container child;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StartChild</span><span class="params">(Containerchild)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.child = child;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Void <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException</span>&#123;</span><br><span class="line">        child.start();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="xiang-standhost-guan-dao-li-mian-jia-ru-fa-men">向standHost管道里面加入阀门</span></h2>
+<p>      其添加的方式是获取管道并调用其addValve方法进行添加,管道是在其父类ContainerBase中,其是一个成员变量,并且将this即standHost注入当前管道，</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Pipeline <span class="title">getPipeline</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">this</span>.pipeline);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> Pipeline pipeline = newStandardPipeline(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">StandardPipeline</span><span class="params">(Container container)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>();</span><br><span class="line">    setContainer(container);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>      上面描述了获取管道的过程，下面是具体向管道中添加对应的阀门</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">protectedsynchronized <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取错误报告阀门,该类的作用主要是在服务器处理异常的时输出错误界面</span></span><br><span class="line">    String errorValve =getErrorReportValveClass();</span><br><span class="line">    <span class="keyword">if</span> ((errorValve != <span class="keyword">null</span>) &amp;&amp;(!errorValve.equals(<span class="string">""</span>))) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">boolean</span> found = <span class="keyword">false</span>;</span><br><span class="line">            <span class="comment">//org.apache.catalina.core.StandardHostValve[localhost]</span></span><br><span class="line">           <span class="comment">//org.apache.catalina.valves.AccessLogValve[localhost]</span></span><br><span class="line">           <span class="comment">//errorValve==org.apache.catalina.valves.ErrorReportValve给添加进去</span></span><br><span class="line">            Valve[] valves =getPipeline().getValves();</span><br><span class="line">            <span class="keyword">for</span> (Valve valve : valves)&#123;</span><br><span class="line">                <span class="keyword">if</span> (errorValve.equals(valve.getClass().getName()))&#123;</span><br><span class="line">                    found = <span class="keyword">true</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!found) &#123;</span><br><span class="line">                Valve valve =</span><br><span class="line">                    (Valve) Class.forName(errorValve).newInstance();</span><br><span class="line">                getPipeline().addValve(valve);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwablet) &#123;</span><br><span class="line">            ExceptionUtils.handleThrowable(t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">super</span>.startInternal();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="qi-dong-guan-dao">启动管道</span></h2>
+<p>      该方法是遍历管道里面所有的阀门，然后将他们依次给启动</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException</span>&#123;</span><br><span class="line"></span><br><span class="line">    Valve current = first;</span><br><span class="line">    <span class="keyword">if</span> (current == <span class="keyword">null</span>) &#123;</span><br><span class="line">        current = basic;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (current != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (current <span class="keyword">instanceof</span> Lifecycle)</span><br><span class="line">            ((Lifecycle) current).start();</span><br><span class="line">        current =current.getNext();</span><br><span class="line">    &#125;</span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>org.apache.catalina.valves.AccessLogValve[localhost]   日志记录类</p>
+<p>org.apache.catalina.valves.ErrorReportValve[localhost]  异常状态返回报告页</p>
+<p>参考链接：http://www.10tiao.com/html/308/201702/2650076436/1.html</p>
+<p>org.apache.catalina.core.StandardHostValve[localhost]</p>
+<p>HostConfig</p>
+<p>org.apache.catalina.LifecycleEvent[source=StandardEngine[Catalina].StandardHost[localhost]]</p>
+<p>StandardEngine[Catalina].StandardHost[localhost]</p>
+<h2><span id="jia-zai-web-ying-yong">加载web应用</span></h2>
+<p>setState(LifecycleState.STARTING);</p>
+<p>      加载web应用是在改变当前HostConfig类的状态为start的时候,调用其对应的监听时间，从而调用了该类的start方法,有下面该类的lifecycleEvent方法可以看出</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lifecycleEvent</span><span class="params">(LifecycleEvent event)</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        host = (Host)event.getLifecycle();</span><br><span class="line">        <span class="keyword">if</span> (host <span class="keyword">instanceof</span> StandardHost)&#123;</span><br><span class="line">            setCopyXML(((StandardHost) host).isCopyXML());</span><br><span class="line">            setDeployXML(((StandardHost)host).isDeployXML());  <span class="comment">//liveDeploy属性指明host是否要周期性的检查是否有新的应用部署</span></span><br><span class="line">            setUnpackWARs(((StandardHost)host).isUnpackWARs());</span><br><span class="line">            setContextClass(((StandardHost)host).getContextClass());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ClassCastException e)&#123;</span><br><span class="line">        log.error(sm.getString(<span class="string">"hostConfig.cce"</span>, event.getLifecycle()), e);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Process the event thathas occurred</span></span><br><span class="line">    <span class="keyword">if</span> (event.getType().equals(Lifecycle.PERIODIC_EVENT)) &#123;</span><br><span class="line">        check();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.BEFORE_START_EVENT)) &#123;</span><br><span class="line">        beforeStart();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.START_EVENT)) &#123;</span><br><span class="line">        start();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.STOP_EVENT)) &#123;</span><br><span class="line">        stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体的start方法代码如下：</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (log.isDebugEnabled())</span><br><span class="line">        log.debug(sm.getString(<span class="string">"hostConfig.start"</span>));</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ObjectName hostON = host.getObjectName();</span><br><span class="line">        oname = <span class="keyword">new</span> ObjectName</span><br><span class="line">            (hostON.getDomain() + <span class="string">":type=Deployer,host="</span>+host.getName());</span><br><span class="line">        Registry.getRegistry(<span class="keyword">null</span>, <span class="keyword">null</span>).registerComponent</span><br><span class="line">            (<span class="keyword">this</span>, oname, <span class="keyword">this</span>.getClass().getName());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exceptione) &#123;</span><br><span class="line">        log.error(sm.getString(<span class="string">"hostConfig.jmx.register"</span>, oname), e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!host.getAppBaseFile().isDirectory())&#123;</span><br><span class="line">        log.error(sm.getString(<span class="string">"hostConfig.appBase"</span>, host.getName(),</span><br><span class="line">                host.getAppBaseFile().getPath()));</span><br><span class="line">        host.setDeployOnStartup(<span class="keyword">false</span>);</span><br><span class="line">        host.setAutoDeploy(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (host.getDeployOnStartup())</span><br><span class="line">        deployApps();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>      根据代码不难发现共做了三件事，第一件是注册MBServer,第二件是监测其时候是文件，第三件是进行部署</p>
+<h2><span id="bu-shu-web-ying-yong">部署web应用</span></h2>
+<p>      该方法是上面方法的具体实现，其先获取应用文件夹的路径，再获取配置文件的路径,然后进行三种应用加载方式，第一种，加载配置文件中所有web应用，第二种加载WARS形式所有应用，第三中加载webapps下所有的应用</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">deployApps</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//获取基本文件夹路径/project/eclipseWS/tomcatMac/output/build/webapps</span></span><br><span class="line">    File appBase = host.getAppBaseFile();</span><br><span class="line">    <span class="comment">//获取配置文件路径/project/eclipseWS/tomcatMac/output/build/conf/Catalina/localhost</span></span><br><span class="line">    File configBase = host.getConfigBaseFile();</span><br><span class="line">    <span class="comment">//将webapps下的文件路径以字符串存放</span></span><br><span class="line">    String[]filteredAppPaths = filterAppPaths(appBase.list());</span><br><span class="line">    <span class="comment">//根据配置文件部署web应用</span></span><br><span class="line">    deployDescriptors(configBase, configBase.list());</span><br><span class="line">    <span class="comment">// 部署WARs</span></span><br><span class="line">    deployWARs(appBase, filteredAppPaths);</span><br><span class="line">    <span class="comment">// 部署应用在webapps下</span></span><br><span class="line">    deployDirectories(appBase, filteredAppPaths);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="gen-ju-pei-zhi-wen-jian-jia-zai-web-ying-yong">根据配置文件加载web应用</span></h2>
+<p>      根据配置文件，顾名思义就是通过指向的方式即config/catalina/localhost下的配置文件进行部署</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">deployDescriptors</span><span class="params">(File configBase, String[]files)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (files == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    ExecutorService es = host.getStartStopExecutor();</span><br><span class="line">    List&lt;Future&lt;?&gt;&gt;results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;files.length; i++) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        File contextXml = <span class="keyword">new</span> File(configBase, files[i]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (files[i].toLowerCase(Locale.ENGLISH).endsWith(<span class="string">".xml"</span>)) &#123;</span><br><span class="line">            ContextName cn = <span class="keyword">new</span> ContextName(files[i], <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (isServiced(cn.getName())|| deploymentExists(cn.getName()))</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            results.add(</span><br><span class="line">                    es.submit(<span class="keyword">new</span> DeployDescriptor(<span class="keyword">this</span>, cn, contextXml)));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (Future&lt;?&gt;result : results) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            result.get();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exceptione) &#123;</span><br><span class="line">            log.error(sm.getString(</span><br><span class="line">                    <span class="string">"hostConfig.deployDescriptor.threaded.error"</span>), e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第一步：检测文件夹是否为空，为空则返回</p>
+<p>第二步：获取线程池,该线程是在初始化HostConfig的时候实例化的</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException</span>&#123;</span><br><span class="line">    BlockingQueue&lt;Runnable&gt;startStopQueue = <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;();</span><br><span class="line">    startStopExecutor = <span class="keyword">new</span> ThreadPoolExecutor(</span><br><span class="line">            getStartStopThreadsInternal(),</span><br><span class="line">            getStartStopThreadsInternal(), <span class="number">10</span>, TimeUnit.SECONDS,</span><br><span class="line">            startStopQueue,</span><br><span class="line">            <span class="keyword">new</span> StartStopThreadFactory(getName()+ <span class="string">"-startStop-"</span>));</span><br><span class="line">    startStopExecutor.allowCoreThreadTimeOut(<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">super</span>.initInternal();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第三步：遍历所有后缀名为.xml构建其DeployDescriptor实例添加到future集合中去，进行异步执行，其中DeployDescriptor类结构如下</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DeployDescriptor</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> HostConfig config;</span><br><span class="line">    <span class="keyword">private</span> ContextName cn;</span><br><span class="line">    <span class="keyword">private</span> File descriptor;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DeployDescriptor</span><span class="params">(HostConfigconfig, ContextName cn,</span></span></span><br><span class="line"><span class="function"><span class="params">            File descriptor)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.config = config;</span><br><span class="line">        <span class="keyword">this</span>.cn = cn;</span><br><span class="line">        <span class="keyword">this</span>.descriptor= descriptor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        config.deployDescriptor(cn, descriptor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">由上可见根据配置文件最终执行的还是deployDescriptor方法，该方法的操做有构建DeployedApplication实例，获取配置文件名，以及将文件流标签解析成对应的ContextConfig对象，创建监听器，获取docBase的值，通过host.addChild(context)将其加到文件监听中，这样修改该文件夹中的文件，就会通过监听线程进行获取，下文会分析监听线程的具体操作，这里不讲述，在这之后<span class="keyword">finally</span>里面的操作是解析配置文件，找到docBase,把应用存放到deployed里面，这样做的目的是一个虚拟主机可能能存在多个web应用，在deployed这个map里面存放的key是web应用，v是对应的deployedApp，这里面的存放了web.xml等文件的位置如下例子：</span><br><span class="line"></span><br><span class="line">成员变量：redeployResources</span><br><span class="line"></span><br><span class="line"><span class="number">0</span> = &#123;LinkedHashMap$Entry@<span class="number">3050</span>&#125; <span class="string">"/project/eclipseWS/tomcatMac/output/build/conf/Catalina/localhost/test.xml"</span>-&gt; <span class="string">"1502378759000"</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span> = &#123;LinkedHashMap$Entry@<span class="number">3051</span>&#125;<span class="string">"/project/eclipseWS/tomcatMac/output"</span> -&gt; <span class="string">"1501518597000"</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span> = &#123;LinkedHashMap$Entry@<span class="number">3052</span>&#125;<span class="string">"/project/eclipseWS/tomcatMac/output/build/conf/context.xml"</span> -&gt;<span class="string">"1501478677000"</span></span><br><span class="line"></span><br><span class="line">成员变量：reloadResources</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">   <span class="number">0</span> = &#123;HashMap$Node@<span class="number">2944</span>&#125;<span class="string">"/project/eclipseWS/tomcatMac/output/WEB-INF/web.xml"</span> -&gt;<span class="string">"0"</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span>= &#123;HashMap$Node@<span class="number">3062</span>&#125;<span class="string">"/project/eclipseWS/tomcatMac/output/build/conf/web.xml"</span> -&gt;<span class="string">"1502089964000"</span></span><br><span class="line"></span><br><span class="line">    代码具体执行过程如下：</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">deployDescriptor</span><span class="params">(ContextName cn, FilecontextXml)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构建DeployedApplication实例主要是将web应用名赋值</span></span><br><span class="line">    DeployedApplicationdeployedApp =</span><br><span class="line">            <span class="keyword">new</span> DeployedApplication(cn.getName(), <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">long</span> startTime = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// Assume this is aconfiguration descriptor and deploy it</span></span><br><span class="line">    <span class="keyword">if</span>(log.isInfoEnabled())&#123;</span><br><span class="line">       startTime = System.currentTimeMillis();</span><br><span class="line">       log.info(sm.getString(<span class="string">"hostConfig.deployDescriptor"</span>,</span><br><span class="line">                contextXml.getAbsolutePath()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Context context = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">boolean</span> isExternalWar = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">boolean</span> isExternal = <span class="keyword">false</span>;</span><br><span class="line">    File expandedDocBase = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//获取文件流解析成对应的context实例,在生成之后，它会清空digester为下次解析流做准备</span></span><br><span class="line">    <span class="keyword">try</span> (FileInputStreamfis = <span class="keyword">new</span> FileInputStream(contextXml)) &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (digesterLock) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                context = (Context) digester.parse(fis);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exceptione) &#123;</span><br><span class="line">                log.error(sm.getString(</span><br><span class="line">                        <span class="string">"hostConfig.deployDescriptor.error"</span>,</span><br><span class="line">                        contextXml.getAbsolutePath()), e);</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                digester.reset();</span><br><span class="line">                <span class="keyword">if</span> (context == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    context = <span class="keyword">new</span> FailedContext();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//class org.apache.catalina.startup.ContextConfig</span></span><br><span class="line">        Class&lt;?&gt; clazz =Class.forName(host.getConfigClass());</span><br><span class="line">        LifecycleListenerlistener =</span><br><span class="line">            (LifecycleListener)clazz.newInstance();</span><br><span class="line">        <span class="comment">//给当前StandContext添加ContextConfig这个监听器</span></span><br><span class="line">        context.addLifecycleListener(listener);</span><br><span class="line">        <span class="comment">//设置配置文件的路径</span></span><br><span class="line">        context.setConfigFile(contextXml.toURI().toURL());</span><br><span class="line">        <span class="comment">//给当前容器设置名字</span></span><br><span class="line">        context.setName(cn.getName());</span><br><span class="line">        <span class="comment">//设置web用用的上下文路径</span></span><br><span class="line">        context.setPath(cn.getPath());</span><br><span class="line">        <span class="comment">//设置web应用的版本</span></span><br><span class="line">        context.setWebappVersion(cn.getVersion());</span><br><span class="line">        <span class="comment">// Add the associateddocBase to the redeployed list if it's a WAR</span></span><br><span class="line">        <span class="keyword">if</span> (context.getDocBase()!= <span class="keyword">null</span>) &#123;</span><br><span class="line">            File docBase = <span class="keyword">new</span> File(context.getDocBase());</span><br><span class="line">            <span class="keyword">if</span> (!docBase.isAbsolute())&#123;</span><br><span class="line">                docBase = <span class="keyword">new</span> File(host.getAppBaseFile(), context.getDocBase());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 给部署的deployedApp实例的redeployResources这个Map集合添加两条记录</span></span><br><span class="line"><span class="comment">             * 第一条是以配置文件路径为key 时间为v</span></span><br><span class="line"><span class="comment">             * 第二提是配置文件的odcBase指向的路径</span></span><br><span class="line"><span class="comment">             * 如果docBase所指向的是一个war包，将isExternalWar标记为true</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">if</span> (!docBase.getCanonicalPath().startsWith(</span><br><span class="line">                    host.getAppBaseFile().getAbsolutePath()+ File.separator)) &#123;</span><br><span class="line">                isExternal = <span class="keyword">true</span>;</span><br><span class="line">                deployedApp.redeployResources.put(contextXml.getAbsolutePath(),</span><br><span class="line">                        Long.valueOf(contextXml.lastModified()));</span><br><span class="line"></span><br><span class="line">                deployedApp.redeployResources.put(docBase.getAbsolutePath(),</span><br><span class="line">                        Long.valueOf(docBase.lastModified()));</span><br><span class="line">                <span class="keyword">if</span> (docBase.getAbsolutePath().toLowerCase(Locale.ENGLISH).endsWith(<span class="string">".war"</span>)) &#123;</span><br><span class="line">                    isExternalWar = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                log.warn(sm.getString(<span class="string">"hostConfig.deployDescriptor.localDocBaseSpecified"</span>,</span><br><span class="line">                         docBase));</span><br><span class="line">                <span class="comment">// Ignore specifieddocBase</span></span><br><span class="line">                context.setDocBase(<span class="keyword">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        host.addChild(context);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable t)&#123;</span><br><span class="line">        ExceptionUtils.handleThrowable(t);</span><br><span class="line">        log.error(sm.getString(<span class="string">"hostConfig.deployDescriptor.error"</span>,</span><br><span class="line">                               contextXml.getAbsolutePath()), t);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="comment">//检查是否存在默认的appBase 即在webapps下面有没有对应该项目名的文件夹,简而言之就是后面路径存在就覆盖，不存在就是用默认的</span></span><br><span class="line">        expandedDocBase = <span class="keyword">new</span> File(host.getAppBaseFile(), cn.getBaseName());</span><br><span class="line">       <span class="comment">//如果docBase不为空，并且不是以后缀名.war结束的,获取当前文件路径</span></span><br><span class="line">        <span class="keyword">if</span> (context.getDocBase()!= <span class="keyword">null</span></span><br><span class="line">                &amp;&amp;!context.getDocBase().toLowerCase(Locale.ENGLISH).endsWith(<span class="string">".war"</span>)) &#123;</span><br><span class="line">            expandedDocBase = <span class="keyword">new</span> File(context.getDocBase());</span><br><span class="line">            <span class="comment">//如果不是绝对路径，则获取的基本应用路径+docBase的路径</span></span><br><span class="line">            <span class="keyword">if</span> (!expandedDocBase.isAbsolute())&#123;</span><br><span class="line">                expandedDocBase = <span class="keyword">new</span> File(host.getAppBaseFile(), context.getDocBase());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> unpackWAR = unpackWARs; <span class="comment">//为true才会每次重新解压war包</span></span><br><span class="line">        <span class="keyword">if</span> (unpackWAR&amp;&amp; context <span class="keyword">instanceof</span> StandardContext) &#123;</span><br><span class="line">            unpackWAR =((StandardContext) context).getUnpackWAR();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Add the eventualunpacked WAR and all the resources which will be</span></span><br><span class="line">        <span class="comment">// watched inside it</span></span><br><span class="line">        <span class="comment">//如果是war包，并且unpackWAR为true则将其加到redeployResources集合,并且添加监听</span></span><br><span class="line">        <span class="keyword">if</span> (isExternalWar)&#123;</span><br><span class="line">            <span class="keyword">if</span> (unpackWAR)&#123;</span><br><span class="line">                deployedApp.redeployResources.put(expandedDocBase.getAbsolutePath(),</span><br><span class="line">                        Long.valueOf(expandedDocBase.lastModified()));</span><br><span class="line">                addWatchedResources(deployedApp, expandedDocBase.getAbsolutePath(), context);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               addWatchedResources(deployedApp, <span class="keyword">null</span>, context);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Find an existingmatching war and expanded folder</span></span><br><span class="line">            <span class="keyword">if</span> (!isExternal)&#123;</span><br><span class="line">                File warDocBase = <span class="keyword">new</span> File(expandedDocBase.getAbsolutePath()+ <span class="string">".war"</span>);</span><br><span class="line">                <span class="keyword">if</span> (warDocBase.exists())&#123;</span><br><span class="line">                    deployedApp.redeployResources.put(warDocBase.getAbsolutePath(),</span><br><span class="line">                            Long.valueOf(warDocBase.lastModified()));</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// Trigger a redeploy if aWAR is added</span></span><br><span class="line">                    deployedApp.redeployResources.put(</span><br><span class="line">                           warDocBase.getAbsolutePath(),</span><br><span class="line">                            Long.valueOf(<span class="number">0</span>));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (unpackWAR)&#123;</span><br><span class="line">                deployedApp.redeployResources.put(expandedDocBase.getAbsolutePath(),</span><br><span class="line">                        Long.valueOf(expandedDocBase.lastModified()));</span><br><span class="line">                <span class="comment">//将其下所有web.xml文件加到deployedApp的reloadResources里面</span></span><br><span class="line">                addWatchedResources(deployedApp,</span><br><span class="line">                        expandedDocBase.getAbsolutePath(), context);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               addWatchedResources(deployedApp, <span class="keyword">null</span>, context);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!isExternal)&#123;</span><br><span class="line">                <span class="comment">// For external docBases,the context.xml will have been</span></span><br><span class="line">                <span class="comment">// added above.</span></span><br><span class="line">                deployedApp.redeployResources.put(</span><br><span class="line">                       contextXml.getAbsolutePath(),</span><br><span class="line">                        Long.valueOf(contextXml.lastModified()));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Add the global redeployresources (which are never deleted) at</span></span><br><span class="line">        <span class="comment">// the end so they don'tinterfere with the deletion process</span></span><br><span class="line">        addGlobalRedeployResources(deployedApp);<span class="comment">//添加全局的资源文件</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将其以应用名为key  deployedApp实例为key存放到当前HostConfig实例里面</span></span><br><span class="line">    <span class="keyword">if</span> (host.findChild(context.getName())!= <span class="keyword">null</span>) &#123;</span><br><span class="line">        deployed.put(context.getName(), deployedApp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (log.isInfoEnabled())&#123;</span><br><span class="line">        log.info(sm.getString(<span class="string">"hostConfig.deployDescriptor.finished"</span>,</span><br><span class="line">            contextXml.getAbsolutePath(), Long.valueOf(System.currentTimeMillis()- startTime)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">在上面讲述了配置文件的方式，默认文件夹和war包部署大同小异，不做解释。</span><br><span class="line"></span><br><span class="line">## 加载wraper</span><br><span class="line">这个是在部署web应用的一个具体操作，每部署一个Web引用</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line">host.addChild(context);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addChild</span><span class="params">(Container child)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Globals.IS_SECURITY_ENABLED) &#123;</span><br><span class="line">        PrivilegedAction&lt;Void&gt; dp =</span><br><span class="line">            <span class="keyword">new</span> PrivilegedAddChild(child);</span><br><span class="line">        AccessController.doPrivileged(dp);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        addChildInternal(child);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据代码可以看出调用的是addChildInternal方法,其中child是StandardEngine[Catalina].StandardHost[localhost].StandardContext[/test]这个实例，代码如下：</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addChildInternal</span><span class="params">(Container child)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( log.isDebugEnabled())</span><br><span class="line">        log.debug(<span class="string">"Addchild "</span> + child + <span class="string">" "</span> + <span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">synchronized</span>(children) &#123;</span><br><span class="line">        <span class="keyword">if</span> (children.get(child.getName())!= <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"addChild:  Child name '"</span> +</span><br><span class="line">                                              child.getName() +</span><br><span class="line">                                              <span class="string">"' is not unique"</span>);</span><br><span class="line">        child.setParent(<span class="keyword">this</span>);  <span class="comment">// May throw IAE</span></span><br><span class="line">        children.put(child.getName(), child);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> ((getState().isAvailable()||</span><br><span class="line">                LifecycleState.STARTING_PREP.equals(getState()))&amp;&amp;</span><br><span class="line">                startChildren) &#123;</span><br><span class="line">            child.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (LifecycleExceptione) &#123;</span><br><span class="line">        log.error(<span class="string">"ContainerBase.addChild:start: "</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"ContainerBase.addChild:start: "</span> + e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        fireContainerEvent(ADD_CHILD_EVENT, child);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>     主要是会调用start方法，根据上文知道其是一个StandardContext实例，所以调用的是StandardContext.start()方法，start都是LifecycleBase里面，最终调用的还是StandardContext中的startInternal方法</p>
+<p>     这个方法做了很多操作，如设置上下文参数，启动监听器过滤器，但是这些不是我主要要描述的内容，我要描述的如何将web应用的具体servlet给封装</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException</span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//触发CONFIGURE_START_EVENT事件</span></span><br><span class="line">            fireLifecycleEvent(Lifecycle.CONFIGURE_START_EVENT, <span class="keyword">null</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>     而后会执行其监听器ContextConfig,的configureStart方法，这个方法的核心是执行里面的webConfig</p>
+<p>    执行顺序configureStart==》webConfig==》  configureContext(webXml)</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lifecycleEvent</span><span class="params">(LifecycleEvent event)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Identify the context weare associated with</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        context = (Context)event.getLifecycle();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ClassCastExceptione) &#123;</span><br><span class="line">        log.error(sm.getString(<span class="string">"contextConfig.cce"</span>, event.getLifecycle()), e);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (event.getType().equals(Lifecycle.CONFIGURE_START_EVENT))&#123;</span><br><span class="line">        configureStart();</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.BEFORE_START_EVENT)) &#123;</span><br><span class="line">        beforeStart();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.AFTER_START_EVENT)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (originalDocBase!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            context.setDocBase(originalDocBase);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.CONFIGURE_STOP_EVENT)) &#123;</span><br><span class="line">        configureStop();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.AFTER_INIT_EVENT)) &#123;</span><br><span class="line">        init();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.AFTER_DESTROY_EVENT)) &#123;</span><br><span class="line">        destroy();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;下面这个方法就是configureContext中具体构造wrapper对象并添加到StandWrapper,在这里只需要明确的事实例化对象是在这个过程，至于具体的使用在后面会进行讲解</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">for</span> (ServletDef servlet : webxml.getServlets().values()) &#123;</span><br><span class="line">    Wrapper wrapper = context.createWrapper();</span><br><span class="line">    <span class="comment">// Description is ignored</span></span><br><span class="line">    <span class="comment">// Display name is ignored</span></span><br><span class="line">    <span class="comment">// Icons are ignored</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// jsp-file gets passed to the JSPServlet as an init-param</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (servlet.getLoadOnStartup()!= <span class="keyword">null</span>) &#123;</span><br><span class="line">       wrapper.setLoadOnStartup(servlet.getLoadOnStartup().intValue());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (servlet.getEnabled()!= <span class="keyword">null</span>) &#123;</span><br><span class="line">        wrapper.setEnabled(servlet.getEnabled().booleanValue());</span><br><span class="line">    &#125;</span><br><span class="line">   wrapper.setName(servlet.getServletName());</span><br><span class="line">    Map&lt;String,String&gt;params = servlet.getParameterMap();</span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;String, String&gt;entry : params.entrySet()) &#123;</span><br><span class="line">       wrapper.addInitParameter(entry.getKey(), entry.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">    wrapper.setRunAs(servlet.getRunAs());</span><br><span class="line">    Set&lt;SecurityRoleRef&gt;roleRefs = servlet.getSecurityRoleRefs();</span><br><span class="line">    <span class="keyword">for</span> (SecurityRoleRefroleRef : roleRefs) &#123;</span><br><span class="line">        wrapper.addSecurityReference(</span><br><span class="line">                roleRef.getName(), roleRef.getLink());</span><br><span class="line">    &#125;</span><br><span class="line">   wrapper.setServletClass(servlet.getServletClass());</span><br><span class="line">    MultipartDefmultipartdef = servlet.getMultipartDef();</span><br><span class="line">    <span class="keyword">if</span> (multipartdef != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (multipartdef.getMaxFileSize()!= <span class="keyword">null</span>&amp;&amp;</span><br><span class="line">               multipartdef.getMaxRequestSize()!= <span class="keyword">null</span> &amp;&amp;</span><br><span class="line">               multipartdef.getFileSizeThreshold() != <span class="keyword">null</span>) &#123;</span><br><span class="line">           wrapper.setMultipartConfigElement(<span class="keyword">new</span> MultipartConfigElement(</span><br><span class="line">                   multipartdef.getLocation(),</span><br><span class="line">                    Long.parseLong(multipartdef.getMaxFileSize()),</span><br><span class="line">                    Long.parseLong(multipartdef.getMaxRequestSize()),</span><br><span class="line">                    Integer.parseInt(</span><br><span class="line">                           multipartdef.getFileSizeThreshold())));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           wrapper.setMultipartConfigElement(<span class="keyword">new</span> MultipartConfigElement(</span><br><span class="line">                   multipartdef.getLocation()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (servlet.getAsyncSupported()!= <span class="keyword">null</span>) &#123;</span><br><span class="line">        wrapper.setAsyncSupported(</span><br><span class="line">                servlet.getAsyncSupported().booleanValue());</span><br><span class="line">    &#125;</span><br><span class="line">   wrapper.setOverridable(servlet.isOverridable());</span><br><span class="line">    context.addChild(wrapper);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2><span id="jian-ting-wen-jian-xiu-gai-chong-bu-shu">监听文件修改重部署</span></h2>
+<p>这个是开启了一个线程进行处理的，在上文加载了web应用之后,可能存在修改里面的文件，这样在重新访问的时候应该访问到的新界面,这个就是threadStart();这个方法所做的事情，下面我们看一下它究竟是怎么处理</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> *<span class="doctag">@author</span> 郑小康</span></span><br><span class="line"><span class="comment"> * 校验条件通过的话将会启动一个线程</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 并且线程的名字即以"ContainerBackgroundProcessor[ "开头，线程名字后面取的是对象的toString方法</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 其中backgroundProcessorDelay的作用是：</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *   StandardEngine，StandardHost都继承了当前类，是否都启动了这个线程</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *   其实不然，这就是backgroundProcessorDelay的作用，在StandardEngine实例化的时候其赋值为10</span></span><br><span class="line"><span class="comment"> *   而StandardHost却并没有，所以只有在StandardEngine调用startInternal的时候才会启动线程</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">threadStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//检验线程是否存在，存在直接返回，这样做的目的是避免该类的线程二次启动</span></span><br><span class="line">    <span class="keyword">if</span> (thread != <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (backgroundProcessorDelay&lt;=<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    threadDone = <span class="keyword">false</span>;</span><br><span class="line">    String threadName = <span class="string">"ContainerBackgroundProcessor["</span>+toString() + <span class="string">"]"</span>;</span><br><span class="line">    thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ContainerBackgroundProcessor(), threadName);</span><br><span class="line">    thread.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">    thread.start();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由上不难看出其会构建ContainerBackgroundProcessor实例，并调用其run方法，ContainerBackgroundProcessor类的结构如下</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 在run方法中它会先暂停一段时间之后调用processChildren方法</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="class"><span class="keyword">class</span> <span class="title">ContainerBackgroundProcessor</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Throwable t = <span class="keyword">null</span>;</span><br><span class="line">        StringunexpectedDeathMessage = sm.getString(</span><br><span class="line">                <span class="string">"containerBase.backgroundProcess.unexpectedThreadDeath"</span>,</span><br><span class="line">                Thread.currentThread().getName());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (!threadDone) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(backgroundProcessorDelay*<span class="number">1000L</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedExceptione) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (!threadDone) &#123;</span><br><span class="line">                   processChildren(ContainerBase.<span class="keyword">this</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException|Errore) &#123;</span><br><span class="line">            t = e;</span><br><span class="line">            <span class="keyword">throw</span> e;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!threadDone) &#123;</span><br><span class="line">                log.error(unexpectedDeathMessage, t);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看一下processChildren方法的实现，如下：</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">processChildren</span><span class="params">(Container container)</span> </span>&#123;</span><br><span class="line">        ClassLoader originalClassLoader =<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (container <span class="keyword">instanceof</span> Context) &#123;</span><br><span class="line">                Loader loader =((Context) container).getLoader();</span><br><span class="line">                <span class="comment">// Loader will be null forFailedContext instances</span></span><br><span class="line">                <span class="keyword">if</span> (loader == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                originalClassLoader =((Context) container).bind(<span class="keyword">false</span>, <span class="keyword">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            container.backgroundProcess();</span><br><span class="line">            Container[] children =container.findChildren();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;children.length; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (children[i].getBackgroundProcessorDelay()&lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                   processChildren(children[i]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwablet) &#123;</span><br><span class="line">            ExceptionUtils.handleThrowable(t);</span><br><span class="line">            log.error(<span class="string">"Exceptioninvoking periodic operation: "</span>, t);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (container <span class="keyword">instanceof</span> Context) &#123;</span><br><span class="line">                ((Context)container).unbind(<span class="keyword">false</span>, originalClassLoader);</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>processChildren方法做了两件事，一是调用容器组件自身的backgroundProcess方法，二是取出该容器组件的所有子容器组件并调用它们的processChildren方法。归结起来这个线程的实现就是定期通过递归的方式调用当前容器及其所有子容器的backgroundProcess方法。而这个backgroundProcess方法在ContainerBase内部已经给出了实现</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 1.获取所有集群 (不是我研究的重点）</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 2.获取用户管理（不是我研究的重点）</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 3.执行其阀门下面所有的backgroundProcess方法，可以看出这是一个递归执行backgroundProcess</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  engine  --&gt;   host ----&gt;  context  这是一个大致过程</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 4.调用生命周期的监听方法，修改状态为PERIODIC_EVENT</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function">publicvoid <span class="title">backgroundProcess</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!getState().isAvailable())</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    Cluster cluster =getClusterInternal();</span><br><span class="line">    <span class="keyword">if</span> (cluster != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            cluster.backgroundProcess();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exceptione) &#123;</span><br><span class="line">            log.warn(sm.getString(<span class="string">"containerBase.backgroundProcess.cluster"</span>,</span><br><span class="line">                    cluster), e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Realm realm = getRealmInternal();</span><br><span class="line">    <span class="keyword">if</span> (realm != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            realm.backgroundProcess();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exceptione) &#123;</span><br><span class="line">            log.warn(sm.getString(<span class="string">"containerBase.backgroundProcess.realm"</span>, realm), e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Valve current = pipeline.getFirst();</span><br><span class="line">    <span class="keyword">while</span> (current != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            current.backgroundProcess();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exceptione) &#123;</span><br><span class="line">            log.warn(sm.getString(<span class="string">"containerBase.backgroundProcess.valve"</span>, current), e);</span><br><span class="line">        &#125;</span><br><span class="line">        current = current.getNext();</span><br><span class="line">    &#125;</span><br><span class="line">    fireLifecycleEvent(Lifecycle.PERIODIC_EVENT,<span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   这样做的目的，我觉得主要是找到所有HostConfig，然后修改其状态为PERIODIC_EVENT，这样就可以执行对应的方法</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lifecycleEvent</span><span class="params">(LifecycleEvent event)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Identify the host weare associated with</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        host = (Host)event.getLifecycle();</span><br><span class="line">        <span class="keyword">if</span> (host <span class="keyword">instanceof</span> StandardHost)&#123;</span><br><span class="line">            setCopyXML(((StandardHost) host).isCopyXML());</span><br><span class="line">            setDeployXML(((StandardHost)host).isDeployXML());  <span class="comment">//liveDeploy属性指明host是否要周期性的检查是否有新的应用部署</span></span><br><span class="line">            setUnpackWARs(((StandardHost)host).isUnpackWARs());</span><br><span class="line">            setContextClass(((StandardHost)host).getContextClass());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ClassCastExceptione) &#123;</span><br><span class="line">        log.error(sm.getString(<span class="string">"hostConfig.cce"</span>, event.getLifecycle()), e);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(event.getType().equals(Lifecycle.PERIODIC_EVENT)) &#123;</span><br><span class="line">        check();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.BEFORE_START_EVENT)) &#123;</span><br><span class="line">        beforeStart();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.START_EVENT)) &#123;</span><br><span class="line">        start();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getType().equals(Lifecycle.STOP_EVENT)) &#123;</span><br><span class="line">        stop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>check方法代码如下：</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">check</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (host.getAutoDeploy())&#123;</span><br><span class="line">               DeployedApplication[]apps =</span><br><span class="line">            deployed.values().toArray(<span class="keyword">new</span> DeployedApplication[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; apps.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!isServiced(apps[i].name))</span><br><span class="line">                checkResources(apps[i], <span class="keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Check for old versionsof applications that can now be undeployed</span></span><br><span class="line">        <span class="keyword">if</span> (host.getUndeployOldVersions())&#123;</span><br><span class="line">            checkUndeploy();</span><br><span class="line">        &#125;</span><br><span class="line">        deployApps();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在我们值得讨论的是，为什么在启动之后，修改配置文件会加载新的内容，这是因为ContainerBackgroundProcessor这个新开的线程实例里面的run方法是一个死循环，每隔10秒都会执行一下，调用HostConfig的声明周期事件，并传入状态为PERIODIC_EVENT,这样的话就会不断的调用check方法，不断的进行重部署（注意：这并不是热部署，热部署是修改了java文件，只收class文件发生了修改,但是java文件在修改之后，编辑器能够自动编译成class文件,但是这需要涉及到class文件的重加载，因为它不像静态文件直接读取，所以这只是java文件重新加载的一部分，另一部分则是实例化）</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------Thank you for your reading-------------</div>
+    
+</div>
+
+      
+    </div>
+
+    <div>
+          
+            
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/08/18/tomcat/2018-01-23/">tomcat请求处理分析(一) 启动container实例</a></p>
+  <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
+  <p><span>发布时间:</span>2017年08月18日 - 23:08</p>
+  <p><span>最后更新:</span>2018年01月23日 - 10:01</p>
+  <p><span>原始链接:</span><a href="/2017/08/18/tomcat/2018-01-23/" title="tomcat请求处理分析(一) 启动container实例">www.cfad.tech/2017/08/18/tomcat/2018-01-23/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/08/18/tomcat/2018-01-23/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+	clipboard.on('success', $(function(){
+	  $(".fa-clipboard").click(function(){
+		swal({
+		  title: "",
+		  text: '复制成功',
+		  html: false,
+		  timer: 500,
+		  showConfirmButton: false
+	    });
+	  });
+    }));
+</script>
+
+
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/30/ofbiz/ofbiz9/" rel="next" title="ofbiz实体引擎(九) 多租户">
+                <i class="fa fa-chevron-left"></i> ofbiz实体引擎(九) 多租户
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/18/tomcat/2018-01-23-1/" rel="prev" title="tomcat请求处理分析(二) 启动mapperListener">
+                tomcat请求处理分析(二) 启动mapperListener <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/dl.jpg"
+                alt="cfs" />
+            
+              <p class="site-author-name" itemprop="name">cfs</p>
+              <p class="site-description motion-element" itemprop="description">help others, happy myself</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/jackfo" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qq_32541407" target="_blank" title="csdn">
+                    
+                      <i class="fa fa-fw fa-sticky-note-o"></i>csdn</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="zheng.xiaokang@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-at"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/u010349169/article/category/2620885" title="JVM虚拟机原理" target="_blank">JVM虚拟机原理</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://zcheng.ren/archives/" title="Redis" target="_blank">Redis</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="qi-dong-container-shi-li">&#x542F;&#x52A8;container&#x5B9E;&#x4F8B;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text"><span id="qi-dong-standhost">&#x542F;&#x52A8;StandHost</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text"><span id="xiang-standhost-guan-dao-li-mian-jia-ru-fa-men">&#x5411;standHost&#x7BA1;&#x9053;&#x91CC;&#x9762;&#x52A0;&#x5165;&#x9600;&#x95E8;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text"><span id="qi-dong-guan-dao">&#x542F;&#x52A8;&#x7BA1;&#x9053;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.4.</span> <span class="nav-text"><span id="jia-zai-web-ying-yong">&#x52A0;&#x8F7D;web&#x5E94;&#x7528;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.5.</span> <span class="nav-text"><span id="bu-shu-web-ying-yong">&#x90E8;&#x7F72;web&#x5E94;&#x7528;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.6.</span> <span class="nav-text"><span id="gen-ju-pei-zhi-wen-jian-jia-zai-web-ying-yong">&#x6839;&#x636E;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x52A0;&#x8F7D;web&#x5E94;&#x7528;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.7.</span> <span class="nav-text"><span id="jian-ting-wen-jian-xiu-gai-chong-bu-shu">&#x76D1;&#x542C;&#x6587;&#x4EF6;&#x4FEE;&#x6539;&#x91CD;&#x90E8;&#x7F72;</span></span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cfs</span>
+<span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+  
+</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+
+</body>
+</html>
