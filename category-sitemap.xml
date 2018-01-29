@@ -105,13 +105,6 @@
     </url>
 
     <url>
-        <loc>www.cfad.tech/categories/tomcat/</loc>
-        <lastmod>2018-01-23T06:37:58.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>www.cfad.tech/categories/Algorithm/</loc>
         <lastmod>2018-01-27T10:16:34.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -121,6 +114,13 @@
     <url>
         <loc>www.cfad.tech/categories/java/</loc>
         <lastmod>2018-01-29T11:12:29.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>www.cfad.tech/categories/tomcat/</loc>
+        <lastmod>2018-01-29T17:09:46.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[tomcat源码解读七 tomcat的BIO、NIO和AIO模型]]></title>
+    <url>%2F2018%2F01%2F29%2Ftomcat%2F2018-01-29%2F</url>
+    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在前面已经整体对tomcat的启动过程分析过,现在就这三种模型做单独的分析，主要是为了进一步加深对I/O模型的理解。 tomcat的BIO模型类的关系图 类的时序图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在以Acceptor为入口进行分析,在这里通过一个while循环+调用serverSocketFactory.acceptSocket(serverSocket);实际就是socket.accept();进行阻塞，等待接受客户端请求,当接受到客户端请求之后，将socket利用SocketWrapper进行包装加入到线程实例SocketProcessor里面，然后将相应线程实例添加到线程池中进行执行.这就是多线程阻塞IO的使用方式,通过一个线程接受请求,将请求交给具体的线程进行处理 tomcat的NIO模型类的关系图 类的时序图 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在NIO模型中,首先得提的是bind方法,创建了一个ServerSocketChannel并且设置为阻塞，所以在Acceptor接受请求的时候是阻塞处理的，因为在这个过程中没有必要用非阻塞，当接受到请求之后获取相应的socketChannel之后先设置其为非阻塞再调用setSocketOptions(socket)方法将构建相应NioChannel(在这里里面封装了实际socket套接字,以及NioBufferHandler),之后获取Poller实例register方法构建相应PollerEvent并将其添加到events数组(这里获取到那个Poller就是哪个Poller,变量都是实例变量,多个Poller之间唯一联系是选择器selector).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在Acceptor线程启动之前,Poller线程已经启动,放在这里描述是为了好理解,调用select阻塞1秒或者不阻塞取决于events里面是否具有元素,如果具有元素,调用不阻塞，反之阻塞1s,最终处理方式都是如果获取相应就绪通道，先出里就绪通道数据，最终调用proccessKey对套接字进行相关处理.如果没有，则执行events里面的PollerEvent,里面具体逻辑也是将NioChannel注册到就绪通道。 tomcat中的AIO模型类的关系图 类的时序图 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;异步的核心是基于内核,主要是内核获取相关套接字,然后通过利用回调方式进行处理,在Tomcat的AIO模型处理过程中,在serverSock.accept().get();这个获取异步套接字，然后进行相应的封装,最后socket.getSocket().read(byteBuffer, socket.getTimeout(), TimeUnit.MILLISECONDS, socket, awaitBytes);进行读取数据,在这个过程中当客户端往套接字发送数据时,内核从网卡接受数据后就会调用回调函数,回调函数在awaitBytes实例中,定义如下: 1234567891011121314151617private CompletionHandler&lt;Integer, SocketWrapper&lt;Nio2Channel&gt;&gt; awaitBytes = new CompletionHandler&lt;Integer, SocketWrapper&lt;Nio2Channel&gt;&gt;() &#123; @Override public synchronized void completed(Integer nBytes, SocketWrapper&lt;Nio2Channel&gt; attachment) &#123; if (nBytes.intValue() &lt; 0) &#123; failed(new ClosedChannelException(), attachment); return; &#125; processSocket0(attachment, SocketStatus.OPEN_READ, true); &#125; @Override public void failed(Throwable exc, SocketWrapper&lt;Nio2Channel&gt; attachment) &#123; processSocket0(attachment, SocketStatus.DISCONNECT, true); &#125; &#125;;]]></content>
+      <categories>
+        <category>tomcat</category>
+      </categories>
+      <tags>
+        <tag>tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[java IO模型]]></title>
     <url>%2F2018%2F01%2F28%2Fjava%2F2018-01-25%2F</url>
     <content type="text"><![CDATA[在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有： 同步阻塞IO（Blocking IO） 同步非阻塞IO（Non-blocking IO） IO多路复用（IO Multiplexing） 异步IO（Asynchronous IO 阻塞IO 针对于阻塞IO进行,当前线程需要获取IO资源时，会调用内核,然后内核准备相应数据返回,当线程应用获取到数据的时候才会继续向下执行,&lt;em style=&quot;color:red&quot;&gt;在获取数据时候,阻塞的是当前线程&lt;/em&gt;,所以在这种情况下,就出现了单线程会阻塞,程序就必须对待当前资源处理完毕,才能继续处理下去，如果在这个过程中我们需要同时对多个IO资源进行处理,就可以采用多线程方式来进行处理，这样就能解决单线并发能力低的缺点 在这个过程中我们提到过IO模型，现在总结描述一下它们的特点: 1:单线程阻塞I/O模型:整个运行过程中只有一个线程，只能同时处理一个IO资源,如果有多个IO资源的话必须排队处理,系统资源消耗较少,但并发能力较低。 2.多线程阻塞I/O模型:支持同时处理多个I/O资源,处理能力得到大幅度提高,有较大的并发量,但系统资源消耗较大，并且会产生很多线程切换成本. &lt;em style=&quot;color:red;margin-left:30px;&quot;&gt;注意：对文件IO资源进行处理的时候,可以针对一个文件同时打开多个文件流,如果需要实现数据同步,可以采用文件锁的方式进行处理&lt;/em&gt; 同步非阻塞IO 非阻塞IO一般是针对于服务器来说的,创建相应的ServerSocket通道，不管是否读取到客户端数据都会进行返回,这样做的好处是,&lt;em style=&quot;color:red;&quot;&gt;你可以在等待的过程中做一些其他的事情,只需要个一段时间看是否有新的套接字简历&lt;/em&gt; 在NIO模型中的非阻塞点有两个 ServerSocketChannel.accept() Selector 针对于第一个非阻塞点,设置为非阻塞代表获取到无论是否获取socket套接字都会为空 针对于第二个非阻塞点,几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道 int select() 阻塞到至少有一个通道在你注册的事件上就绪了。 int select(long timeout) 最长会阻塞timeout毫秒 int selectNow() 不会阻塞，不管什么通道就绪都立刻返回 I/O复用 在NIO中一个优势,线程可以进行复用,这种复用技术是利用Selector和socket通道进行配合,打开相应通道,注册该通道感兴趣的事件,如ServerSocketChannel注册一个接受通道事件到选择键之后,当获取到相应客户端请求,相应通道就会准备就绪，select机会返回相应的数量，此时我们可以获取SocketChannel,将其注册到选择器，在循环获取的过程就可以获取相应的读事件,之后进行相关的处理. 在windows系统是Selector.open()会自己和自己建立两条TCP链接,在Linux下，Selector.open()会自己和自己建两条管道,这样做的目的就是在获取相应连接的时候可以被唤醒。 异步非阻塞IO 异步描述的是执行IO操作的主体是谁，同步是由用户进程自己去执行最终的IO操作。异步是用户进程自己不关系实际IO操作的过程，只需要由内核在IO完成后通知它既可，由内核进程来执行最终的IO操作。 非阻塞异步IO指的是用户调用读写方法是不阻塞的，立刻返回，而且用户不需要关注读写，只需要提供回调操作，内核线程在完成读写后回调用户提供的callback。]]></content>
@@ -34,9 +45,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[java序列化源码解读]]></title>
-    <url>%2F2018%2F01%2F22%2Fjava%2F2018-01-28%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[java的IO流设计-节点流/处理流]]></title>
+    <url>%2F2018%2F01%2F22%2Fjava%2F2018-01-22%2F</url>
+    <content type="text"><![CDATA[在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析 节点流Vs处理流 节点流:程序用于直接操作目标设备所对应的类叫节点流。 处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。 节点流 节点流的类型 （1）File 文件流。对文件进行读、写操作 ：FileReader、FileWriter、FileInputStream、FileOutputStream。、 （2）Memory 1）从/向内存数组读写数据: CharArrayReader与 CharArrayWriter、ByteArrayInputStream与ByteArrayOutputStream。 2）从/向内存字符串读写数据 StringReader、StringWriter、StringBufferInputStream。 （3）Pipe管道流。 实现管道的输入和输出（进程间通信）: PipedReader与PipedWriter、PipedInputStream与PipedOutputStream。 节点流执行的图示 处理流 处理流的类型 （1）Buffering缓冲流：在读入或写出时，对数据进行缓存，以减少I/O的次数：BufferedReader与BufferedWriter、BufferedInputStream与BufferedOutputStream。 （2）Filtering 滤流：在数据进行读或写时进行过滤：FilterReader与FilterWriter、FilterInputStream与FilterOutputStream。 （3）Converting between Bytes and Characters 转换流：按照一定的编码/解码标准将字节流转换为字符流，或进行反向转换（Stream到Reader）：InputStreamReader、OutputStreamWriter。 （4）Object Serialization 对象流 ：ObjectInputStream、ObjectOutputStream。 （5）DataConversion数据流： 按基本数据类型读、写（处理的数据是Java的基本类型（如布尔型，字节，整数和浮点数））：DataInputStream、DataOutputStream 。 （6）Counting计数流： 在读入数据时对行记数 ：LineNumberReader、LineNumberInputStream。 （7）Peeking Ahead预读流： 通过缓存机制，进行预读 ：PushbackReader、PushbackInputStream。 （8）Printing打印流： 包含方便的打印方法 ：PrintWriter、PrintStream。 处理流的图示: 参考链接: JAVA——IO流 之 节点流与处理流（2） http://blog.csdn.net/jingzi123456789/article/details/72123937]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -45,9 +56,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[java的IO流设计-节点流/处理流]]></title>
-    <url>%2F2018%2F01%2F22%2Fjava%2F2018-01-22%2F</url>
-    <content type="text"><![CDATA[在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析 节点流Vs处理流 节点流:程序用于直接操作目标设备所对应的类叫节点流。 处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。 节点流 节点流的类型 （1）File 文件流。对文件进行读、写操作 ：FileReader、FileWriter、FileInputStream、FileOutputStream。、 （2）Memory 1）从/向内存数组读写数据: CharArrayReader与 CharArrayWriter、ByteArrayInputStream与ByteArrayOutputStream。 2）从/向内存字符串读写数据 StringReader、StringWriter、StringBufferInputStream。 （3）Pipe管道流。 实现管道的输入和输出（进程间通信）: PipedReader与PipedWriter、PipedInputStream与PipedOutputStream。 节点流执行的图示 处理流 处理流的类型 （1）Buffering缓冲流：在读入或写出时，对数据进行缓存，以减少I/O的次数：BufferedReader与BufferedWriter、BufferedInputStream与BufferedOutputStream。 （2）Filtering 滤流：在数据进行读或写时进行过滤：FilterReader与FilterWriter、FilterInputStream与FilterOutputStream。 （3）Converting between Bytes and Characters 转换流：按照一定的编码/解码标准将字节流转换为字符流，或进行反向转换（Stream到Reader）：InputStreamReader、OutputStreamWriter。 （4）Object Serialization 对象流 ：ObjectInputStream、ObjectOutputStream。 （5）DataConversion数据流： 按基本数据类型读、写（处理的数据是Java的基本类型（如布尔型，字节，整数和浮点数））：DataInputStream、DataOutputStream 。 （6）Counting计数流： 在读入数据时对行记数 ：LineNumberReader、LineNumberInputStream。 （7）Peeking Ahead预读流： 通过缓存机制，进行预读 ：PushbackReader、PushbackInputStream。 （8）Printing打印流： 包含方便的打印方法 ：PrintWriter、PrintStream。 处理流的图示: 参考链接: JAVA——IO流 之 节点流与处理流（2） http://blog.csdn.net/jingzi123456789/article/details/72123937]]></content>
+    <title><![CDATA[java序列化源码解读]]></title>
+    <url>%2F2018%2F01%2F22%2Fjava%2F2018-01-28%2F</url>
+    <content type="text"></content>
       <categories>
         <category>java</category>
       </categories>
@@ -78,9 +89,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[SQLite简介]]></title>
-    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-13%2F</url>
-    <content type="text"><![CDATA[SQLite的组成 parser tokenize virtual machine SQLite的数据结构 Connections和Statements&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表在一个独立的事务环境下的一个连接A (connection represents a single connection to a database as well as a single transaction context)。每一个statement都和一个connection关联，它通常表示一个编译过的SQL语句，在内部，它以VDBE字节码表示。Statement包括执行一个命令所需要一切，包括保存VDBE程序执行状态所需的资源，指向硬盘记录的B-树游标，以及参数等等 B-tree和pager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个connection可以有多个database对象—一个主要的数据库以及附加的数据库，每一个数据库对象有一个B-tree对象，一个B-tree有一个pager对象(这里的对象不是面向对象的“对象”，只是为了说清楚问题)。 Statement最终都是通过connection的B-tree和pager从数据库读或者写数据，通过B-tree的游标(cursor)遍历存储在页面(page)中的记录。游标在访问页面之前要把数所从disk加载到内存，而这就是pager的任务。任何时候，如果B-tree需要页面，它都会请求pager从disk读取数据，然后把页面(page)加载到页面缓冲区(page cache)，之后，B-tree和与之关联的游标就可以访问位于page中的记录了。 如果cursor改变了page，为了防止事务回滚，pager必须采取特殊的方式保存原来的page。总的来说，pager负责读写数据库，管理内存缓存和页面（page），以及管理事务，锁和崩溃恢复(这些在事务一节会详细介绍)。 总之，关于connection和transaction，你必须知道两件事： (1)对数据库的任何操作，一个连接存在于一个事务下。 (2)一个连接决不会同时存在多个事务下。]]></content>
+    <title><![CDATA[SQLite网址大全]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14-1%2F</url>
+    <content type="text"><![CDATA[SQLite API手册http://www.yfvb.com/help/sqlite3/ SQLite源码分析http://huili.github.io/sqlite/sqliteintro.html]]></content>
       <categories>
         <category>SQLite</category>
       </categories>
@@ -100,9 +111,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[SQLite网址大全]]></title>
-    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14-1%2F</url>
-    <content type="text"><![CDATA[SQLite API手册http://www.yfvb.com/help/sqlite3/ SQLite源码分析http://huili.github.io/sqlite/sqliteintro.html]]></content>
+    <title><![CDATA[SQLite简介]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-13%2F</url>
+    <content type="text"><![CDATA[SQLite的组成 parser tokenize virtual machine SQLite的数据结构 Connections和Statements&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表在一个独立的事务环境下的一个连接A (connection represents a single connection to a database as well as a single transaction context)。每一个statement都和一个connection关联，它通常表示一个编译过的SQL语句，在内部，它以VDBE字节码表示。Statement包括执行一个命令所需要一切，包括保存VDBE程序执行状态所需的资源，指向硬盘记录的B-树游标，以及参数等等 B-tree和pager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个connection可以有多个database对象—一个主要的数据库以及附加的数据库，每一个数据库对象有一个B-tree对象，一个B-tree有一个pager对象(这里的对象不是面向对象的“对象”，只是为了说清楚问题)。 Statement最终都是通过connection的B-tree和pager从数据库读或者写数据，通过B-tree的游标(cursor)遍历存储在页面(page)中的记录。游标在访问页面之前要把数所从disk加载到内存，而这就是pager的任务。任何时候，如果B-tree需要页面，它都会请求pager从disk读取数据，然后把页面(page)加载到页面缓冲区(page cache)，之后，B-tree和与之关联的游标就可以访问位于page中的记录了。 如果cursor改变了page，为了防止事务回滚，pager必须采取特殊的方式保存原来的page。总的来说，pager负责读写数据库，管理内存缓存和页面（page），以及管理事务，锁和崩溃恢复(这些在事务一节会详细介绍)。 总之，关于connection和transaction，你必须知道两件事： (1)对数据库的任何操作，一个连接存在于一个事务下。 (2)一个连接决不会同时存在多个事务下。]]></content>
       <categories>
         <category>SQLite</category>
       </categories>
@@ -199,9 +210,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux修改ip为静态ip]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-3%2F</url>
-    <content type="text"><![CDATA[#修改网卡信息 vi /etc/sysconfig/network-scripts/ifcfg-eth0 123456BOOTPROTO=&quot;static&quot; #注意：原值为dhcpHWADDR=&quot;00:0c:29:ba:18:25&quot;IPV6INIT=&quot;yes&quot;NM_CONTROLLED=&quot;yes&quot;ONBOOT=&quot;yes&quot;TYPE=&quot;Ethernet&quot; 以下是修改为静态时需要加IPADDR=192.168.1.200GATEWAY=192.168.1.1NETMASK=255.255.255.0 重启网卡service network restart #设置DNS vim /ect/resolv.conf 12nameserver 8.8.8.8nameserver 114.114.114.114]]></content>
+    <title><![CDATA[VMware Fusion实现虚拟机拷贝]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-2%2F</url>
+    <content type="text"><![CDATA[参考链接:http://www.linuxidc.com/Linux/2017-06/144720.htm #拷贝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击需要拷贝的文件,然后进行复制-粘贴,如下: #打开&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;打开相应的虚拟机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击已拷贝 #修改hostname vi /etc/sysconfig/network 将”HOSTNAME=”后的内容改成机器名，比如centos.04，保存退出 vi /etc/hosts 在最后添加一行 127.0.0.1 centos.04，保存退出 如果要马上生效，可再输入hostname centos.04，否则要重启才能生效 shutdown -h now关机 注意最好执行这个命令，下面生成mac地址需要关机 #给新虚拟机的网卡，生成一个新mac地址在设置里面点击网络适配器生成一个新的mac地址 #修改网卡信息 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/udev/rules.d/70-persistent-net.rules&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编辑这个文件，它记录了当前机器上的所有网卡信息根据刚才新生成的mac地址，找到对应的行，把网卡名称改成 eth0，其它的全删除 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/sysconfig/network-scripts/ifcfg-eth0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;把uuid随便改一个数字，保证它跟原来的系统不同即可，然后把HWADDR改成新生成的mac地址，保存退出]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -243,9 +254,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[VMware Fusion实现虚拟机拷贝]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-2%2F</url>
-    <content type="text"><![CDATA[参考链接:http://www.linuxidc.com/Linux/2017-06/144720.htm #拷贝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击需要拷贝的文件,然后进行复制-粘贴,如下: #打开&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;打开相应的虚拟机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击已拷贝 #修改hostname vi /etc/sysconfig/network 将”HOSTNAME=”后的内容改成机器名，比如centos.04，保存退出 vi /etc/hosts 在最后添加一行 127.0.0.1 centos.04，保存退出 如果要马上生效，可再输入hostname centos.04，否则要重启才能生效 shutdown -h now关机 注意最好执行这个命令，下面生成mac地址需要关机 #给新虚拟机的网卡，生成一个新mac地址在设置里面点击网络适配器生成一个新的mac地址 #修改网卡信息 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/udev/rules.d/70-persistent-net.rules&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编辑这个文件，它记录了当前机器上的所有网卡信息根据刚才新生成的mac地址，找到对应的行，把网卡名称改成 eth0，其它的全删除 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi /etc/sysconfig/network-scripts/ifcfg-eth0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;把uuid随便改一个数字，保证它跟原来的系统不同即可，然后把HWADDR改成新生成的mac地址，保存退出]]></content>
+    <title><![CDATA[linux修改ip为静态ip]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-3%2F</url>
+    <content type="text"><![CDATA[#修改网卡信息 vi /etc/sysconfig/network-scripts/ifcfg-eth0 123456BOOTPROTO=&quot;static&quot; #注意：原值为dhcpHWADDR=&quot;00:0c:29:ba:18:25&quot;IPV6INIT=&quot;yes&quot;NM_CONTROLLED=&quot;yes&quot;ONBOOT=&quot;yes&quot;TYPE=&quot;Ethernet&quot; 以下是修改为静态时需要加IPADDR=192.168.1.200GATEWAY=192.168.1.1NETMASK=255.255.255.0 重启网卡service network restart #设置DNS vim /ect/resolv.conf 12nameserver 8.8.8.8nameserver 114.114.114.114]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -265,6 +276,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Huffman Coding Greedy Algorithm]]></title>
+    <url>%2F2017%2F12%2F17%2Farithmetic%2Fhuffmancoding%2F</url>
+    <content type="text"><![CDATA[What is Huffman Coding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Huffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known as Prefix Codes The GoalTry to reduce the total number of bits used without losing any information The process of Huffman coding Scan text to be compressed and tally occurrence of all characters. Sort or prioritize characters based on number of occurrences in text. Build Huffman code tree based on prioritized list. Perform a traversal of tree to determine all code words. Scan text again and create new file using the Huffman codes. The Schematic diagram Code process #The code of Huffman&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now, we specific display Huffman code. By code, we analysis of its process step by step. ##The structure of Node&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In its structure, We define the frequency to statistic the number of occurrences of the characters. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354public class Node implements Comparable&lt;Node&gt; &#123; private String chars = ""; private int frequence = 0; private Node parent; private Node leftNode; private Node rightNode; @Override public int compareTo(Node node) &#123; return frequence - node.frequence; &#125; public String getChars() &#123; return chars; &#125; public void setChars(String chars) &#123; this.chars = chars; &#125; public int getFrequence() &#123; return frequence; &#125; public void setFrequence(int frequence) &#123; this.frequence = frequence; &#125; public Node getParent() &#123; return parent; &#125; public void setParent(Node parent) &#123; this.parent = parent; &#125; public Node getLeftNode() &#123; return leftNode; &#125; public void setLeftNode(Node leftNode) &#123; this.leftNode = leftNode; &#125; public Node getRightNode() &#123; return rightNode; &#125; public void setRightNode(Node rightNode) &#123; this.rightNode = rightNode; &#125;&#125; statistic frequency of every character&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, Our main purpose is to statistic frequency of every character. so we structure a HashMap to store data, when we get data from the HashMap by key, we add one to the number of it and store into The value of the current mapping as new value 12345678910111213public static Map&lt;Character, Integer&gt; statistics(char[] charArray) &#123; Map&lt;Character, Integer&gt; map = new HashMap&lt;Character, Integer&gt;(); for (char c : charArray) &#123; Character character = new Character(c); if (map.containsKey(character)) &#123; map.put(character, map.get(character) + 1); &#125; else &#123; map.put(character, 1); &#125; &#125; return map; &#125; build a tree&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PriorityQueue will Retrieves and removes the head of this queue, or returns null if this queue is empty. PriorityQueue maintain a heap what you can poll the smallest element every time actually. so we will obtain the two minimum elements and build Node, By this way, we will get a complete binary tree.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The idea of algorithm: transfer statistical information to Node and stored in a priority queue. each time it pop-up two minimum frequency nodes the queue to build a new parent node. The frequency of characters is the sum of two pop-up Node.he first pop-up as the left child node, the back one as the right child node, and the newly built parent node inside the queue. Repeat the above action N-1 times. 1234567891011121314151617181920212223242526272829303132333435private static Tree buildTree(Map&lt;Character, Integer&gt; statistics, List&lt;Node&gt; leafs) &#123; Character[] keys = statistics.keySet().toArray(new Character[0]); PriorityQueue&lt;Node&gt; priorityQueue = new PriorityQueue&lt;Node&gt;(); for (Character character : keys) &#123; Node node = new Node(); node.setChars(character.toString()); node.setFrequence(statistics.get(character)); priorityQueue.add(node); leafs.add(node); &#125; int size = priorityQueue.size(); for (int i = 1; i &lt;= size - 1; i++) &#123; Node node1 = priorityQueue.poll(); Node node2 = priorityQueue.poll(); Node sumNode = new Node(); sumNode.setChars(node1.getChars()+node2.getChars()); sumNode.setFrequence(node1.getFrequence()+node2.getFrequence()); sumNode.setLeftNode(node1); sumNode.setRightNode(node2); node1.setParent(sumNode); node2.setParent(sumNode); priorityQueue.add(sumNode); &#125; Tree tree = new Tree(); tree.setRoot(priorityQueue.poll()); return tree; &#125; encode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, we will invoke buildTree to let the Node produce associated. searching up from the leaf node of current character, if the character is the parent node of the left node, add 0 before the coded character , otherwise if it is right node, add 1, until the root node. 12345678910111213141516171819public static String encode(String originalStr, Map&lt;Character, Integer&gt; statistics) &#123; if (originalStr == null || originalStr.equals("")) &#123; return ""; &#125; char[] charArray = originalStr.toCharArray(); List&lt;Node&gt; leafNodes = new ArrayList&lt;Node&gt;(); buildTree(statistics, leafNodes); Map&lt;Character, String&gt; encodInfo = buildEncodingInfo(leafNodes); StringBuffer buffer = new StringBuffer(); for (char c : charArray) &#123; Character character = new Character(c); buffer.append(encodInfo.get(character)); &#125; return buffer.toString(); &#125; decode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Huffman coding algorithm can ensure any binary code is not going to be another code prefix, decoding is simple, each in turn to take out the binary, search down from the root, 1 to the right, 0 to the left, to the leaf node (hit), return a root node continue to repeat the action 12345678910111213141516171819202122232425262728293031323334public static String decode(String binaryStr, Map&lt;Character, Integer&gt; statistics) &#123; if (binaryStr == null || binaryStr.equals("")) &#123; return ""; &#125; char[] binaryCharArray = binaryStr.toCharArray(); LinkedList&lt;Character&gt; binaryList = new LinkedList&lt;Character&gt;(); int size = binaryCharArray.length; for (int i = 0; i &lt; size; i++) &#123; binaryList.addLast(new Character(binaryCharArray[i])); &#125; List&lt;Node&gt; leafNodes = new ArrayList&lt;Node&gt;(); Tree tree = buildTree(statistics, leafNodes); StringBuffer buffer = new StringBuffer(); while (binaryList.size() &gt; 0) &#123; Node node = tree.getRoot(); do &#123; Character c = binaryList.removeFirst(); if (c.charValue() == '0') &#123; node = node.getLeftNode(); &#125; else &#123; node = node.getRightNode(); &#125; &#125; while (!node.isLeaf()); buffer.append(node.getChars()); &#125; return buffer.toString();&#125; The Test Result123456789101112public static void main(String[] args) &#123; String oriStr = "Huffman codes compress data very effectively"; Map&lt;Character, Integer&gt; statistics = statistics(oriStr.toCharArray()); String encodedBinariStr = encode(oriStr, statistics); String decodedStr = decode(encodedBinariStr, statistics); System.out.println("Original sstring: " + oriStr+"\n"); System.out.println("Huffman encoed binary string: " + encodedBinariStr+"\n"); System.out.println("decoded string from binariy string: " + decodedStr); &#125; result: 12345Original sstring: Huffman codes compress data very effectivelyHuffman encoed binary string: 11111011010101001011100100011011001111000010111011011001011110000101110011011100111011001100101111101100000011000011111101010011000001110101001010111000001111111111101011101000000decoded string from binariy string: Huffman codes compress data very effectively]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[二叉堆]]></title>
     <url>%2F2017%2F12%2F17%2Farithmetic%2F2018-01-26%2F</url>
     <content type="text"><![CDATA[二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法. 上浮:当前节点比父节点大，while循环不断交换 下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换 基于上面，插入一个元素插入到最后，不断调用上浮就可以 删除最大元素，获取数组a[1]的元素，与最后一个交换，然后将这个位置置空，并返回，实现有序，则需将调换到第一个的元素进行下沉ihh 时间复杂度:插入lgN+1 删除2lgN]]></content>
@@ -279,17 +301,6 @@
     <title><![CDATA[EightQueen]]></title>
     <url>%2F2017%2F12%2F17%2Farithmetic%2F2017-12-18%2F</url>
     <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The N queens puzzle is the problem of placing N chess queens on an N×N chessboard so that no two queens threaten each other. Thus, a solution requires that no two queens share the same row, column, or diagonal.For example, below is one of the solution for famous 8 Queen problem. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Backtracking Algorithm for N-Queen is already discussed here. In backtracking solution we backtrack when we hit a dead end. In Branch and Bound solution, after building a partial solution, we figure out that there is no point going any deeper as we are going to hit a dead end. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Let’s begin by describing backtracking solution. “The idea is to place queens one by one in different columns, starting from the leftmost column. When we place a queen in a column, we check for clashes with already placed queens. In the current column, if we find a row for which there is no clash, we mark this row and column as part of the solution. If we do not find such a row due to clashes, then we backtrack and return false.” &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.For the 1st Queen, there are total 8 possibilities as we can place 1st Queen in any row of first column. Let’s place Queen 1 on row 3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.After placing 1st Queen, there are 7 possibilities left for the 2nd Queen. But wait, we don’t really have 7 possibilities. We cannot place Queen 2 on rows 2, 3 or 4 as those cells are under attack from Queen 1. So, Queen 2 has only 8 – 3 = 5 valid positions left.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.After picking a position for Queen 2, Queen 3 has even fewer options as most of the cells in its column are under attack from the first 2 Queens. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; We need to figure out an efficient way of keeping track of which cells are under attack. In previous solution we kept an 8­-by­-8 Boolean matrix and update it each time we placed a queen, but that required linear time to update as we need to check for safe cells. Basically, we have to ensure 4 things: No two queens share a column. No two queens share a row. No two queens share a top-right to left-bottom diagonal. No two queens share a top-left to bottom-right diagonal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Number 1 is automatic because of the way we store the solution. For number 2, 3 and 4, we can perform updates in O(1) time. The idea is to keep three Boolean arrays that tell us which rows and which diagonals are occupied. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lets do some pre-processing first. Let’s create two N x N matrix one for / diagonal and other one for \ diagonal. Let’s call them slashCode and backslashCode respectively. The trick is to fill them in such a way that two queens sharing a same /­diagonal will have the same value in matrix slashCode, and if they share same \­diagonal, they will have the same value in backslashCode matrix. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For an N x N matrix, fill slashCode and backslashCode matrix using below formula – cols[N] != cols[N-1] cols[N] != cols[N-1]-1 cols[N]!=cols[N-1]+1 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061public class Queen8 &#123; public static int num = 0; //累计方案总数 public static final int MAXQUEEN = 8;//皇后个数，同时也是棋盘行列总数 public static int[] cols = new int[MAXQUEEN]; //定义cols数组，表示8列棋子摆放情况 public Queen8() &#123; //核心函数 getArrangement(0); System.out.print("/n"); System.out.println(MAXQUEEN+"皇后问题有"+num+"种摆放方法。"); &#125; public void getArrangement(int n)&#123; //遍历该列所有不合法的行，并用rows数组记录，不合法即rows[i]=true boolean[] rows = new boolean[MAXQUEEN]; for(int i=0;i&lt;n;i++)&#123; rows[cols[i]]=true; int d = n-i; if(cols[i]-d &gt;= 0)rows[cols[i]-d]=true; if(cols[i]+d &lt;= MAXQUEEN-1)rows[cols[i]+d]=true; &#125; for(int i=0;i&lt;MAXQUEEN;i++)&#123; //判断该行是否合法 if(rows[i])continue; //设置当前列合法棋子所在行数 cols[n] = i; //当前列不为最后一列时 if(n&lt;MAXQUEEN-1)&#123; getArrangement(n+1); &#125;else&#123; //累计方案个数 num++; //打印棋盘信息 printChessBoard(); &#125; &#125; &#125; public void printChessBoard()&#123; System.out.print("第"+num+"种走法 /n"); for(int i=0;i&lt;MAXQUEEN;i++)&#123; for(int j=0;j&lt;MAXQUEEN;j++)&#123; if(i==cols[j])&#123; System.out.print("0 "); &#125;else System.out.print("+ "); &#125; System.out.print("/n"); &#125; &#125; public static void main(String args[])&#123; Queen8 queen = new Queen8(); &#125; &#125; output: 12345678910111213141516171819第1种走法 0 + + + + + + + + + + + + + 0 + + + + + 0 + + + + + + + + + + 0 + 0 + + + + + + + + + 0 + + + + + + + + + 0 + + + + 0 + + + + + 第2种走法 0 + + + + + + + + + + + + + 0 + + + + 0 + + + + + + + + + 0 + + + + + + + + + 0 + 0 + + + + + + + + + + 0 + + + + + 0 + + + + + .......]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Huffman Coding Greedy Algorithm]]></title>
-    <url>%2F2017%2F12%2F17%2Farithmetic%2Fhuffmancoding%2F</url>
-    <content type="text"><![CDATA[What is Huffman Coding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Huffman coding is Data Compression Algorithm,Based on lengths of assigned codes based on frequencies, Variable Length Codes are known as Prefix Codes The GoalTry to reduce the total number of bits used without losing any information The process of Huffman coding Scan text to be compressed and tally occurrence of all characters. Sort or prioritize characters based on number of occurrences in text. Build Huffman code tree based on prioritized list. Perform a traversal of tree to determine all code words. Scan text again and create new file using the Huffman codes. The Schematic diagram Code process #The code of Huffman&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now, we specific display Huffman code. By code, we analysis of its process step by step. ##The structure of Node&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In its structure, We define the frequency to statistic the number of occurrences of the characters. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354public class Node implements Comparable&lt;Node&gt; &#123; private String chars = ""; private int frequence = 0; private Node parent; private Node leftNode; private Node rightNode; @Override public int compareTo(Node node) &#123; return frequence - node.frequence; &#125; public String getChars() &#123; return chars; &#125; public void setChars(String chars) &#123; this.chars = chars; &#125; public int getFrequence() &#123; return frequence; &#125; public void setFrequence(int frequence) &#123; this.frequence = frequence; &#125; public Node getParent() &#123; return parent; &#125; public void setParent(Node parent) &#123; this.parent = parent; &#125; public Node getLeftNode() &#123; return leftNode; &#125; public void setLeftNode(Node leftNode) &#123; this.leftNode = leftNode; &#125; public Node getRightNode() &#123; return rightNode; &#125; public void setRightNode(Node rightNode) &#123; this.rightNode = rightNode; &#125;&#125; statistic frequency of every character&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, Our main purpose is to statistic frequency of every character. so we structure a HashMap to store data, when we get data from the HashMap by key, we add one to the number of it and store into The value of the current mapping as new value 12345678910111213public static Map&lt;Character, Integer&gt; statistics(char[] charArray) &#123; Map&lt;Character, Integer&gt; map = new HashMap&lt;Character, Integer&gt;(); for (char c : charArray) &#123; Character character = new Character(c); if (map.containsKey(character)) &#123; map.put(character, map.get(character) + 1); &#125; else &#123; map.put(character, 1); &#125; &#125; return map; &#125; build a tree&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PriorityQueue will Retrieves and removes the head of this queue, or returns null if this queue is empty. PriorityQueue maintain a heap what you can poll the smallest element every time actually. so we will obtain the two minimum elements and build Node, By this way, we will get a complete binary tree.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The idea of algorithm: transfer statistical information to Node and stored in a priority queue. each time it pop-up two minimum frequency nodes the queue to build a new parent node. The frequency of characters is the sum of two pop-up Node.he first pop-up as the left child node, the back one as the right child node, and the newly built parent node inside the queue. Repeat the above action N-1 times. 1234567891011121314151617181920212223242526272829303132333435private static Tree buildTree(Map&lt;Character, Integer&gt; statistics, List&lt;Node&gt; leafs) &#123; Character[] keys = statistics.keySet().toArray(new Character[0]); PriorityQueue&lt;Node&gt; priorityQueue = new PriorityQueue&lt;Node&gt;(); for (Character character : keys) &#123; Node node = new Node(); node.setChars(character.toString()); node.setFrequence(statistics.get(character)); priorityQueue.add(node); leafs.add(node); &#125; int size = priorityQueue.size(); for (int i = 1; i &lt;= size - 1; i++) &#123; Node node1 = priorityQueue.poll(); Node node2 = priorityQueue.poll(); Node sumNode = new Node(); sumNode.setChars(node1.getChars()+node2.getChars()); sumNode.setFrequence(node1.getFrequence()+node2.getFrequence()); sumNode.setLeftNode(node1); sumNode.setRightNode(node2); node1.setParent(sumNode); node2.setParent(sumNode); priorityQueue.add(sumNode); &#125; Tree tree = new Tree(); tree.setRoot(priorityQueue.poll()); return tree; &#125; encode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part, we will invoke buildTree to let the Node produce associated. searching up from the leaf node of current character, if the character is the parent node of the left node, add 0 before the coded character , otherwise if it is right node, add 1, until the root node. 12345678910111213141516171819public static String encode(String originalStr, Map&lt;Character, Integer&gt; statistics) &#123; if (originalStr == null || originalStr.equals("")) &#123; return ""; &#125; char[] charArray = originalStr.toCharArray(); List&lt;Node&gt; leafNodes = new ArrayList&lt;Node&gt;(); buildTree(statistics, leafNodes); Map&lt;Character, String&gt; encodInfo = buildEncodingInfo(leafNodes); StringBuffer buffer = new StringBuffer(); for (char c : charArray) &#123; Character character = new Character(c); buffer.append(encodInfo.get(character)); &#125; return buffer.toString(); &#125; decode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Huffman coding algorithm can ensure any binary code is not going to be another code prefix, decoding is simple, each in turn to take out the binary, search down from the root, 1 to the right, 0 to the left, to the leaf node (hit), return a root node continue to repeat the action 12345678910111213141516171819202122232425262728293031323334public static String decode(String binaryStr, Map&lt;Character, Integer&gt; statistics) &#123; if (binaryStr == null || binaryStr.equals("")) &#123; return ""; &#125; char[] binaryCharArray = binaryStr.toCharArray(); LinkedList&lt;Character&gt; binaryList = new LinkedList&lt;Character&gt;(); int size = binaryCharArray.length; for (int i = 0; i &lt; size; i++) &#123; binaryList.addLast(new Character(binaryCharArray[i])); &#125; List&lt;Node&gt; leafNodes = new ArrayList&lt;Node&gt;(); Tree tree = buildTree(statistics, leafNodes); StringBuffer buffer = new StringBuffer(); while (binaryList.size() &gt; 0) &#123; Node node = tree.getRoot(); do &#123; Character c = binaryList.removeFirst(); if (c.charValue() == '0') &#123; node = node.getLeftNode(); &#125; else &#123; node = node.getRightNode(); &#125; &#125; while (!node.isLeaf()); buffer.append(node.getChars()); &#125; return buffer.toString();&#125; The Test Result123456789101112public static void main(String[] args) &#123; String oriStr = "Huffman codes compress data very effectively"; Map&lt;Character, Integer&gt; statistics = statistics(oriStr.toCharArray()); String encodedBinariStr = encode(oriStr, statistics); String decodedStr = decode(encodedBinariStr, statistics); System.out.println("Original sstring: " + oriStr+"\n"); System.out.println("Huffman encoed binary string: " + encodedBinariStr+"\n"); System.out.println("decoded string from binariy string: " + decodedStr); &#125; result: 12345Original sstring: Huffman codes compress data very effectivelyHuffman encoed binary string: 11111011010101001011100100011011001111000010111011011001011110000101110011011100111011001100101111101100000011000011111101010011000001110101001010111000001111111111101011101000000decoded string from binariy string: Huffman codes compress data very effectively]]></content>
       <categories>
         <category>Algorithm</category>
       </categories>
@@ -342,17 +353,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[java NIO Selector]]></title>
-    <url>%2F2017%2F12%2F11%2FNIO%2Fnio4%2F</url>
-    <content type="text"><![CDATA[#The Selector, SelectableChannel, and SelectionKey Classes Selector&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready. ##]]></content>
-      <categories>
-        <category>NIO</category>
-      </categories>
-      <tags>
-        <tag>NIO</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[linux基本指令]]></title>
     <url>%2F2017%2F12%2F11%2Flinux%2F2018-01-01%2F</url>
     <content type="text"><![CDATA[解压1tar -zxvf 文件名 移动文件移动命令mv 命令格式：mv [-fiv] source destination 参数说明： -f:force，强制直接移动而不询问 -i:若目标文件(destination)已经存在，就会询问是否覆盖 -u:若目标文件已经存在，且源文件比较新，才会更新 如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令： mv /test1/file1 /test3/file2 重命名关机poweroff 立刻关机shutdown -h now 立刻关机shutdown -h 10 10分钟后自动关机 关闭防火墙关闭命令： service iptables stop永久关闭防火墙：chkconfig iptables off永久关闭需要两条语句都运行 关闭端口1lsof -i:]]></content>
@@ -361,6 +361,17 @@
       </categories>
       <tags>
         <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java NIO Selector]]></title>
+    <url>%2F2017%2F12%2F11%2FNIO%2Fnio4%2F</url>
+    <content type="text"><![CDATA[#The Selector, SelectableChannel, and SelectionKey Classes Selector&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready. ##]]></content>
+      <categories>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>NIO</tag>
       </tags>
   </entry>
   <entry>
@@ -771,14 +782,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mac切换jdk]]></title>
-    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
-    <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
+    <title><![CDATA[idea上svn相关问题]]></title>
+    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-04%2F</url>
+    <content type="text"><![CDATA[idea上不显示svn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IntelliJ IDEA打开带SVN信息的项目不显示SVN信息，项目右键SVN以及图标还有Changes都不显示解决方法在VCS菜单中有个开关，叫Enabled Version Control Integration，在打开的窗口的选项中选择Subversion即可 idea忽略某些文件更新]]></content>
       <categories>
-        <category>other</category>
+        <category>idea</category>
       </categories>
       <tags>
-        <tag>jdk</tag>
+        <tag>svn</tag>
       </tags>
   </entry>
   <entry>
@@ -793,14 +804,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[idea上svn相关问题]]></title>
-    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-04%2F</url>
-    <content type="text"><![CDATA[idea上不显示svn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IntelliJ IDEA打开带SVN信息的项目不显示SVN信息，项目右键SVN以及图标还有Changes都不显示解决方法在VCS菜单中有个开关，叫Enabled Version Control Integration，在打开的窗口的选项中选择Subversion即可 idea忽略某些文件更新]]></content>
+    <title><![CDATA[mac切换jdk]]></title>
+    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
+    <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
       <categories>
-        <category>idea</category>
+        <category>other</category>
       </categories>
       <tags>
-        <tag>svn</tag>
+        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>

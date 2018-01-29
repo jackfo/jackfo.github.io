@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>www.cfad.tech/2018/01/29/tomcat/2018-01-29/</loc>
+    <lastmod>2018-01-29T17:09:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>tomcat源码解读七 tomcat的BIO、NIO和AIO模型</title>
+        <pubTime>2018-01-29T11:01:14.000Z</pubTime>
+        
+        <tag>tomcat</tag>
+         
+         
+           
+             
+              <breadCrumb title="tomcat" url="www.cfad.tech/categories/tomcat/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>www.cfad.tech/2018/01/28/java/2018-01-25/</loc>
     <lastmod>2018-01-29T11:12:29.000Z</lastmod>
     <data>
