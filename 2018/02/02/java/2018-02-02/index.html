@@ -105,18 +105,18 @@
 
 
 
-<meta name="description" content="阿里凑单业务分析以前:商品推荐页现在:搜索、价格筛选、类目筛选、销量排序、价格排序等搜索功能 凑单的重要场景是当用户已经加购了商品A，还想找一个能一起打包买的商品B">
+<meta name="description" content="阿里凑单业务分析功能名称:商品推荐页 凑单的重要场景是当用户已经加购了商品A，还想找一个能一起打包买的商品B 处理方式:利用图的相关算法 设计表：订单表  订单-商品关系表 商品表 读取订单关系表中的数据针对商品构建邻接表(这个队列可以采用优先队列,重新实现compareTo方法即可)两个商品在订单条目上出现一次则权值+1,然后查找当前商品标识上的优先队列 获取靠前的元素">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于阿里凑单算法Graph Embedding思考">
 <meta property="og:url" content="www.cfad.tech/2018/02/02/java/2018-02-02/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="阿里凑单业务分析以前:商品推荐页现在:搜索、价格筛选、类目筛选、销量排序、价格排序等搜索功能 凑单的重要场景是当用户已经加购了商品A，还想找一个能一起打包买的商品B">
+<meta property="og:description" content="阿里凑单业务分析功能名称:商品推荐页 凑单的重要场景是当用户已经加购了商品A，还想找一个能一起打包买的商品B 处理方式:利用图的相关算法 设计表：订单表  订单-商品关系表 商品表 读取订单关系表中的数据针对商品构建邻接表(这个队列可以采用优先队列,重新实现compareTo方法即可)两个商品在订单条目上出现一次则权值+1,然后查找当前商品标识上的优先队列 获取靠前的元素">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-02-02T06:49:35.000Z">
+<meta property="og:updated_time" content="2018-02-07T15:24:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于阿里凑单算法Graph Embedding思考">
-<meta name="twitter:description" content="阿里凑单业务分析以前:商品推荐页现在:搜索、价格筛选、类目筛选、销量排序、价格排序等搜索功能 凑单的重要场景是当用户已经加购了商品A，还想找一个能一起打包买的商品B">
+<meta name="twitter:description" content="阿里凑单业务分析功能名称:商品推荐页 凑单的重要场景是当用户已经加购了商品A，还想找一个能一起打包买的商品B 处理方式:利用图的相关算法 设计表：订单表  订单-商品关系表 商品表 读取订单关系表中的数据针对商品构建邻接表(这个队列可以采用优先队列,重新实现compareTo方法即可)两个商品在订单条目上出现一次则权值+1,然后查找当前商品标识上的优先队列 获取靠前的元素">
 
 
 
@@ -408,7 +408,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  74
+                  161
                 </span>
               
 
@@ -445,8 +445,11 @@
       
 
       
-        <h1><span id="a-li-cou-dan-ye-wu-fen-xi">阿里凑单业务分析</span></h1><p>以前:商品推荐页<br>现在:搜索、价格筛选、类目筛选、销量排序、价格排序等搜索功能</p>
+        <h1><span id="a-li-cou-dan-ye-wu-fen-xi">阿里凑单业务分析</span></h1><p>功能名称:商品推荐页</p>
 <p>凑单的重要场景是当用户已经加购了商品A，还想找一个能一起打包买的商品B</p>
+<p>处理方式:利用图的相关算法</p>
+<p>设计表：订单表  订单-商品关系表 商品表</p>
+<p>读取订单关系表中的数据针对商品构建邻接表(这个队列可以采用优先队列,重新实现compareTo方法即可)<br>两个商品在订单条目上出现一次则权值+1,然后查找当前商品标识上的优先队列 获取靠前的元素</p>
 
       
     </div>
@@ -478,7 +481,7 @@
   <p><span>本文标题:</span><a href="/2018/02/02/java/2018-02-02/">基于阿里凑单算法Graph Embedding思考</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
   <p><span>发布时间:</span>2018年02月02日 - 14:02</p>
-  <p><span>最后更新:</span>2018年02月02日 - 14:02</p>
+  <p><span>最后更新:</span>2018年02月07日 - 23:02</p>
   <p><span>原始链接:</span><a href="/2018/02/02/java/2018-02-02/" title="基于阿里凑单算法Graph Embedding思考">www.cfad.tech/2018/02/02/java/2018-02-02/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2018/02/02/java/2018-02-02/"  aria-label="复制成功！"></i></span>
   </p>
@@ -535,6 +538,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/08/Jdk/2018-02-08/" rel="prev" title="java 锁的分析">
+                java 锁的分析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -641,7 +648,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">78</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
