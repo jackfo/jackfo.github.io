@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="Algorithm," />
+  <meta name="keywords" content="jdk," />
 
 
 
@@ -105,21 +105,20 @@
 
 
 
-<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; The N queens puzzle is the problem of placing N chess queens on an N×N chessboard so that no two queens threaten each other. Thus, a solution requires that n">
-<meta name="keywords" content="Algorithm">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Future模式是将处理过程交给其它线程处理,主线程通过get()方法中返回。这样的好处时,在这个过程主线程可以做其它事情,从而提高效率,在框架启动过程中,加载数据库信息这块比较常用,将这个过程用其它线程启动,主线程继续加载框架其它部分信息,当我们需要操作数据库时只需要通过get()方法获取其他线程中数据库相应句柄就可以进行">
+<meta name="keywords" content="jdk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="EightQueen">
-<meta property="og:url" content="www.cfad.tech/2017/12/17/arithmetic/2017-12-18/index.html">
+<meta property="og:title" content="Future模式源码解读">
+<meta property="og:url" content="www.cfad.tech/2018/02/10/Jdk/2018-02-10/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; The N queens puzzle is the problem of placing N chess queens on an N×N chessboard so that no two queens threaten each other. Thus, a solution requires that n">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Future模式是将处理过程交给其它线程处理,主线程通过get()方法中返回。这样的好处时,在这个过程主线程可以做其它事情,从而提高效率,在框架启动过程中,加载数据库信息这块比较常用,将这个过程用其它线程启动,主线程继续加载框架其它部分信息,当我们需要操作数据库时只需要通过get()方法获取其他线程中数据库相应句柄就可以进行">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="/media/15135270924160.jpg">
-<meta property="og:image" content="/media/15135271584568.jpg">
-<meta property="og:updated_time" content="2017-12-17T16:21:01.000Z">
+<meta property="og:image" content="/media/15182336308840.jpg">
+<meta property="og:updated_time" content="2018-02-10T06:10:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="EightQueen">
-<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; The N queens puzzle is the problem of placing N chess queens on an N×N chessboard so that no two queens threaten each other. Thus, a solution requires that n">
-<meta name="twitter:image" content="/media/15135270924160.jpg">
+<meta name="twitter:title" content="Future模式源码解读">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Future模式是将处理过程交给其它线程处理,主线程通过get()方法中返回。这样的好处时,在这个过程主线程可以做其它事情,从而提高效率,在框架启动过程中,加载数据库信息这块比较常用,将这个过程用其它线程启动,主线程继续加载框架其它部分信息,当我们需要操作数据库时只需要通过get()方法获取其他线程中数据库相应句柄就可以进行">
+<meta name="twitter:image" content="/media/15182336308840.jpg">
 
 
 
@@ -149,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="www.cfad.tech/2017/12/17/arithmetic/2017-12-18/"/>
+  <link rel="canonical" href="www.cfad.tech/2018/02/10/Jdk/2018-02-10/"/>
 
 
 
 
 
-  <title>EightQueen | 敏而好学,乐以忘忧</title>
+  <title>Future模式源码解读 | 敏而好学,乐以忘忧</title>
   
 
 
@@ -328,7 +327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2017/12/17/arithmetic/2017-12-18/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/02/10/Jdk/2018-02-10/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -345,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">EightQueen</h1>
+          <h1 class="post-title" itemprop="name headline">Future模式源码解读</h1>
         
 
         <div class="post-meta">
@@ -357,8 +356,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-17T20:34:14+08:00">
-                2017-12-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-10T11:05:14+08:00">
+                2018-02-10
               </time>
             
 
@@ -380,8 +379,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
+                  <a href="/categories/jdk/" itemprop="url" rel="index">
+                    <span itemprop="name">jdk</span>
                   </a>
                 </span>
 
@@ -411,7 +410,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  922
+                  1,574
                 </span>
               
 
@@ -427,7 +426,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  5
+                  7
                 </span>
               
             </div>
@@ -448,34 +447,31 @@
       
 
       
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The N queens puzzle is the problem of placing N chess queens on an N×N chessboard so that no two queens threaten each other. Thus, a solution requires that no two queens share the same row, column, or diagonal.For example, below is one of the solution for famous 8 Queen problem.<br><img src="/media/15135270924160.jpg" alt=""></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Backtracking Algorithm for N-Queen is already discussed here. In backtracking solution we backtrack when we hit a dead end. In Branch and Bound solution, after building a partial solution, we figure out that there is no point going any deeper as we are going to hit a dead end.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Let’s begin by describing backtracking solution. “The idea is to place queens one by one in different columns, starting from the leftmost column. When we place a queen in a column, we check for clashes with already placed queens. In the current column, if we find a row for which there is no clash, we mark this row and column as part of the solution. If we do not find such a row due to clashes, then we backtrack and return false.”</p>
-<p><img src="/media/15135271584568.jpg" alt=""></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Future模式是将处理过程交给其它线程处理,主线程通过get()方法中返回。这样的好处时,在这个过程主线程可以做其它事情,从而提高效率,在框架启动过程中,加载数据库信息这块比较常用,将这个过程用其它线程启动,主线程继续加载框架其它部分信息,当我们需要操作数据库时只需要通过get()方法获取其他线程中数据库相应句柄就可以进行相关操作。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 现在我们对这部分的源码做一个大致解读,在解读之前首先需要了解线程池相关知识,这里在网上看到很好的关于线程池源码解读<a href="https://fangjian0423.github.io/2016/03/22/java-threadpool-analysis/" target="_blank" rel="noopener">https://fangjian0423.github.io/2016/03/22/java-threadpool-analysis/</a> 如果对线程池已经有了解,那么我们开始吧。</p>
+<h1><span id="lei-de-guan-xi-tu">类的关系图</span></h1><p><img src="/media/15182336308840.jpg" alt=""></p>
+<h1><span id="future-mo-shi-de-shi-yong">Future模式的使用</span></h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> a,b;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Task</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.a = a;</span><br><span class="line">            <span class="keyword">this</span>.b = b;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            Integer result = a + b;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">            &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FutureDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException, ExecutionException </span>&#123;</span><br><span class="line">            ExecutorService executor = Executors.newSingleThreadExecutor();</span><br><span class="line">            <span class="comment">//JDK目前为止返回的都是FutureTask的实例</span></span><br><span class="line">            Future&lt;Integer&gt; future = executor.submit(<span class="keyword">new</span> Task(<span class="number">1</span>, <span class="number">2</span>));</span><br><span class="line">            Integer result = future.get();</span><br><span class="line">            System.out.print(<span class="string">"输出结果："</span>+result);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>result:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出结果：3</span><br></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在上面构建了一个Task,实现了Callable接口,这个接口和Runnable接口的主要区别是它具有返回结果,并且只能通过线程池的方式进行处理,Thread不能对它进行处理。现在我们将Task通过submit提交给线程池,这样就可以根据返回Future实例调用get方法获取相关处理结果,如果没有获取到处理结果就会进行阻塞。现在我们从submit开始进行分析</p>
+<h1><span id="ren-wu-ti-jiao">任务提交</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主要是对executor.submit(new Task(1, 2));代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">     RunnableFuture&lt;T&gt; ftask = newTaskFor(task);</span><br><span class="line">     execute(ftask);</span><br><span class="line">     <span class="keyword">return</span> ftask;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">Runnable</span>, <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Sets this Future to the result of its computation</span></span><br><span class="line"><span class="comment">  * unless it has been cancelled.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">protected</span> &lt;T&gt; <span class="function">RunnableFuture&lt;T&gt; <span class="title">newTaskFor</span><span class="params">(Callable&lt;T&gt; callable)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> FutureTask&lt;T&gt;(callable);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从代码可以看出,我们将Callable（对应任务）封装到RunnableFuture接口的实现类FutureTask,然后开始执行,返回的是ftask,RunnableFuture接口继承了Runnable所以可以看出在execute是调用的是ftask的run方法。现在看FutureTask具体run方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (state != NEW ||</span><br><span class="line">        !UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, runnerOffset,</span><br><span class="line">                                     <span class="keyword">null</span>, Thread.currentThread()))</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Callable&lt;V&gt; c = callable;</span><br><span class="line">        <span class="keyword">if</span> (c != <span class="keyword">null</span> &amp;&amp; state == NEW) &#123;</span><br><span class="line">            V result;</span><br><span class="line">            <span class="keyword">boolean</span> ran;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                result = c.call();</span><br><span class="line">                ran = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">                result = <span class="keyword">null</span>;</span><br><span class="line">                ran = <span class="keyword">false</span>;</span><br><span class="line">                setException(ex);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ran)</span><br><span class="line">                set(result);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="comment">// runner must be non-null until state is settled to</span></span><br><span class="line">        <span class="comment">// prevent concurrent calls to run()</span></span><br><span class="line">        runner = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// state must be re-read after nulling runner to prevent</span></span><br><span class="line">        <span class="comment">// leaked interrupts</span></span><br><span class="line">        <span class="keyword">int</span> s = state;</span><br><span class="line">        <span class="keyword">if</span> (s &gt;= INTERRUPTING)</span><br><span class="line">            handlePossibleCancellationInterrupt(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(V v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (UNSAFE.compareAndSwapInt(<span class="keyword">this</span>, stateOffset, NEW, COMPLETING)) &#123;</span><br><span class="line">        outcome = v;</span><br><span class="line">        UNSAFE.putOrderedInt(<span class="keyword">this</span>, stateOffset, NORMAL); <span class="comment">// final state</span></span><br><span class="line">        finishCompletion();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; run方法就是在新开启的线程中执行,最终在这里获取封装的Callable并调用c.call,将结果赋值给result并调用 set(result);将结果注入outcome句柄并利用cas来修改状态。<em style="color:red;">finishCompletion方法在获取结果的时候进行描述</em></p>
+<h1><span id="huo-qu-jie-guo">获取结果</span></h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, ExecutionException </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> s = state;</span><br><span class="line">     <span class="keyword">if</span> (s &lt;= COMPLETING)</span><br><span class="line">         s = awaitDone(<span class="keyword">false</span>, <span class="number">0L</span>);</span><br><span class="line">     <span class="keyword">return</span> report(s);</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">private</span> V <span class="title">report</span><span class="params">(<span class="keyword">int</span> s)</span> <span class="keyword">throws</span> ExecutionException </span>&#123;</span><br><span class="line">     Object x = outcome;</span><br><span class="line">     <span class="keyword">if</span> (s == NORMAL)</span><br><span class="line">         <span class="keyword">return</span> (V)x;</span><br><span class="line">     <span class="keyword">if</span> (s &gt;= CANCELLED)</span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> CancellationException();</span><br><span class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> ExecutionException((Throwable)x);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;判断任务当前的state &lt;= COMPLETING是否成立。<br>如果成立，表明任务还没有结束(这里的结束包括任务正常执行完毕，任务执行异常，任务被取消)，则会调用awaitDone()进行阻塞等待。<br>如果不成立表明任务已经结束，调用report()返回结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">awaitDone</span><span class="params">(<span class="keyword">boolean</span> timed, <span class="keyword">long</span> nanos)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      <span class="keyword">final</span> <span class="keyword">long</span> deadline = timed ? System.nanoTime() + nanos : <span class="number">0L</span>;</span><br><span class="line">      WaitNode q = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">boolean</span> queued = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">          <span class="keyword">if</span> (Thread.interrupted()) &#123;</span><br><span class="line">              removeWaiter(q);</span><br><span class="line">              <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">int</span> s = state;</span><br><span class="line">          <span class="keyword">if</span> (s &gt; COMPLETING) &#123;</span><br><span class="line">              <span class="keyword">if</span> (q != <span class="keyword">null</span>)</span><br><span class="line">                  q.thread = <span class="keyword">null</span>;</span><br><span class="line">              <span class="keyword">return</span> s;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (s == COMPLETING) <span class="comment">// cannot time out yet</span></span><br><span class="line">              Thread.yield();</span><br><span class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (q == <span class="keyword">null</span>)</span><br><span class="line">              q = <span class="keyword">new</span> WaitNode();</span><br><span class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (!queued)</span><br><span class="line">              queued = UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, waitersOffset,</span><br><span class="line">                                                   q.next = waiters, q);</span><br><span class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (timed) &#123;</span><br><span class="line">              nanos = deadline - System.nanoTime();</span><br><span class="line">              <span class="keyword">if</span> (nanos &lt;= <span class="number">0L</span>) &#123;</span><br><span class="line">                  removeWaiter(q);</span><br><span class="line">                  <span class="keyword">return</span> state;</span><br><span class="line">              &#125;</span><br><span class="line">              LockSupport.parkNanos(<span class="keyword">this</span>, nanos);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">              LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.For the 1st Queen, there are total 8 possibilities as we can place 1st Queen in any row of first column. Let’s place Queen 1 on row 3.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.After placing 1st Queen, there are 7 possibilities left for the 2nd Queen. But wait, we don’t really have 7 possibilities. We cannot place Queen 2 on rows 2, 3 or 4 as those cells are under attack from Queen 1. So, Queen 2 has only 8 – 3 = 5 valid positions left.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.After picking a position for Queen 2, Queen 3 has even fewer options as most of the cells in its column are under attack from the first 2 Queens.</p>
+<p>1.判断调用get()的线程是否被其他线程中断，如果是的话则在等待队列中删除对应节点然后抛出InterruptedException异常。</p>
+<p>2.获取任务当前状态，如果当前任务状态大于COMPLETING则表示任务执行完成，则把thread字段置null并返回结果。</p>
+<p>3.如果任务处于COMPLETING状态，则表示任务已经处理完成(正常执行完成或者执行出现异常)，但是执行结果或者异常原因还没有保存到outcome字段中。这个时候调用线程让出执行权让其他线程优先执行。</p>
+<p>4.如果等待节点为空，则构造一个等待节点WaitNode。WaitNode里面具有当前线程句柄,为了让后面可以进行唤醒。</p>
+<p>5。如果第四步中新建的节点还没如队列，则CAS的把该节点加入waiters队列的首节点。</p>
+<p>6.阻塞等待。</p>
 </blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; We need to figure out an efficient way of keeping track of which cells are under attack. In previous solution we kept an 8­-by­-8 Boolean matrix and update it each time we placed a queen, but that required linear time to update as we need to check for safe cells.</p>
-<p>Basically, we have to ensure 4 things:</p>
-<blockquote>
-<ol>
-<li>No two queens share a column.</li>
-<li>No two queens share a row.</li>
-<li>No two queens share a top-right to left-bottom diagonal.</li>
-<li>No two queens share a top-left to bottom-right diagonal</li>
-</ol>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Number 1 is automatic because of the way we store the solution. For number 2, 3 and 4, we can perform updates in O(1) time. The idea is to keep three Boolean arrays that tell us which rows and which diagonals are occupied.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lets do some pre-processing first. Let’s create two N x N matrix one for / diagonal and other one for \ diagonal. Let’s call them slashCode and backslashCode respectively. The trick is to fill them in such a way that two queens sharing a same /­diagonal will have the same value in matrix slashCode, and if they share same \­diagonal, they will have the same value in backslashCode matrix.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For an N x N matrix, fill slashCode and backslashCode matrix using below formula –</p>
-<pre><code>cols[N] != cols[N-1]
-
-cols[N] != cols[N-1]-1
-
-cols[N]!=cols[N-1]+1
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Queen8</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> num = <span class="number">0</span>; <span class="comment">//累计方案总数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXQUEEN = <span class="number">8</span>;<span class="comment">//皇后个数，同时也是棋盘行列总数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] cols = <span class="keyword">new</span> <span class="keyword">int</span>[MAXQUEEN]; <span class="comment">//定义cols数组，表示8列棋子摆放情况</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Queen8</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="comment">//核心函数</span></span><br><span class="line">      getArrangement(<span class="number">0</span>);</span><br><span class="line">      System.out.print(<span class="string">"/n"</span>);</span><br><span class="line">      System.out.println(MAXQUEEN+<span class="string">"皇后问题有"</span>+num+<span class="string">"种摆放方法。"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">getArrangement</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">     <span class="comment">//遍历该列所有不合法的行，并用rows数组记录，不合法即rows[i]=true</span></span><br><span class="line">     <span class="keyword">boolean</span>[] rows = <span class="keyword">new</span> <span class="keyword">boolean</span>[MAXQUEEN];</span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        rows[cols[i]]=<span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">int</span> d = n-i;</span><br><span class="line">        <span class="keyword">if</span>(cols[i]-d &gt;= <span class="number">0</span>)rows[cols[i]-d]=<span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(cols[i]+d &lt;= MAXQUEEN-<span class="number">1</span>)rows[cols[i]+d]=<span class="keyword">true</span>; </span><br><span class="line">      </span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;MAXQUEEN;i++)&#123;</span><br><span class="line">       <span class="comment">//判断该行是否合法  </span></span><br><span class="line">       <span class="keyword">if</span>(rows[i])<span class="keyword">continue</span>;</span><br><span class="line">       <span class="comment">//设置当前列合法棋子所在行数</span></span><br><span class="line">       cols[n] = i;</span><br><span class="line">       <span class="comment">//当前列不为最后一列时</span></span><br><span class="line">       <span class="keyword">if</span>(n&lt;MAXQUEEN-<span class="number">1</span>)&#123;</span><br><span class="line">         getArrangement(n+<span class="number">1</span>);</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//累计方案个数</span></span><br><span class="line">         num++;</span><br><span class="line">         <span class="comment">//打印棋盘信息</span></span><br><span class="line">         printChessBoard();</span><br><span class="line">       &#125; </span><br><span class="line">      </span><br><span class="line">      </span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printChessBoard</span><span class="params">()</span></span>&#123;</span><br><span class="line">       </span><br><span class="line">       System.out.print(<span class="string">"第"</span>+num+<span class="string">"种走法 /n"</span>);</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;MAXQUEEN;i++)&#123;</span><br><span class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;MAXQUEEN;j++)&#123;</span><br><span class="line">           <span class="keyword">if</span>(i==cols[j])&#123;</span><br><span class="line">             System.out.print(<span class="string">"0 "</span>);</span><br><span class="line">           &#125;<span class="keyword">else</span></span><br><span class="line">             System.out.print(<span class="string">"+ "</span>);</span><br><span class="line">         &#125;</span><br><span class="line">         System.out.print(<span class="string">"/n"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line">      Queen8 queen = <span class="keyword">new</span> Queen8();</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>output:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">第1种走法 </span><br><span class="line">0 + + + + + + + </span><br><span class="line">+ + + + + + 0 + </span><br><span class="line">+ + + + 0 + + + </span><br><span class="line">+ + + + + + + 0 </span><br><span class="line">+ 0 + + + + + + </span><br><span class="line">+ + + 0 + + + + </span><br><span class="line">+ + + + + 0 + + </span><br><span class="line">+ + 0 + + + + + </span><br><span class="line">第2种走法 </span><br><span class="line">0 + + + + + + + </span><br><span class="line">+ + + + + + 0 + </span><br><span class="line">+ + + 0 + + + + </span><br><span class="line">+ + + + + 0 + + </span><br><span class="line">+ + + + + + + 0 </span><br><span class="line">+ 0 + + + + + + </span><br><span class="line">+ + + + 0 + + + </span><br><span class="line">+ + 0 + + + + + </span><br><span class="line">.......</span><br></pre></td></tr></table></figure>
+<p>  如果我们阻塞之后,我们该怎么处理呢，这就是finishCompletion方法的作用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">finishCompletion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="comment">// assert state &gt; COMPLETING;</span></span><br><span class="line">      <span class="keyword">for</span> (WaitNode q; (q = waiters) != <span class="keyword">null</span>;) &#123;</span><br><span class="line">          <span class="keyword">if</span> (UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, waitersOffset, q, <span class="keyword">null</span>)) &#123;</span><br><span class="line">              <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                  Thread t = q.thread;</span><br><span class="line">                  <span class="keyword">if</span> (t != <span class="keyword">null</span>) &#123;</span><br><span class="line">                      q.thread = <span class="keyword">null</span>;</span><br><span class="line">                      LockSupport.unpark(t);</span><br><span class="line">                  &#125;</span><br><span class="line">                  WaitNode next = q.next;</span><br><span class="line">                  <span class="keyword">if</span> (next == <span class="keyword">null</span>)</span><br><span class="line">                      <span class="keyword">break</span>;</span><br><span class="line">                  q.next = <span class="keyword">null</span>; <span class="comment">// unlink to help gc</span></span><br><span class="line">                  q = next;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">break</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      done();</span><br><span class="line"></span><br><span class="line">      callable = <span class="keyword">null</span>;        <span class="comment">// to reduce footprint</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;依次遍历waiters链表，唤醒节点中的线程，然后把callable置空。<br>被唤醒的线程会各自从awaitDone()方法中的LockSupport.park*()阻塞中返回，然后会进行新一轮的循环。在新一轮的循环中会返回执行结果(或者更确切的说是返回任务的状态)。</p>
 
       
     </div>
@@ -504,12 +500,12 @@ cols[N]!=cols[N-1]+1
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/12/17/arithmetic/2017-12-18/">EightQueen</a></p>
+  <p><span>本文标题:</span><a href="/2018/02/10/Jdk/2018-02-10/">Future模式源码解读</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
-  <p><span>发布时间:</span>2017年12月17日 - 20:12</p>
-  <p><span>最后更新:</span>2017年12月18日 - 00:12</p>
-  <p><span>原始链接:</span><a href="/2017/12/17/arithmetic/2017-12-18/" title="EightQueen">www.cfad.tech/2017/12/17/arithmetic/2017-12-18/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/12/17/arithmetic/2017-12-18/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年02月10日 - 11:02</p>
+  <p><span>最后更新:</span>2018年02月10日 - 14:02</p>
+  <p><span>原始链接:</span><a href="/2018/02/10/Jdk/2018-02-10/" title="Future模式源码解读">www.cfad.tech/2018/02/10/Jdk/2018-02-10/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2018/02/10/Jdk/2018-02-10/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -542,7 +538,7 @@ cols[N]!=cols[N-1]+1
       
         <div class="post-tags">
           
-            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+            <a href="/tags/jdk/" rel="tag"># jdk</a>
           
         </div>
       
@@ -555,8 +551,8 @@ cols[N]!=cols[N-1]+1
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/16/tomcat/2018-01-23-11/" rel="next" title="tomcat源码解读六 tomcat中的session生命历程">
-                <i class="fa fa-chevron-left"></i> tomcat源码解读六 tomcat中的session生命历程
+              <a href="/2018/02/08/Jdk/2018-02-08/" rel="next" title="java 锁的分析">
+                <i class="fa fa-chevron-left"></i> java 锁的分析
               </a>
             
           </div>
@@ -564,10 +560,6 @@ cols[N]!=cols[N-1]+1
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/17/arithmetic/huffmancoding/" rel="prev" title="Huffman Coding Greedy Algorithm">
-                Huffman Coding Greedy Algorithm <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -645,8 +637,17 @@ var jiathis_config={
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -750,6 +751,22 @@ var jiathis_config={
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="lei-de-guan-xi-tu">&#x7C7B;&#x7684;&#x5173;&#x7CFB;&#x56FE;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="future-mo-shi-de-shi-yong">Future&#x6A21;&#x5F0F;&#x7684;&#x4F7F;&#x7528;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"><span id="ren-wu-ti-jiao">&#x4EFB;&#x52A1;&#x63D0;&#x4EA4;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text"><span id="huo-qu-jie-guo">&#x83B7;&#x53D6;&#x7ED3;&#x679C;</span></span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
