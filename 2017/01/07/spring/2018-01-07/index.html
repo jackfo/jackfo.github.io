@@ -115,7 +115,17 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/15153018943924.jpg">
 <meta property="og:image" content="/media/15153019310645.jpg">
-<meta property="og:updated_time" content="2018-01-07T05:24:52.000Z">
+<meta property="og:image" content="/media/15185196182267.jpg">
+<meta property="og:image" content="/media/15185182291706.jpg">
+<meta property="og:image" content="/media/15185227350141.jpg">
+<meta property="og:image" content="/media/15185226611745.jpg">
+<meta property="og:image" content="/media/15185800901018.jpg">
+<meta property="og:image" content="/media/15185801110908.jpg">
+<meta property="og:image" content="/media/15185801217113.jpg">
+<meta property="og:image" content="/media/15185814083197.jpg">
+<meta property="og:image" content="/media/15185814178788.jpg">
+<meta property="og:image" content="/media/15185814365351.jpg">
+<meta property="og:updated_time" content="2018-02-14T07:32:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring IOC源码分析">
 <meta name="twitter:description" content="What is IOC&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Ioc—Inversion of Control，即“控制反转”，不是什么技术，而是一种设计思想&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 谁控制谁，控制什么：Ioc容器来控制对象的创建,控制了外部资源获取&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbs">
@@ -411,7 +421,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  202
+                  1,269
                 </span>
               
 
@@ -427,7 +437,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  5
                 </span>
               
             </div>
@@ -452,7 +462,21 @@
 <p>传统程序设计:<br><img src="/media/15153018943924.jpg" alt=""></p>
 <p>IOC容器模型:<br><img src="/media/15153019310645.jpg" alt=""></p>
 <h1><span id="ioc-de-zuo-yong">IOC的作用</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IoC是一个重要的面向对象编程的法则，它能指导我们如何设计出松耦合、更优良的程序。即由IoC容器帮对象找相应的依赖对象并注入，而不是由对象主动去找。</p>
+<h1><span id="bean-de-zhuang-zai-guo-cheng">bean的装载过程</span></h1><p><img src="/media/15185196182267.jpg" alt=""></p>
+<p><img src="/media/15185182291706.jpg" alt=""><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个过程中首先将设置资源文件路径为AbstractRefreshableConfigApplicationContext的句柄属性configLocations。之后在refresh方法,具体在AbstractRefreshableConfigApplicationContext中获取相关BeanFactory并且在其中调用loadBeanDefinitions正在相应BeanDefinition注入到工厂,再通过主方法调用getBean来获取Bean,具体由doGetBean来实现。下面展示一个关键方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</span><br><span class="line">	<span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">		<span class="comment">//准备工作包括设置启动时间，是否激活标识位，初始化属性源(property source)配置</span></span><br><span class="line">		prepareRefresh();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 创建beanFactory（过程是根据xml为每个bean生成BeanDefinition并注册到生成的beanFactory）</span></span><br><span class="line">		ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br><span class="line"></span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 准备创建好的beanFactory（给beanFactory设置ClassLoader，设置SpEL表达式解析器，设置类型转化器</span></span><br><span class="line"><span class="comment">		 * 能将xml String类型转成相应对象】，增加内置ApplicationContextAwareProcessor对象，</span></span><br><span class="line"><span class="comment">		 * 忽略各种Aware对象，注册各种内置的对账对象【BeanFactory，ApplicationContext】等，</span></span><br><span class="line"><span class="comment">		 * 注册AOP相关的一些东西，注册环境相关的一些bean</span></span><br><span class="line"><span class="comment">		 * */</span></span><br><span class="line">		prepareBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//实例化并调用BeanFactory中扩展了BeanFactoryPostProcessor的Bean的postProcessBeanFactory方法</span></span><br><span class="line">			postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">//实例化并调用BeanFactory中扩展了BeanFactoryPostProcessor的Bean的postProcessBeanFactory方法</span></span><br><span class="line">			invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">//实例化和注册beanFactory中扩展了BeanPostProcessor的bean</span></span><br><span class="line">			registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">//实例化，注册和设置国际化工具类MessageSource</span></span><br><span class="line">			initMessageSource();</span><br><span class="line"></span><br><span class="line">			<span class="comment">//实例化，注册和设置消息广播类（如果没有自己定义使用默认的SimpleApplicationEventMulticaster实现，此广播使用同步的通知方式）</span></span><br><span class="line">			initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 设置样式工具ThemeSource</span></span><br><span class="line">			onRefresh();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 添加用户定义的消息接收器到上面设置的消息广播ApplicationEventMulticaster</span></span><br><span class="line">			registerListeners();</span><br><span class="line"></span><br><span class="line">			<span class="comment">/**</span></span><br><span class="line"><span class="comment">			 * 设置自定义的类型转化器ConversionService，设置自定义AOP相关的类LoadTimeWeaverAware，</span></span><br><span class="line"><span class="comment">			 * 清除临时的ClassLoader，冻结配置（没看明白干什么的），实例化所有的类（懒加载的类除外）</span></span><br><span class="line"><span class="comment">			 * */</span></span><br><span class="line">			finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">/**</span></span><br><span class="line"><span class="comment">			 * 注册和设置跟bean生命周期相关的类（默认使用DefaultLifecycleProcessor），</span></span><br><span class="line"><span class="comment">			 * 调用扩展了SmartLifecycle接口的start方法，</span></span><br><span class="line"><span class="comment">			 * 使用上注册的广播类消息广播类ApplicationEventMulticaster广播ContextRefreshedEvent事件</span></span><br><span class="line"><span class="comment">			 * */</span></span><br><span class="line">			finishRefresh();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">catch</span> (BeansException ex) &#123;</span><br><span class="line">			<span class="keyword">if</span> (logger.isWarnEnabled()) &#123;</span><br><span class="line">				logger.warn(<span class="string">"Exception encountered during context initialization - "</span> +</span><br><span class="line">						<span class="string">"cancelling refresh attempt: "</span> + ex);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Destroy already created singletons to avoid dangling resources.</span></span><br><span class="line">			destroyBeans();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Reset 'active' flag.</span></span><br><span class="line">			cancelRefresh(ex);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Propagate exception to caller.</span></span><br><span class="line">			<span class="keyword">throw</span> ex;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="comment">// Reset common introspection caches in Spring's core, since we</span></span><br><span class="line">			<span class="comment">// might not ever need metadata for singleton beans anymore...</span></span><br><span class="line">			resetCommonCaches();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="createbeanfactory-fang-fa">createBeanFactory方法</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该方法主要是为了获取bean工厂,方法所属类:AbstractRefreshableApplicationContext<br><img src="/media/15185227350141.jpg" alt=""></p>
+<p><img src="/media/15185226611745.jpg" alt=""></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;获取内部工厂方法所获取的结果会设置为parentBeanFactory作为AbstractBeanFactory的句柄,开始初始化为空值。之后实例化DefaultListableBeanFactory,注意在这个过程中,在其父类会忽略一些接口的自动装配功能<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;举例来说，当A中有属性B,那么当Spring在获取A的Bean的时候如果其M性B还没有 初始化，那么Spring会自动初始化B,这也是Spring中提供的一个重要特性。但是，某些情况下，B不会被初始化，其中的一种情况就是B实现了BeanNameAware接口。Spring中是这样介绍的：A动装配时忽略给定的依赖接口，典型应用是通过其他方式解析Application上下文注册依赖，类似于BeanFactory通过BeanFactoryAware进行注入或者ApplicationContext通过 ApplicationContextAware进行注入。</p>
+<h2><span id="loadbeandefinitions-beanfactory">loadBeanDefinitions(beanFactory);</span></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个是整个资源加载的切入点即根据xml文件解析相应BeanDefinition<br><img src="/media/15185800901018.jpg" alt=""></p>
+<p><img src="/media/15185801110908.jpg" alt=""></p>
+<p><img src="/media/15185801217113.jpg" alt=""></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个过程主要是将相应BeanDefinition实例放入Bean工厂,供下文进行实例化。首先将BeanFactory封装到XmlBeanDefinitionReader之后在加载过程将XmlBeanDefinitionReader封装到Reader上下文,并且在注册Bean定义的时候会创建一个文档阅读器,这样封装进去之后,在解析文档的过程中解析出来BeanDefinition就可以通过这个上下文阅读器获取相关BeanFactory然后将BeanDefinition实例存入到相关Map句柄。</p>
+<h2><span id="getbean">getBean</span></h2><p><img src="/media/15185814083197.jpg" alt=""></p>
+<p><img src="/media/15185814178788.jpg" alt=""><br><img src="/media/15185814365351.jpg" alt=""></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; getBean就会获取相关的Bean实例,在这里首先获取相关的BeanFacotry, 根据BeanFacoty找到相应的BeanDefinition,在这里有一个合并是因为这个Bean可能继承了其它Bean,之后根据BeanDefinition调用CreateBean进行实例化。</p>
 <h1><span id="can-kao-lian-jie">参考链接：</span></h1><p><a href="http://jinnianshilongnian.iteye.com/category/206533" target="_blank" rel="noopener">http://jinnianshilongnian.iteye.com/category/206533</a></p>
+<p>spring源码深度解析</p>
 
       
     </div>
@@ -484,7 +508,7 @@
   <p><span>本文标题:</span><a href="/2017/01/07/spring/2018-01-07/">spring IOC源码分析</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
   <p><span>发布时间:</span>2017年01月07日 - 12:01</p>
-  <p><span>最后更新:</span>2018年01月07日 - 13:01</p>
+  <p><span>最后更新:</span>2018年02月14日 - 15:02</p>
   <p><span>原始链接:</span><a href="/2017/01/07/spring/2018-01-07/" title="spring IOC源码分析">www.cfad.tech/2017/01/07/spring/2018-01-07/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2017/01/07/spring/2018-01-07/"  aria-label="复制成功！"></i></span>
   </p>
@@ -651,7 +675,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">78</span>
+                  <span class="site-state-item-count">79</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -746,7 +770,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="what-is-ioc">What is IOC</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="ioc-de-zuo-yong">IOC&#x7684;&#x4F5C;&#x7528;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"><span id="can-kao-lian-jie">&#x53C2;&#x8003;&#x94FE;&#x63A5;&#xFF1A;</span></span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="what-is-ioc">What is IOC</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="ioc-de-zuo-yong">IOC&#x7684;&#x4F5C;&#x7528;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text"><span id="bean-de-zhuang-zai-guo-cheng">bean&#x7684;&#x88C5;&#x8F7D;&#x8FC7;&#x7A0B;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.1.</span> <span class="nav-text"><span id="createbeanfactory-fang-fa">createBeanFactory&#x65B9;&#x6CD5;</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.2.</span> <span class="nav-text"><span id="loadbeandefinitions-beanfactory">loadBeanDefinitions(beanFactory);</span></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.3.</span> <span class="nav-text"><span id="getbean">getBean</span></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text"><span id="can-kao-lian-jie">&#x53C2;&#x8003;&#x94FE;&#x63A5;&#xFF1A;</span></span></a></li></ol></div>
             
 
           </div>

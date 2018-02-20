@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>www.cfad.tech/2018/02/17/ofbiz/2018-02-17/</loc>
+    <lastmod>2018-02-20T03:29:11.000Z</lastmod>
+    <data>
+        <display>
+        <title>ofbiz 任务调度处理策略</title>
+        <pubTime>2018-02-17T14:10:14.000Z</pubTime>
+        
+        <tag>OFBiz</tag>
+         
+         
+           
+             
+              <breadCrumb title="OFBiz" url="www.cfad.tech/categories/OFBiz/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>www.cfad.tech/2017/01/07/spring/2018-01-07/</loc>
+    <lastmod>2018-02-14T07:32:10.000Z</lastmod>
+    <data>
+        <display>
+        <title>spring IOC源码分析</title>
+        <pubTime>2017-01-07T04:34:14.000Z</pubTime>
+        
+        <tag>spring</tag>
+         
+         
+           
+             
+              <breadCrumb title="spring" url="www.cfad.tech/categories/spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>www.cfad.tech/2018/02/10/Jdk/2018-02-10/</loc>
     <lastmod>2018-02-10T06:10:54.000Z</lastmod>
     <data>
@@ -950,26 +990,6 @@
     <data>
         <display>
         <title>spring ClassPathXmlApplicationContext代码解读</title>
-        <pubTime>2017-01-07T04:34:14.000Z</pubTime>
-        
-        <tag>spring</tag>
-         
-         
-           
-             
-              <breadCrumb title="spring" url="www.cfad.tech/categories/spring/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>www.cfad.tech/2017/01/07/spring/2018-01-07/</loc>
-    <lastmod>2018-01-07T05:24:52.000Z</lastmod>
-    <data>
-        <display>
-        <title>spring IOC源码分析</title>
         <pubTime>2017-01-07T04:34:14.000Z</pubTime>
         
         <tag>spring</tag>
