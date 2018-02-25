@@ -105,13 +105,13 @@
 
 
 
-<meta name="description" content="表相关设计 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; OFbiz中的任务调度是基于数据库实现的,共有四张表来实现：  job_sandbox     计划任务作业沙盒recurrence_info 计划任务轮训信息recurrence_rule 计划任务轮训规则runtime_data    计划任务轮训依赖数据  状态活动图&amp;nbsp;&amp;nbsp;&amp;n">
+<meta name="description" content="表相关设计 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; OFbiz中的任务调度是基于数据库实现的,共有四张表来实现,通过jobSandBox找到相关轮训信息以及运行数据：  job_sandbox     计划任务作业沙盒recurrence_info 计划任务轮训信息recurrence_rule 计划任务轮训规则runtime_data    计划任务">
 <meta name="keywords" content="OFBiz">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ofbiz 任务调度处理策略">
 <meta property="og:url" content="www.cfad.tech/2018/02/17/ofbiz/2018-02-17/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="表相关设计 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; OFbiz中的任务调度是基于数据库实现的,共有四张表来实现：  job_sandbox     计划任务作业沙盒recurrence_info 计划任务轮训信息recurrence_rule 计划任务轮训规则runtime_data    计划任务轮训依赖数据  状态活动图&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:description" content="表相关设计 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; OFbiz中的任务调度是基于数据库实现的,共有四张表来实现,通过jobSandBox找到相关轮训信息以及运行数据：  job_sandbox     计划任务作业沙盒recurrence_info 计划任务轮训信息recurrence_rule 计划任务轮训规则runtime_data    计划任务">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/15188805739947.jpg">
 <meta property="og:image" content="/media/15189695068026.jpg">
@@ -120,10 +120,10 @@
 <meta property="og:image" content="/media/15190927313607.jpg">
 <meta property="og:image" content="/media/15190956842769.jpg">
 <meta property="og:image" content="/media/15190966849978.jpg">
-<meta property="og:updated_time" content="2018-02-20T03:29:11.000Z">
+<meta property="og:updated_time" content="2018-02-20T03:58:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ofbiz 任务调度处理策略">
-<meta name="twitter:description" content="表相关设计 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; OFbiz中的任务调度是基于数据库实现的,共有四张表来实现：  job_sandbox     计划任务作业沙盒recurrence_info 计划任务轮训信息recurrence_rule 计划任务轮训规则runtime_data    计划任务轮训依赖数据  状态活动图&amp;nbsp;&amp;nbsp;&amp;n">
+<meta name="twitter:description" content="表相关设计 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; OFbiz中的任务调度是基于数据库实现的,共有四张表来实现,通过jobSandBox找到相关轮训信息以及运行数据：  job_sandbox     计划任务作业沙盒recurrence_info 计划任务轮训信息recurrence_rule 计划任务轮训规则runtime_data    计划任务">
 <meta name="twitter:image" content="/media/15188805739947.jpg">
 
 
@@ -416,7 +416,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  3,334
+                  3,351
                 </span>
               
 
@@ -454,7 +454,7 @@
 
       
         <h1><span id="biao-xiang-guan-she-ji">表相关设计</span></h1><p><img src="/media/15188805739947.jpg" alt=""></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OFbiz中的任务调度是基于数据库实现的,共有四张表来实现：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OFbiz中的任务调度是基于数据库实现的,共有四张表来实现,通过jobSandBox找到相关轮训信息以及运行数据：</p>
 <blockquote>
 <p>job_sandbox     计划任务作业沙盒<br>recurrence_info 计划任务轮训信息<br>recurrence_rule 计划任务轮训规则<br>runtime_data    计划任务轮训依赖数据</p>
 </blockquote>
@@ -694,7 +694,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -705,7 +705,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
