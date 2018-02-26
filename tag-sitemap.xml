@@ -93,6 +93,13 @@
     </url>
 
     <url>
+        <loc>www.cfad.tech/tags/tomcat/</loc>
+        <lastmod>2018-01-29T17:09:46.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>www.cfad.tech/tags/java/</loc>
         <lastmod>2018-02-07T15:24:58.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -109,13 +116,6 @@
     <url>
         <loc>www.cfad.tech/tags/spring/</loc>
         <lastmod>2018-02-14T07:32:10.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>www.cfad.tech/tags/tomcat/</loc>
-        <lastmod>2018-02-20T03:55:06.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -44,26 +44,6 @@
 
     
   <url>
-    <loc>www.cfad.tech/2018/01/29/tomcat/2018-02-20/</loc>
-    <lastmod>2018-02-20T03:55:06.000Z</lastmod>
-    <data>
-        <display>
-        <title>tomcat源码解读八 tomcat的BIO、NIO和AIO模型</title>
-        <pubTime>2018-01-29T11:01:14.000Z</pubTime>
-        
-        <tag>tomcat</tag>
-         
-         
-           
-             
-              <breadCrumb title="tomcat" url="www.cfad.tech/categories/tomcat/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>www.cfad.tech/2017/01/07/spring/2018-01-07/</loc>
     <lastmod>2018-02-14T07:32:10.000Z</lastmod>
     <data>
