@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Linux中shell编程]]></title>
+    <url>%2F2018%2F03%2F06%2Flinux%2F2018-03-06-1%2F</url>
+    <content type="text"><![CDATA[grep 在文件中搜寻字符串匹配的行并输出(&lt;em style=&quot;color:red;&quot;&gt;会输出整个行&lt;/em&gt;) grep 【选项】【指定字串】【文件】 -i 不区分大小写 -v 排除指定字串 －c：只输出匹配行的计数。 －n：显示匹配行及 行号。 －s：不显示不存在或无匹配文本的错误信息。 这个的意思就是输出a所存在的相关行。 cut cut是一个选取命令，就是将一段数据经过分析，取出我们想要的。一般来说，选取信息通常是针对“行”来进行分析的，并不是整篇信息分析的 cut[选项] 文件名 -f列号提取第几列 -d分隔符按照指定分隔符分割列（默认使用的是制表符tab键） 按空格进行切分获取每行第三列。 awk 和cut命令作用一样，截取符合条件的列，grep是截取符合条件的行，但cut有些局限，awk也可以通过制表符，冒号等分隔符截取，功能远比cut强大，但awk是一个非常复杂的命令，不但可以实现字符串的截取，还可以在awk命令中进行编程调用，最常见的可以进行函数，判断等。所以把awk一直说是awk编程。但仅仅是简单的截取列，又不是用空格作分割的话，cut命令更简单。awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。 awk ‘条件1｛动作1｝条件2｛动作2｝...’文件名 条件 一般使用关系表达式作为条件 x&gt;10判断变量x是否大于10 x&gt;=10大于等于 x&lt;=10小于等于 获取每一行第二列 printf printf是在awk中的标准输出格式 输出格式： \a：输出警告声音 \b：输出退格符，也就是backspace键 \f：清楚屏幕 \n：换行 \r：回车，也就是Enter键 \t：水平输出退格键，也就是Tab键 \v：垂直输出退格键，也就是Tab键]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Linux中top命令分析]]></title>
     <url>%2F2018%2F03%2F06%2Flinux%2F2018-03-06%2F</url>
     <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top命令是Linux下常用的性能分析工具，能够实时显示系统中各个进程的资源占用状况 12345678910111213Processes: 328 total, 2 running, 326 sleeping, 1532 threads 10:23:02Load Avg: 2.55, 2.35, 2.21 CPU usage: 7.79% user, 4.67% sys, 87.52% idleSharedLibs: 161M resident, 40M data, 39M linkedit.MemRegions: 98293 total, 5239M resident, 93M private, 3217M shared.PhysMem: 16G used (2719M wired), 312M unused.VM: 973G vsize, 627M framework vsize, 6011437(0) swapins, 6620304(0) swapouts.Networks: packets: 2776036/3306M in, 1806161/1017M out.Disks: 2039103/63G read, 1289081/69G written.PID COMMAND %CPU TIME #TH #WQ #PORT MEM PURG CMPRS PGRP37766 sleep 0.0 00:00.00 1 0 10 304K 0B 0B 3658637763 Google Chrom 0.0 00:03.03 18 2 150 53M 0B 0B 52337757 syncdefaults 0.0 00:00.13 2 1 80 4792K 0B 0B 37757 统计信息区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前五行是系统整体的统计信息 第一行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Processes进程 328 total:进程总数2 running:正在运行的进程数326 sleeping:睡眠的进程数1532 threads:线程数10:23:02:时间 第二行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统相关信息 Load Avg:系统负载，即任务队列的平均长度。三个数值分别为 1分钟、5分钟、15分钟前到现在的平均值。CPU usage:7.79% user用户空间占用CPU百分比, 4.67% sys内核空间占用CPU百分比, 87.52% idle空闲CPU百分比 Linux load average负载量分析与解决思路：http://blog.csdn.net/u011183653/article/details/19489603 第三行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SharedLibs:代码和数据段的常驻大小以及链接编辑器内存使用情况 第四行MemRegions：内存区域的数量和总大小,分为私有和共享 第五行PhysMem:物理内存使用情况 第六行VM:虚拟内存总量virtual memory consumed by shared libraries, and number of pageins and pageouts. 第七行Networks:输入和输出网络数据包的数量和总大小。 第八行Disks:磁盘读取和写入的数量和总大小 进程信息区PID:进程idCOMMAND:命令名/命令行CPU:上次更新到现在的CPU时间占用百分比TIME:进程使用的CPU时间总计，单位秒WQ:工作队列PORT:端口号MEM:内存大小PURG:可清除的内存大小PGRP:进程组id 参考链接linux下top命令参数解释:http://www.cnblogs.com/taobataoma/archive/2007/12/26/1015167.html mac下top命令https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/top.1.html]]></content>
@@ -166,9 +177,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[SQLite网址大全]]></title>
-    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14-1%2F</url>
-    <content type="text"><![CDATA[SQLite API手册http://www.yfvb.com/help/sqlite3/ SQLite源码分析http://huili.github.io/sqlite/sqliteintro.html]]></content>
+    <title><![CDATA[SQLite源码解析-操作数据库]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14%2F</url>
+    <content type="text"><![CDATA[SQLite基本操作方式 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SQLite的基本操作方式同大多数关系型数据库是一样的执行sqlite3_open打开数据库,若返回结果是SQLITE_OK即0则表示打开成功,利用sqlite3_exec执行相应的sql语句,返回函数同样是执行状态,SQLITE_OK表示执行成功,最终利用sqlite3_close关闭数据库 SQLite打开数据库&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SQLite打开数据库可以通过三种方式sqlite3_open、sqlite3_open_v2、sqlite3_open16他们的具体实现都是调用openDatabase,只有具体的参数有所不同，openDatabase的具体过程中进行了初始化和创建校对规则，以及加载相应的数据驱动。 123456789101112131415SQLITE_API int sqlite3_open(const char *zFilename, sqlite3 **ppDb )&#123; return openDatabase(zFilename, ppDb, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);&#125;SQLITE_API int sqlite3_open_v2( const char *filename, /* Database filename (UTF-8) */ sqlite3 **ppDb, /* OUT: SQLite db handle 返回一个数据库连接对象*/ int flags, /* Flags */ const char *zVfs /* Name of VFS module to use 数据库连接应该使用的操作系统接口的sqlite3_vfs对象的名称*/)&#123; return openDatabase(filename, ppDb, (unsigned int)flags, zVfs);&#125;SQLITE_API int sqlite3_open16(const void *zFilename, sqlite3 **ppDb) SQLite执行sql语句 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sqlite3exec()函数一次可以执行多条SQL命令。执行完成后返回一个SQLITE success/failure代码，还会将错误信息写到*pzErrMsg中。首先进行安全检查以及检查sql语句是为空，在获取线程锁，调用sqlite3Error将errCode赋值为SQLITE_OK之后调用sqlte3_prepare_v2编译一条语句，通过sqlite3_step进行具体执行，如果SQL是查询，查询结果中的每一行都会调用xCallback()函数。pArg为传递给xCallback()的第一个参数。如果xCallback==NULL，即使对查询命令也没有回叫调用。 sqlte3_prepare_v2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;它调用sqlite3GetToken对SQL语句zSql进行分词，然后调用sqlite3Parser进行语法分析。而sqlite3Parser在语法规则发生规约时调用相应的opcode生成子例程，生成opcode。 SQLite关闭数据库]]></content>
       <categories>
         <category>SQLite</category>
       </categories>
@@ -177,9 +188,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[SQLite源码解析-操作数据库]]></title>
-    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14%2F</url>
-    <content type="text"><![CDATA[SQLite基本操作方式 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SQLite的基本操作方式同大多数关系型数据库是一样的执行sqlite3_open打开数据库,若返回结果是SQLITE_OK即0则表示打开成功,利用sqlite3_exec执行相应的sql语句,返回函数同样是执行状态,SQLITE_OK表示执行成功,最终利用sqlite3_close关闭数据库 SQLite打开数据库&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SQLite打开数据库可以通过三种方式sqlite3_open、sqlite3_open_v2、sqlite3_open16他们的具体实现都是调用openDatabase,只有具体的参数有所不同，openDatabase的具体过程中进行了初始化和创建校对规则，以及加载相应的数据驱动。 123456789101112131415SQLITE_API int sqlite3_open(const char *zFilename, sqlite3 **ppDb )&#123; return openDatabase(zFilename, ppDb, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);&#125;SQLITE_API int sqlite3_open_v2( const char *filename, /* Database filename (UTF-8) */ sqlite3 **ppDb, /* OUT: SQLite db handle 返回一个数据库连接对象*/ int flags, /* Flags */ const char *zVfs /* Name of VFS module to use 数据库连接应该使用的操作系统接口的sqlite3_vfs对象的名称*/)&#123; return openDatabase(filename, ppDb, (unsigned int)flags, zVfs);&#125;SQLITE_API int sqlite3_open16(const void *zFilename, sqlite3 **ppDb) SQLite执行sql语句 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sqlite3exec()函数一次可以执行多条SQL命令。执行完成后返回一个SQLITE success/failure代码，还会将错误信息写到*pzErrMsg中。首先进行安全检查以及检查sql语句是为空，在获取线程锁，调用sqlite3Error将errCode赋值为SQLITE_OK之后调用sqlte3_prepare_v2编译一条语句，通过sqlite3_step进行具体执行，如果SQL是查询，查询结果中的每一行都会调用xCallback()函数。pArg为传递给xCallback()的第一个参数。如果xCallback==NULL，即使对查询命令也没有回叫调用。 sqlte3_prepare_v2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;它调用sqlite3GetToken对SQL语句zSql进行分词，然后调用sqlite3Parser进行语法分析。而sqlite3Parser在语法规则发生规约时调用相应的opcode生成子例程，生成opcode。 SQLite关闭数据库]]></content>
+    <title><![CDATA[SQLite网址大全]]></title>
+    <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-14-1%2F</url>
+    <content type="text"><![CDATA[SQLite API手册http://www.yfvb.com/help/sqlite3/ SQLite源码分析http://huili.github.io/sqlite/sqliteintro.html]]></content>
       <categories>
         <category>SQLite</category>
       </categories>
@@ -276,9 +287,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[虚拟机vm-tools安装]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-1%2F</url>
-    <content type="text"><![CDATA[虚拟机vm-tools安装##centos下 ###点击vm fusion下安装VMware Tools ###解压 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在点击上面安装之后会出现一个CD文件，里面存在VmwareTools-10* 的包 这是一个tar.gz的压缩包，现在我们通过tar -zxvf 文件名tar.gz来进行解压（可以自行存放位置） ###安装 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转到上面解压文件的目录vmware-tools-distrib 下，运行./vmware-install.pl 在安装的过程中不断点击enter 直到安装完成，之后调用reboot重新启动就完成了]]></content>
+    <title><![CDATA[linux修改ip为静态ip]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-3%2F</url>
+    <content type="text"><![CDATA[#修改网卡信息 vi /etc/sysconfig/network-scripts/ifcfg-eth0 123456BOOTPROTO=&quot;static&quot; #注意：原值为dhcpHWADDR=&quot;00:0c:29:ba:18:25&quot;IPV6INIT=&quot;yes&quot;NM_CONTROLLED=&quot;yes&quot;ONBOOT=&quot;yes&quot;TYPE=&quot;Ethernet&quot; 以下是修改为静态时需要加IPADDR=192.168.1.200GATEWAY=192.168.1.1NETMASK=255.255.255.0 重启网卡service network restart #设置DNS vim /ect/resolv.conf 12nameserver 8.8.8.8nameserver 114.114.114.114]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -298,6 +309,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[zookeeper 环境安装]]></title>
     <url>%2F2018%2F01%2F01%2Fzookeeper%2F2017-12-30%2F</url>
     <content type="text"><![CDATA[解压tar -zvxf zookeeper-3.4.5.tar.gz -C /usr/local #配置环境变量vim /etc/profile 12export ZOOKEEPER_HOME =/usr/local/zookeeper-3.4.5export PATH=$ZOOKEEPER_HOME/bin:$PATH source /etc/profile #修改配置文件 相对路径:/ZOOKEEPER_HOME/conf/zoo.cfg 修改 1.datadir=/ZOOKEEPER_HOME/data 2.server0=ip地址。。。。。。 ZOOKEEPER_HOME下面创建data文件并创建脚本文件myid #启动 1zkServer.sh start]]></content>
@@ -309,20 +331,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux修改ip为静态ip]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-3%2F</url>
-    <content type="text"><![CDATA[#修改网卡信息 vi /etc/sysconfig/network-scripts/ifcfg-eth0 123456BOOTPROTO=&quot;static&quot; #注意：原值为dhcpHWADDR=&quot;00:0c:29:ba:18:25&quot;IPV6INIT=&quot;yes&quot;NM_CONTROLLED=&quot;yes&quot;ONBOOT=&quot;yes&quot;TYPE=&quot;Ethernet&quot; 以下是修改为静态时需要加IPADDR=192.168.1.200GATEWAY=192.168.1.1NETMASK=255.255.255.0 重启网卡service network restart #设置DNS vim /ect/resolv.conf 12nameserver 8.8.8.8nameserver 114.114.114.114]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
+    <title><![CDATA[虚拟机vm-tools安装]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-1%2F</url>
+    <content type="text"><![CDATA[虚拟机vm-tools安装##centos下 ###点击vm fusion下安装VMware Tools ###解压 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在点击上面安装之后会出现一个CD文件，里面存在VmwareTools-10* 的包 这是一个tar.gz的压缩包，现在我们通过tar -zxvf 文件名tar.gz来进行解压（可以自行存放位置） ###安装 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转到上面解压文件的目录vmware-tools-distrib 下，运行./vmware-install.pl 在安装的过程中不断点击enter 直到安装完成，之后调用reboot重新启动就完成了]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -342,9 +353,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[二叉堆]]></title>
-    <url>%2F2017%2F12%2F17%2Farithmetic%2F2018-01-26%2F</url>
-    <content type="text"><![CDATA[二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法. 上浮:当前节点比父节点大，while循环不断交换 下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换 基于上面，插入一个元素插入到最后，不断调用上浮就可以 删除最大元素，获取数组a[1]的元素，与最后一个交换，然后将这个位置置空，并返回，实现有序，则需将调换到第一个的元素进行下沉ihh 时间复杂度:插入lgN+1 删除2lgN]]></content>
+    <title><![CDATA[EightQueen]]></title>
+    <url>%2F2017%2F12%2F17%2Farithmetic%2F2017-12-18%2F</url>
+    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The N queens puzzle is the problem of placing N chess queens on an N×N chessboard so that no two queens threaten each other. Thus, a solution requires that no two queens share the same row, column, or diagonal.For example, below is one of the solution for famous 8 Queen problem. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Backtracking Algorithm for N-Queen is already discussed here. In backtracking solution we backtrack when we hit a dead end. In Branch and Bound solution, after building a partial solution, we figure out that there is no point going any deeper as we are going to hit a dead end. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Let’s begin by describing backtracking solution. “The idea is to place queens one by one in different columns, starting from the leftmost column. When we place a queen in a column, we check for clashes with already placed queens. In the current column, if we find a row for which there is no clash, we mark this row and column as part of the solution. If we do not find such a row due to clashes, then we backtrack and return false.” &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.For the 1st Queen, there are total 8 possibilities as we can place 1st Queen in any row of first column. Let’s place Queen 1 on row 3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.After placing 1st Queen, there are 7 possibilities left for the 2nd Queen. But wait, we don’t really have 7 possibilities. We cannot place Queen 2 on rows 2, 3 or 4 as those cells are under attack from Queen 1. So, Queen 2 has only 8 – 3 = 5 valid positions left.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.After picking a position for Queen 2, Queen 3 has even fewer options as most of the cells in its column are under attack from the first 2 Queens. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; We need to figure out an efficient way of keeping track of which cells are under attack. In previous solution we kept an 8­-by­-8 Boolean matrix and update it each time we placed a queen, but that required linear time to update as we need to check for safe cells. Basically, we have to ensure 4 things: No two queens share a column. No two queens share a row. No two queens share a top-right to left-bottom diagonal. No two queens share a top-left to bottom-right diagonal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Number 1 is automatic because of the way we store the solution. For number 2, 3 and 4, we can perform updates in O(1) time. The idea is to keep three Boolean arrays that tell us which rows and which diagonals are occupied. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lets do some pre-processing first. Let’s create two N x N matrix one for / diagonal and other one for \ diagonal. Let’s call them slashCode and backslashCode respectively. The trick is to fill them in such a way that two queens sharing a same /­diagonal will have the same value in matrix slashCode, and if they share same \­diagonal, they will have the same value in backslashCode matrix. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For an N x N matrix, fill slashCode and backslashCode matrix using below formula – cols[N] != cols[N-1] cols[N] != cols[N-1]-1 cols[N]!=cols[N-1]+1 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061public class Queen8 &#123; public static int num = 0; //累计方案总数 public static final int MAXQUEEN = 8;//皇后个数，同时也是棋盘行列总数 public static int[] cols = new int[MAXQUEEN]; //定义cols数组，表示8列棋子摆放情况 public Queen8() &#123; //核心函数 getArrangement(0); System.out.print("/n"); System.out.println(MAXQUEEN+"皇后问题有"+num+"种摆放方法。"); &#125; public void getArrangement(int n)&#123; //遍历该列所有不合法的行，并用rows数组记录，不合法即rows[i]=true boolean[] rows = new boolean[MAXQUEEN]; for(int i=0;i&lt;n;i++)&#123; rows[cols[i]]=true; int d = n-i; if(cols[i]-d &gt;= 0)rows[cols[i]-d]=true; if(cols[i]+d &lt;= MAXQUEEN-1)rows[cols[i]+d]=true; &#125; for(int i=0;i&lt;MAXQUEEN;i++)&#123; //判断该行是否合法 if(rows[i])continue; //设置当前列合法棋子所在行数 cols[n] = i; //当前列不为最后一列时 if(n&lt;MAXQUEEN-1)&#123; getArrangement(n+1); &#125;else&#123; //累计方案个数 num++; //打印棋盘信息 printChessBoard(); &#125; &#125; &#125; public void printChessBoard()&#123; System.out.print("第"+num+"种走法 /n"); for(int i=0;i&lt;MAXQUEEN;i++)&#123; for(int j=0;j&lt;MAXQUEEN;j++)&#123; if(i==cols[j])&#123; System.out.print("0 "); &#125;else System.out.print("+ "); &#125; System.out.print("/n"); &#125; &#125; public static void main(String args[])&#123; Queen8 queen = new Queen8(); &#125; &#125; output: 12345678910111213141516171819第1种走法 0 + + + + + + + + + + + + + 0 + + + + + 0 + + + + + + + + + + 0 + 0 + + + + + + + + + 0 + + + + + + + + + 0 + + + + 0 + + + + + 第2种走法 0 + + + + + + + + + + + + + 0 + + + + 0 + + + + + + + + + 0 + + + + + + + + + 0 + 0 + + + + + + + + + + 0 + + + + + 0 + + + + + .......]]></content>
       <categories>
         <category>Algorithm</category>
       </categories>
@@ -364,9 +375,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[EightQueen]]></title>
-    <url>%2F2017%2F12%2F17%2Farithmetic%2F2017-12-18%2F</url>
-    <content type="text"><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The N queens puzzle is the problem of placing N chess queens on an N×N chessboard so that no two queens threaten each other. Thus, a solution requires that no two queens share the same row, column, or diagonal.For example, below is one of the solution for famous 8 Queen problem. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Backtracking Algorithm for N-Queen is already discussed here. In backtracking solution we backtrack when we hit a dead end. In Branch and Bound solution, after building a partial solution, we figure out that there is no point going any deeper as we are going to hit a dead end. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Let’s begin by describing backtracking solution. “The idea is to place queens one by one in different columns, starting from the leftmost column. When we place a queen in a column, we check for clashes with already placed queens. In the current column, if we find a row for which there is no clash, we mark this row and column as part of the solution. If we do not find such a row due to clashes, then we backtrack and return false.” &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.For the 1st Queen, there are total 8 possibilities as we can place 1st Queen in any row of first column. Let’s place Queen 1 on row 3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.After placing 1st Queen, there are 7 possibilities left for the 2nd Queen. But wait, we don’t really have 7 possibilities. We cannot place Queen 2 on rows 2, 3 or 4 as those cells are under attack from Queen 1. So, Queen 2 has only 8 – 3 = 5 valid positions left.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.After picking a position for Queen 2, Queen 3 has even fewer options as most of the cells in its column are under attack from the first 2 Queens. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; We need to figure out an efficient way of keeping track of which cells are under attack. In previous solution we kept an 8­-by­-8 Boolean matrix and update it each time we placed a queen, but that required linear time to update as we need to check for safe cells. Basically, we have to ensure 4 things: No two queens share a column. No two queens share a row. No two queens share a top-right to left-bottom diagonal. No two queens share a top-left to bottom-right diagonal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Number 1 is automatic because of the way we store the solution. For number 2, 3 and 4, we can perform updates in O(1) time. The idea is to keep three Boolean arrays that tell us which rows and which diagonals are occupied. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lets do some pre-processing first. Let’s create two N x N matrix one for / diagonal and other one for \ diagonal. Let’s call them slashCode and backslashCode respectively. The trick is to fill them in such a way that two queens sharing a same /­diagonal will have the same value in matrix slashCode, and if they share same \­diagonal, they will have the same value in backslashCode matrix. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For an N x N matrix, fill slashCode and backslashCode matrix using below formula – cols[N] != cols[N-1] cols[N] != cols[N-1]-1 cols[N]!=cols[N-1]+1 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061public class Queen8 &#123; public static int num = 0; //累计方案总数 public static final int MAXQUEEN = 8;//皇后个数，同时也是棋盘行列总数 public static int[] cols = new int[MAXQUEEN]; //定义cols数组，表示8列棋子摆放情况 public Queen8() &#123; //核心函数 getArrangement(0); System.out.print("/n"); System.out.println(MAXQUEEN+"皇后问题有"+num+"种摆放方法。"); &#125; public void getArrangement(int n)&#123; //遍历该列所有不合法的行，并用rows数组记录，不合法即rows[i]=true boolean[] rows = new boolean[MAXQUEEN]; for(int i=0;i&lt;n;i++)&#123; rows[cols[i]]=true; int d = n-i; if(cols[i]-d &gt;= 0)rows[cols[i]-d]=true; if(cols[i]+d &lt;= MAXQUEEN-1)rows[cols[i]+d]=true; &#125; for(int i=0;i&lt;MAXQUEEN;i++)&#123; //判断该行是否合法 if(rows[i])continue; //设置当前列合法棋子所在行数 cols[n] = i; //当前列不为最后一列时 if(n&lt;MAXQUEEN-1)&#123; getArrangement(n+1); &#125;else&#123; //累计方案个数 num++; //打印棋盘信息 printChessBoard(); &#125; &#125; &#125; public void printChessBoard()&#123; System.out.print("第"+num+"种走法 /n"); for(int i=0;i&lt;MAXQUEEN;i++)&#123; for(int j=0;j&lt;MAXQUEEN;j++)&#123; if(i==cols[j])&#123; System.out.print("0 "); &#125;else System.out.print("+ "); &#125; System.out.print("/n"); &#125; &#125; public static void main(String args[])&#123; Queen8 queen = new Queen8(); &#125; &#125; output: 12345678910111213141516171819第1种走法 0 + + + + + + + + + + + + + 0 + + + + + 0 + + + + + + + + + + 0 + 0 + + + + + + + + + 0 + + + + + + + + + 0 + + + + 0 + + + + + 第2种走法 0 + + + + + + + + + + + + + 0 + + + + 0 + + + + + + + + + 0 + + + + + + + + + 0 + 0 + + + + + + + + + + 0 + + + + + 0 + + + + + .......]]></content>
+    <title><![CDATA[二叉堆]]></title>
+    <url>%2F2017%2F12%2F17%2Farithmetic%2F2018-01-26%2F</url>
+    <content type="text"><![CDATA[二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法. 上浮:当前节点比父节点大，while循环不断交换 下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换 基于上面，插入一个元素插入到最后，不断调用上浮就可以 删除最大元素，获取数组a[1]的元素，与最后一个交换，然后将这个位置置空，并返回，实现有序，则需将调换到第一个的元素进行下沉ihh 时间复杂度:插入lgN+1 删除2lgN]]></content>
       <categories>
         <category>Algorithm</category>
       </categories>
@@ -397,6 +408,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[linux基本指令]]></title>
+    <url>%2F2017%2F12%2F11%2Flinux%2F2018-01-01%2F</url>
+    <content type="text"><![CDATA[解压1tar -zxvf 文件名 移动文件移动命令mv 命令格式：mv [-fiv] source destination 参数说明： -f:force，强制直接移动而不询问 -i:若目标文件(destination)已经存在，就会询问是否覆盖 -u:若目标文件已经存在，且源文件比较新，才会更新 如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令： mv /test1/file1 /test3/file2 重命名关机poweroff 立刻关机shutdown -h now 立刻关机shutdown -h 10 10分钟后自动关机 关闭防火墙关闭命令： service iptables stop永久关闭防火墙：chkconfig iptables off永久关闭需要两条语句都运行 关闭端口1lsof -i:]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[java NIO Selector]]></title>
     <url>%2F2017%2F12%2F11%2FNIO%2Fnio4%2F</url>
     <content type="text"><![CDATA[#The Selector, SelectableChannel, and SelectionKey Classes Selector&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready. ##]]></content>
@@ -416,17 +438,6 @@
       </categories>
       <tags>
         <tag>Algorithm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux基本指令]]></title>
-    <url>%2F2017%2F12%2F11%2Flinux%2F2018-01-01%2F</url>
-    <content type="text"><![CDATA[解压1tar -zxvf 文件名 移动文件移动命令mv 命令格式：mv [-fiv] source destination 参数说明： -f:force，强制直接移动而不询问 -i:若目标文件(destination)已经存在，就会询问是否覆盖 -u:若目标文件已经存在，且源文件比较新，才会更新 如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令： mv /test1/file1 /test3/file2 重命名关机poweroff 立刻关机shutdown -h now 立刻关机shutdown -h 10 10分钟后自动关机 关闭防火墙关闭命令： service iptables stop永久关闭防火墙：chkconfig iptables off永久关闭需要两条语句都运行 关闭端口1lsof -i:]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
       </tags>
   </entry>
   <entry>
@@ -727,17 +738,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[git基本指令]]></title>
-    <url>%2F2017%2F01%2F02%2Fgit%2F2017-12-29%2F</url>
-    <content type="text"><![CDATA[The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 objects:该目录存放所有的Git对象，对象的SHA1哈希值的前两位是文件夹名称，后38位作为对象文件名。比如前面log里的HEAD文件里有个哈希值5426426e3ccc9ab4e3330640862a7b96e28828af 5 refs:具体的引用，Reference Specification，这个目录一般包括三个子文件夹，heads、remotes和tags，比如，heads中的master文件标识了项目中的master分支指向的当前commit，其他类似。 6 COMMIT_EDITMSG:保存最新的commit message，Git系统不会用到这个文件，只是给用户一个参考 7 config:这个是GIt仓库的配置文件 8 description:仓库的描述信息，主要给gitweb等git托管系统使用 9 index:这个文件就是我们前面提到的暂存区（stage），是一个二进制文件 10 HEAD:这个文件包含了一个分支（branch）的引用，通过这个文件Git可以得到下一次commit的parent，什么是引用呢，你可以理解为指针，哪儿都可以指，但是不能指向没有的东西哦。详细介绍请看这里： ###git add git add . ：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。 git add -u ：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写） git add -A ：是上面两个功能的合集（git add –all的缩写） git remotegit remote add:命令用于添加远程主机 1git remote add &lt;主机名&gt; &lt;网址&gt; src refspec master does not match any.]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[dubbo环境搭建]]></title>
     <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-02%2F</url>
     <content type="text"><![CDATA[#解压dubbo-admin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面 解压命令unzip dubbo-admin.war -d dubbp-admin #修改属性文件 1.将用户密码都改成root2.修改相应地址 截图如下: #启动tomcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，启动命令：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行startup.sh日志命令:tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out]]></content>
@@ -746,6 +746,17 @@
       </categories>
       <tags>
         <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git基本指令]]></title>
+    <url>%2F2017%2F01%2F02%2Fgit%2F2017-12-29%2F</url>
+    <content type="text"><![CDATA[The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 objects:该目录存放所有的Git对象，对象的SHA1哈希值的前两位是文件夹名称，后38位作为对象文件名。比如前面log里的HEAD文件里有个哈希值5426426e3ccc9ab4e3330640862a7b96e28828af 5 refs:具体的引用，Reference Specification，这个目录一般包括三个子文件夹，heads、remotes和tags，比如，heads中的master文件标识了项目中的master分支指向的当前commit，其他类似。 6 COMMIT_EDITMSG:保存最新的commit message，Git系统不会用到这个文件，只是给用户一个参考 7 config:这个是GIt仓库的配置文件 8 description:仓库的描述信息，主要给gitweb等git托管系统使用 9 index:这个文件就是我们前面提到的暂存区（stage），是一个二进制文件 10 HEAD:这个文件包含了一个分支（branch）的引用，通过这个文件Git可以得到下一次commit的parent，什么是引用呢，你可以理解为指针，哪儿都可以指，但是不能指向没有的东西哦。详细介绍请看这里： ###git add git add . ：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。 git add -u ：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写） git add -A ：是上面两个功能的合集（git add –all的缩写） git remotegit remote add:命令用于添加远程主机 1git remote add &lt;主机名&gt; &lt;网址&gt; src refspec master does not match any.]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -793,6 +804,28 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[maven命令使用指南]]></title>
+    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-03%2F</url>
+    <content type="text"><![CDATA[#基本命令 编译源代码: mvn compile编译测试代码：mvn test-compile运行测试：mvn test产生site：mvn site打包：mvn package -Dmaven.test.skip=true(跳过测试) #编译jar到本地仓库 mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc]]></content>
+      <categories>
+        <category>other</category>
+      </categories>
+      <tags>
+        <tag>jdk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[idea相关问题]]></title>
+    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[Q1源发行版 1.6 需要目标发行版 1.6 setting-&gt;Compiler-&gt;Java Compiler 设置相应Module的target byte code version的合适版本就行来（搜索首选项）]]></content>
+      <categories>
+        <category>other</category>
+      </categories>
+      <tags>
+        <tag>idea</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[mac切换jdk]]></title>
     <url>%2F2017%2F01%2F01%2Fother%2F2018-01-03%2F</url>
     <content type="text"><![CDATA[#切换jdk命令 切换版本： jenv use java 1.8设置缺少版本： jenv default java 1.8]]></content>
@@ -815,31 +848,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[idea相关问题]]></title>
-    <url>%2F2017%2F01%2F01%2Fother%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[Q1源发行版 1.6 需要目标发行版 1.6 setting-&gt;Compiler-&gt;Java Compiler 设置相应Module的target byte code version的合适版本就行来（搜索首选项）]]></content>
-      <categories>
-        <category>other</category>
-      </categories>
-      <tags>
-        <tag>idea</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[maven错误记录]]></title>
     <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-05%2F</url>
     <content type="text"><![CDATA[不能部署1Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.5: deploy (default-deploy) 这是在发布到私服的过程中，可能]]></content>
-      <categories>
-        <category>other</category>
-      </categories>
-      <tags>
-        <tag>jdk</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[maven命令使用指南]]></title>
-    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-03%2F</url>
-    <content type="text"><![CDATA[#基本命令 编译源代码: mvn compile编译测试代码：mvn test-compile运行测试：mvn test产生site：mvn site打包：mvn package -Dmaven.test.skip=true(跳过测试) #编译jar到本地仓库 mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc]]></content>
       <categories>
         <category>other</category>
       </categories>
