@@ -822,9 +822,8 @@
       
         
           
-                Request在tomcat中是一个非常核心的的实例，下面以NIO为例来解读一下在各个时期下的状态（其实在Tomcat的几种模式中到了这里之后的处理都是差不多的）
-创建coyote/Request
-      这个request并不是我们最终在servlet中使用的Request,它是t
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Request在tomcat中是一个非常核心的的实例，下面以NIO为例来解读一下在各个时期下的状态（其实在Tomcat的几种模式中到了这里之后的处理都是差不多的）
+创建coyote/Request&nbsp;&nbsp;&nbs
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1011,10 +1010,9 @@
       
         
           
-                Processor是一个接口，针对于不同协议下具有不同的具体实现类，其实现类的具体功能是处理http请求,主要是对协议进行解析，状态处理以及响应。然后起一个中间作用转发到 Adater,下面是其类的关系图
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Processor是一个接口，针对于不同协议下具有不同的具体实现类，其实现类的具体功能是处理http请求,主要是对协议进行解析，状态处理以及响应。然后起一个中间作用转发到 Adater,下面是其类的关系图
 
-      其实现类中我们常用的http协议，所以一般是左边的部分,用红线标注
-
+&nbsp;&nbs
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1201,7 +1199,7 @@
       
         
           
-                JMX即Java 管理扩展（Java Management Extensions，JMX）用来管理检测 Java 程序（同时 JMX 也在 J2EE 1.4 中被发布）它的作用是可以在程序运行的时候对其进行动态处理,调用相应方法来进行对指定属性值进行修改,在下面我将以代码结合jconso
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMX即Java 管理扩展（Java Management Extensions，JMX）用来管理检测 Java 程序（同时 JMX 也在 J2EE 1.4 中被发布）它的作用是可以在程序运行的时候对其进行动态处理,调用相应方法
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1388,13 +1386,9 @@
       
         
           
-          生命周期
-观察者模型
-      tomcat生命周期采用了观察者模式，所以在介绍生命周期的时候不得不介绍观察者模式
+          生命周期观察者模型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tomcat生命周期采用了观察者模式，所以在介绍生命周期的时候不得不介绍观察者模式
 观察者模式定义了对象间的一种一对多依赖关系，使得每当一个对象改变状态，则所有依赖于它的对象都会得到通知并被自动更新
-观察者模式:
-
-      根据UML图可以看出所有被观察的对象O
+观察者模式
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1581,8 +1575,7 @@
       
         
           
-          #	Digester
-      Digester在tomcat中的作用是对conf下的server.xml文件进行实例化，其是从Catalian这个组件开始，创建Digester实例，再添加对应的规则，然后将其实例化，通过setServer方法，将其实例话的对象作为当前Catalian实例的句柄。
+          Digester&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Digester在tomcat中的作用是对conf下的server.xml文件进行实例化，其是从Catalian这个组件开始，创建Digester实例，再添加对应的规则，然后将其实例化，通过setServer方法
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1730,7 +1723,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  3,074
+                  3,059
                 </span>
               
 
@@ -1769,9 +1762,7 @@
       
         
           
-          servlet的解析过程
-      servlet的解析分为两步实现，第一个是匹配到对应的Wrapper,第二个是加载对应的servlet并进行数据，这些数据是怎么到界面的，response.getWrite()获取对应的流，然后写入这个流中，这个流中就有上文的outputBuffer。
-匹配到对
+          servlet的解析过程&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;servlet的解析分为两步实现，第一个是匹配到对应的Wrapper,第二个是加载对应的servlet并进行数据，这些数据是怎么到界面的，response.getWrite()获取对应的流，然后写入这个流
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2145,9 +2136,8 @@
       
         
           
-          startInternal方法
-       这个方法是核心的启动方法，目前理解主要做了两件事情，第一件是创建轮询线程,即具体的读取线程,它是进行具体的处理，第二个是创建创建监听请求线程，它是等待请求，然后交给轮训进行处理。
-1234567891011121314151617181920212223
+          startInternal方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个方法是核心的启动方法，目前理解主要做了两件事情，第一件是创建轮询线程,即具体的读取线程,它是进行具体的处理，第二个是创建创建监听请求线程，它是等待请求，然后交给轮训进行处理。
+123
           ...
           <!--noindex-->
           <div class="post-button text-center">

@@ -105,19 +105,19 @@
 
 
 
-<meta name="description" content="归并排序的思想:利用递归与分治技术将数据不断半分然后逐步进行排序合并  核心实现方法有两个： 子数组排序： merge(int[] a, int low, int mid, int high) a表示数组，low标识左边一部分开始位置，mid表示右边部分位置 实现过程: 第一次循环:(i &amp;lt;= mid &amp;amp;&amp;amp; j &amp;lt;= high)  进行不断填充到一个临时数">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;归并排序的思想:利用递归与分治技术将数据不断半分然后逐步进行排序合并 核心实现方法有两个： 子数组排序： merge(int[] a, int low, int mid, int high) a表示数组，low标识左边一部分开始位置，mid表示右边部分位置 实现过程:第一次循环:(i &amp;lt;= mid &amp;amp;">
 <meta name="keywords" content="Algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java归并排序">
 <meta property="og:url" content="www.cfad.tech/2018/01/27/arithmetic/2018-01-27/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="归并排序的思想:利用递归与分治技术将数据不断半分然后逐步进行排序合并  核心实现方法有两个： 子数组排序： merge(int[] a, int low, int mid, int high) a表示数组，low标识左边一部分开始位置，mid表示右边部分位置 实现过程: 第一次循环:(i &amp;lt;= mid &amp;amp;&amp;amp; j &amp;lt;= high)  进行不断填充到一个临时数">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;归并排序的思想:利用递归与分治技术将数据不断半分然后逐步进行排序合并 核心实现方法有两个： 子数组排序： merge(int[] a, int low, int mid, int high) a表示数组，low标识左边一部分开始位置，mid表示右边部分位置 实现过程:第一次循环:(i &amp;lt;= mid &amp;amp;">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/15170477874989.jpg">
 <meta property="og:updated_time" content="2018-01-27T10:16:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java归并排序">
-<meta name="twitter:description" content="归并排序的思想:利用递归与分治技术将数据不断半分然后逐步进行排序合并  核心实现方法有两个： 子数组排序： merge(int[] a, int low, int mid, int high) a表示数组，low标识左边一部分开始位置，mid表示右边部分位置 实现过程: 第一次循环:(i &amp;lt;= mid &amp;amp;&amp;amp; j &amp;lt;= high)  进行不断填充到一个临时数">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;归并排序的思想:利用递归与分治技术将数据不断半分然后逐步进行排序合并 核心实现方法有两个： 子数组排序： merge(int[] a, int low, int mid, int high) a表示数组，low标识左边一部分开始位置，mid表示右边部分位置 实现过程:第一次循环:(i &amp;lt;= mid &amp;amp;">
 <meta name="twitter:image" content="/media/15170477874989.jpg">
 
 
@@ -447,22 +447,14 @@
       
 
       
-        <p>       归并排序的思想:利用递归与分治技术将数据不断半分然后逐步进行排序合并
-<img src="/media/15170477874989.jpg" alt=""></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归并排序的思想:利用递归与分治技术将数据不断半分然后逐步进行排序合并<br><img src="/media/15170477874989.jpg" alt=""></p>
 <p>核心实现方法有两个：</p>
 <p>子数组排序：</p>
 <p>merge(int[] a, int low, int mid, int high)</p>
 <p>a表示数组，low标识左边一部分开始位置，mid表示右边部分位置</p>
-<p>实现过程:
-第一次循环:(i &lt;= mid &amp;&amp; j &lt;= high)  进行不断填充到一个临时数组
-第二次循环:判断低位部分时候还有数据
-第三次循环:判断高位部分是否还有数据
-然后将原有这部分无序的用临时数组有序替换掉</p>
+<p>实现过程:<br>第一次循环:(i &lt;= mid &amp;&amp; j &lt;= high)  进行不断填充到一个临时数组<br>第二次循环:判断低位部分时候还有数据<br>第三次循环:判断高位部分是否还有数据<br>然后将原有这部分无序的用临时数组有序替换掉</p>
 <p>mergeSort(int[] a, int low, int high)</p>
-<p>如果low&lt;height 始终调用
-mergeSort(a, low, mid);
-mergeSort(a, mid + 1, high);
-merge(a, low, mid, high);</p>
+<p>如果low&lt;height 始终调用<br>  mergeSort(a, low, mid);<br>  mergeSort(a, mid + 1, high);<br>  merge(a, low, mid, high);</p>
 <p>这样就进行不断拆分到最小，然后合并排序</p>
 
       

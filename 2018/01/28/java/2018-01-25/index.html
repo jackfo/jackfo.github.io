@@ -105,13 +105,13 @@
 
 
 
-<meta name="description" content="在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有：   同步阻塞IO（Blocking IO） 同步非阻塞IO（Non-blocking IO） IO多路复用（IO Multiplexing） 异步IO（Asynchronous IO   阻塞IO        针对于阻塞IO进行,当前线程需要获取IO资源时，会调用内核,然后内核准备相应数据返回,当线程应">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有：  1) 同步阻塞IO（Blocking IO）2) 同步非阻塞IO（Non-blocking IO）3) IO多路复用（IO Multiplexing）4) 异步IO（Asynchronous IO  阻塞IO &amp;nbsp;&amp;nbsp;&amp;nbsp">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java IO模型">
 <meta property="og:url" content="www.cfad.tech/2018/01/28/java/2018-01-25/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有：   同步阻塞IO（Blocking IO） 同步非阻塞IO（Non-blocking IO） IO多路复用（IO Multiplexing） 异步IO（Asynchronous IO   阻塞IO        针对于阻塞IO进行,当前线程需要获取IO资源时，会调用内核,然后内核准备相应数据返回,当线程应">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有：  1) 同步阻塞IO（Blocking IO）2) 同步非阻塞IO（Non-blocking IO）3) IO多路复用（IO Multiplexing）4) 异步IO（Asynchronous IO  阻塞IO &amp;nbsp;&amp;nbsp;&amp;nbsp">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/15172015493395.jpg">
 <meta property="og:image" content="/media/15172046636562.jpg">
@@ -119,7 +119,7 @@
 <meta property="og:updated_time" content="2018-01-29T11:12:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java IO模型">
-<meta name="twitter:description" content="在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有：   同步阻塞IO（Blocking IO） 同步非阻塞IO（Non-blocking IO） IO多路复用（IO Multiplexing） 异步IO（Asynchronous IO   阻塞IO        针对于阻塞IO进行,当前线程需要获取IO资源时，会调用内核,然后内核准备相应数据返回,当线程应">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有：  1) 同步阻塞IO（Blocking IO）2) 同步非阻塞IO（Non-blocking IO）3) IO多路复用（IO Multiplexing）4) 异步IO（Asynchronous IO  阻塞IO &amp;nbsp;&amp;nbsp;&amp;nbsp">
 <meta name="twitter:image" content="/media/15172015493395.jpg">
 
 
@@ -412,7 +412,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,070
+                  1,052
                 </span>
               
 
@@ -449,46 +449,30 @@
       
 
       
-        <p>      在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有：</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在java IO模型中通常以同步/异步 阻塞/非阻塞进行分析,比较常用的模型有：</p>
 <blockquote>
-<ol>
-<li>同步阻塞IO（Blocking IO）</li>
-<li>同步非阻塞IO（Non-blocking IO）</li>
-<li>IO多路复用（IO Multiplexing）</li>
-<li>异步IO（Asynchronous IO</li>
-</ol>
+<p>1) 同步阻塞IO（Blocking IO）<br>2) 同步非阻塞IO（Non-blocking IO）<br>3) IO多路复用（IO Multiplexing）<br>4) 异步IO（Asynchronous IO</p>
 </blockquote>
-<h1><span id="zu-sai-io">阻塞IO</span></h1>
-<p><img src="/media/15172015493395.jpg" alt=""></p>
-<p>      针对于阻塞IO进行,当前线程需要获取IO资源时，会调用内核,然后内核准备相应数据返回,当线程应用获取到数据的时候才会继续向下执行,&lt;em style=&quot;color:red&quot;&gt;在获取数据时候,阻塞的是当前线程&lt;/em&gt;,所以在这种情况下,就出现了单线程会阻塞,程序就必须对待当前资源处理完毕,才能继续处理下去，如果在这个过程中我们需要同时对多个IO资源进行处理,就可以采用多线程方式来进行处理，这样就能解决单线并发能力低的缺点
-      在这个过程中我们提到过IO模型，现在总结描述一下它们的特点:</p>
+<h1><span id="zu-sai-io">阻塞IO</span></h1><p><img src="/media/15172015493395.jpg" alt=""></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;针对于阻塞IO进行,当前线程需要获取IO资源时，会调用内核,然后内核准备相应数据返回,当线程应用获取到数据的时候才会继续向下执行,<em style="color:red">在获取数据时候,阻塞的是当前线程</em>,所以在这种情况下,就出现了单线程会阻塞,程序就必须对待当前资源处理完毕,才能继续处理下去，如果在这个过程中我们需要同时对多个IO资源进行处理,就可以采用多线程方式来进行处理，这样就能解决单线并发能力低的缺点<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个过程中我们提到过IO模型，现在总结描述一下它们的特点:</p>
 <blockquote>
-<p>1:单线程阻塞I/O模型:整个运行过程中只有一个线程，只能同时处理一个IO资源,如果有多个IO资源的话必须排队处理,系统资源消耗较少,但并发能力较低。</p>
-<p>2.多线程阻塞I/O模型:支持同时处理多个I/O资源,处理能力得到大幅度提高,有较大的并发量,但系统资源消耗较大，并且会产生很多线程切换成本.</p>
+<p>   1:单线程阻塞I/O模型:整个运行过程中只有一个线程，只能同时处理一个IO资源,如果有多个IO资源的话必须排队处理,系统资源消耗较少,但并发能力较低。</p>
+<p>   2.多线程阻塞I/O模型:支持同时处理多个I/O资源,处理能力得到大幅度提高,有较大的并发量,但系统资源消耗较大，并且会产生很多线程切换成本.</p>
 </blockquote>
-<p>&lt;em style=&quot;color:red;margin-left:30px;&quot;&gt;注意：对文件IO资源进行处理的时候,可以针对一个文件同时打开多个文件流,如果需要实现数据同步,可以采用文件锁的方式进行处理&lt;/em&gt;</p>
-<h1><span id="tong-bu-fei-zu-sai-io">同步非阻塞IO</span></h1>
-<p><img src="/media/15172046636562.jpg" alt="">
-      非阻塞IO一般是针对于服务器来说的,创建相应的ServerSocket通道，不管是否读取到客户端数据都会进行返回,这样做的好处是,&lt;em style=&quot;color:red;&quot;&gt;你可以在等待的过程中做一些其他的事情,只需要个一段时间看是否有新的套接字简历&lt;/em&gt; 在NIO模型中的非阻塞点有两个</p>
+<p><em style="color:red;margin-left:30px;">注意：对文件IO资源进行处理的时候,可以针对一个文件同时打开多个文件流,如果需要实现数据同步,可以采用文件锁的方式进行处理</em></p>
+<h1><span id="tong-bu-fei-zu-sai-io">同步非阻塞IO</span></h1><p><img src="/media/15172046636562.jpg" alt=""><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非阻塞IO一般是针对于服务器来说的,创建相应的ServerSocket通道，不管是否读取到客户端数据都会进行返回,这样做的好处是,<em style="color:red;">你可以在等待的过程中做一些其他的事情,只需要个一段时间看是否有新的套接字简历</em> 在NIO模型中的非阻塞点有两个</p>
 <blockquote>
-<p>ServerSocketChannel.accept()
-Selector</p>
+<p>ServerSocketChannel.accept()<br>Selector</p>
 </blockquote>
-<p>      针对于第一个非阻塞点,设置为非阻塞代表获取到无论是否获取socket套接字都会为空
-      针对于第二个非阻塞点,几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;针对于第一个非阻塞点,设置为非阻塞代表获取到无论是否获取socket套接字都会为空<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;针对于第二个非阻塞点,几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道</p>
 <blockquote>
 <pre><code>int select()  阻塞到至少有一个通道在你注册的事件上就绪了。
 int select(long timeout) 最长会阻塞timeout毫秒
 int selectNow() 不会阻塞，不管什么通道就绪都立刻返回
-</code></pre>
-</blockquote>
-<h1><span id="i-o-fu-yong">I/O复用</span></h1>
-<p><img src="/media/15172240260697.jpg" alt="">
-      在NIO中一个优势,线程可以进行复用,这种复用技术是利用Selector和socket通道进行配合,打开相应通道,注册该通道感兴趣的事件,如ServerSocketChannel注册一个接受通道事件到选择键之后,当获取到相应客户端请求,相应通道就会准备就绪，select机会返回相应的数量，此时我们可以获取SocketChannel,将其注册到选择器，在循环获取的过程就可以获取相应的读事件,之后进行相关的处理.</p>
-<p>      在windows系统是Selector.open()会自己和自己建立两条TCP链接,在Linux下，Selector.open()会自己和自己建两条管道,这样做的目的就是在获取相应连接的时候可以被唤醒。</p>
-<h1><span id="yi-bu-fei-zu-sai-io">异步非阻塞IO</span></h1>
-<p>      异步描述的是执行IO操作的主体是谁，同步是由用户进程自己去执行最终的IO操作。异步是用户进程自己不关系实际IO操作的过程，只需要由内核在IO完成后通知它既可，由内核进程来执行最终的IO操作。
-      非阻塞异步IO指的是用户调用读写方法是不阻塞的，立刻返回，而且用户不需要关注读写，只需要提供回调操作，内核线程在完成读写后回调用户提供的callback。</p>
+</code></pre></blockquote>
+<h1><span id="i-o-fu-yong">I/O复用</span></h1><p><img src="/media/15172240260697.jpg" alt=""><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在NIO中一个优势,线程可以进行复用,这种复用技术是利用Selector和socket通道进行配合,打开相应通道,注册该通道感兴趣的事件,如ServerSocketChannel注册一个接受通道事件到选择键之后,当获取到相应客户端请求,相应通道就会准备就绪，select机会返回相应的数量，此时我们可以获取SocketChannel,将其注册到选择器，在循环获取的过程就可以获取相应的读事件,之后进行相关的处理.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在windows系统是Selector.open()会自己和自己建立两条TCP链接,在Linux下，Selector.open()会自己和自己建两条管道,这样做的目的就是在获取相应连接的时候可以被唤醒。</p>
+<h1><span id="yi-bu-fei-zu-sai-io">异步非阻塞IO</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;异步描述的是执行IO操作的主体是谁，同步是由用户进程自己去执行最终的IO操作。异步是用户进程自己不关系实际IO操作的过程，只需要由内核在IO完成后通知它既可，由内核进程来执行最终的IO操作。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非阻塞异步IO指的是用户调用读写方法是不阻塞的，立刻返回，而且用户不需要关注读写，只需要提供回调操作，内核线程在完成读写后回调用户提供的callback。</p>
 
       
     </div>

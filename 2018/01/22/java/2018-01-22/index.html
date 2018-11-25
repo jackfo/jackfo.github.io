@@ -105,13 +105,13 @@
 
 
 
-<meta name="description" content="在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析 节点流Vs处理流  节点流:程序用于直接操作目标设备所对应的类叫节点流。 处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。  节点流 节点流的类型   （1）File 文件流。对文件进行读、写操作 ：FileReader、FileWriter、">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析 节点流Vs处理流 节点流:程序用于直接操作目标设备所对应的类叫节点流。 处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。  节点流节点流的类型  （1）File 文件流。对文">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java的IO流设计-节点流&#x2F;处理流">
 <meta property="og:url" content="www.cfad.tech/2018/01/22/java/2018-01-22/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析 节点流Vs处理流  节点流:程序用于直接操作目标设备所对应的类叫节点流。 处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。  节点流 节点流的类型   （1）File 文件流。对文件进行读、写操作 ：FileReader、FileWriter、">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析 节点流Vs处理流 节点流:程序用于直接操作目标设备所对应的类叫节点流。 处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。  节点流节点流的类型  （1）File 文件流。对文">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/15166291046805.jpg">
 <meta property="og:image" content="/media/15166292549491.jpg">
@@ -120,7 +120,7 @@
 <meta property="og:updated_time" content="2018-01-29T04:45:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java的IO流设计-节点流&#x2F;处理流">
-<meta name="twitter:description" content="在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析 节点流Vs处理流  节点流:程序用于直接操作目标设备所对应的类叫节点流。 处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。  节点流 节点流的类型   （1）File 文件流。对文件进行读、写操作 ：FileReader、FileWriter、">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析 节点流Vs处理流 节点流:程序用于直接操作目标设备所对应的类叫节点流。 处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。  节点流节点流的类型  （1）File 文件流。对文">
 <meta name="twitter:image" content="/media/15166291046805.jpg">
 
 
@@ -450,60 +450,41 @@
       
 
       
-        <p>       在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析</p>
-<h1><span id="jie-dian-liu-vs-chu-li-liu">节点流Vs处理流</span></h1>
-<blockquote>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在字节流和字符流中同时讲述了输出流和输入流，现在就简单的对节点流和处理流进行分析</p>
+<h1><span id="jie-dian-liu-vs-chu-li-liu">节点流Vs处理流</span></h1><blockquote>
 <p>节点流:程序用于直接操作目标设备所对应的类叫节点流。</p>
 <p>处理流:程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。</p>
 </blockquote>
-<h2><span id="jie-dian-liu">节点流</span></h2>
-<h3><span id="jie-dian-liu-de-lei-xing">节点流的类型</span></h3>
-<p><img src="/media/15166291046805.jpg" alt=""></p>
+<h2><span id="jie-dian-liu">节点流</span></h2><h3><span id="jie-dian-liu-de-lei-xing">节点流的类型</span></h3><p><img src="/media/15166291046805.jpg" alt=""></p>
 <blockquote>
 <p>（1）File 文件流。对文件进行读、写操作 ：FileReader、FileWriter、FileInputStream、FileOutputStream。、</p>
-<p>（2）Memory
-1）从/向内存数组读写数据: CharArrayReader与 CharArrayWriter、ByteArrayInputStream与ByteArrayOutputStream。
-2）从/向内存字符串读写数据 StringReader、StringWriter、StringBufferInputStream。</p>
+<p>（2）Memory<br>1）从/向内存数组读写数据: CharArrayReader与 CharArrayWriter、ByteArrayInputStream与ByteArrayOutputStream。<br>2）从/向内存字符串读写数据 StringReader、StringWriter、StringBufferInputStream。</p>
 <p>（3）Pipe管道流。 实现管道的输入和输出（进程间通信）: PipedReader与PipedWriter、PipedInputStream与PipedOutputStream。</p>
 </blockquote>
-<h3><span id="jie-dian-liu-zhi-xing-de-tu-shi">节点流执行的图示</span></h3>
-<p><img src="/media/15166292549491.jpg" alt=""></p>
-<h2><span id="chu-li-liu">处理流</span></h2>
-<h3><span id="chu-li-liu-de-lei-xing">处理流的类型</span></h3>
-<p><img src="/media/15166293185380.jpg" alt=""></p>
+<h3><span id="jie-dian-liu-zhi-xing-de-tu-shi">节点流执行的图示</span></h3><p><img src="/media/15166292549491.jpg" alt=""></p>
+<h2><span id="chu-li-liu">处理流</span></h2><h3><span id="chu-li-liu-de-lei-xing">处理流的类型</span></h3><p><img src="/media/15166293185380.jpg" alt=""></p>
 <blockquote>
 <ul>
-<li>
-<p>（1）Buffering缓冲流：在读入或写出时，对数据进行缓存，以减少I/O的次数：BufferedReader与BufferedWriter、BufferedInputStream与BufferedOutputStream。</p>
+<li><p>（1）Buffering缓冲流：在读入或写出时，对数据进行缓存，以减少I/O的次数：BufferedReader与BufferedWriter、BufferedInputStream与BufferedOutputStream。</p>
 </li>
-<li>
-<p>（2）Filtering 滤流：在数据进行读或写时进行过滤：FilterReader与FilterWriter、FilterInputStream与FilterOutputStream。</p>
+<li><p>（2）Filtering 滤流：在数据进行读或写时进行过滤：FilterReader与FilterWriter、FilterInputStream与FilterOutputStream。 </p>
 </li>
-<li>
-<p>（3）Converting between Bytes and Characters 转换流：按照一定的编码/解码标准将字节流转换为字符流，或进行反向转换（Stream到Reader）：InputStreamReader、OutputStreamWriter。</p>
+<li><p>（3）Converting between Bytes and Characters 转换流：按照一定的编码/解码标准将字节流转换为字符流，或进行反向转换（Stream到Reader）：InputStreamReader、OutputStreamWriter。 </p>
 </li>
-<li>
-<p>（4）Object Serialization 对象流 ：ObjectInputStream、ObjectOutputStream。</p>
+<li><p>（4）Object Serialization 对象流 ：ObjectInputStream、ObjectOutputStream。 </p>
 </li>
-<li>
-<p>（5）DataConversion数据流： 按基本数据类型读、写（处理的数据是Java的基本类型（如布尔型，字节，整数和浮点数））：DataInputStream、DataOutputStream 。</p>
+<li><p>（5）DataConversion数据流： 按基本数据类型读、写（处理的数据是Java的基本类型（如布尔型，字节，整数和浮点数））：DataInputStream、DataOutputStream 。 </p>
 </li>
-<li>
-<p>（6）Counting计数流： 在读入数据时对行记数 ：LineNumberReader、LineNumberInputStream。</p>
+<li><p>（6）Counting计数流： 在读入数据时对行记数 ：LineNumberReader、LineNumberInputStream。</p>
 </li>
-<li>
-<p>（7）Peeking Ahead预读流： 通过缓存机制，进行预读 ：PushbackReader、PushbackInputStream。</p>
+<li><p>（7）Peeking Ahead预读流： 通过缓存机制，进行预读 ：PushbackReader、PushbackInputStream。 </p>
 </li>
-<li>
-<p>（8）Printing打印流： 包含方便的打印方法 ：PrintWriter、PrintStream。</p>
+<li><p>（8）Printing打印流： 包含方便的打印方法 ：PrintWriter、PrintStream。</p>
 </li>
 </ul>
 </blockquote>
-<p>处理流的图示:
-<img src="/media/15166295002457.jpg" alt=""></p>
-<p>参考链接:
-JAVA——IO流 之 节点流与处理流（2）
-http://blog.csdn.net/jingzi123456789/article/details/72123937</p>
+<p>处理流的图示:<br><img src="/media/15166295002457.jpg" alt=""></p>
+<p>参考链接:<br>JAVA——IO流 之 节点流与处理流（2）<br><a href="http://blog.csdn.net/jingzi123456789/article/details/72123937" target="_blank" rel="noopener">http://blog.csdn.net/jingzi123456789/article/details/72123937</a></p>
 
       
     </div>

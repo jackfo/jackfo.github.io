@@ -105,18 +105,18 @@
 
 
 
-<meta name="description" content="二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法.  上浮:当前节点比父节点大，while循环不断交换 下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换         基于上面，插入一个元素插入到最后，不断调用上浮就可以 删除最大元素，获取数组a[1]的">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法.  上浮:当前节点比父节点大，while循环不断交换下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换  &amp;nbsp;&amp;nbsp;&amp;nbs">
 <meta name="keywords" content="Algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="二叉堆">
 <meta property="og:url" content="www.cfad.tech/2017/12/17/arithmetic/2018-01-26/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法.  上浮:当前节点比父节点大，while循环不断交换 下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换         基于上面，插入一个元素插入到最后，不断调用上浮就可以 删除最大元素，获取数组a[1]的">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法.  上浮:当前节点比父节点大，while循环不断交换下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换  &amp;nbsp;&amp;nbsp;&amp;nbs">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2018-01-26T05:49:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="二叉堆">
-<meta name="twitter:description" content="二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法.  上浮:当前节点比父节点大，while循环不断交换 下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换         基于上面，插入一个元素插入到最后，不断调用上浮就可以 删除最大元素，获取数组a[1]的">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法.  上浮:当前节点比父节点大，while循环不断交换下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换  &amp;nbsp;&amp;nbsp;&amp;nbs">
 
 
 
@@ -445,14 +445,12 @@
       
 
       
-        <p>       二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法.</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二叉堆是二叉堆是完全二元树或者是近似完全二元树,所以利用数组很好实现,a[0]保持为空,从a[1]开始，实现上浮，下沉，比较，交换四个方法.</p>
 <blockquote>
-<p>上浮:当前节点比父节点大，while循环不断交换
-下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换</p>
+<p>上浮:当前节点比父节点大，while循环不断交换<br>下沉:当前节点比子节点小，while循环 循环条件2k小于数组长度，同较大的一个进行交换</p>
 </blockquote>
-<p>       基于上面，插入一个元素插入到最后，不断调用上浮就可以
-删除最大元素，获取数组a[1]的元素，与最后一个交换，然后将这个位置置空，并返回，实现有序，则需将调换到第一个的元素进行下沉ihh</p>
-<p>       时间复杂度:插入lgN+1 删除2lgN</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基于上面，插入一个元素插入到最后，不断调用上浮就可以<br>删除最大元素，获取数组a[1]的元素，与最后一个交换，然后将这个位置置空，并返回，实现有序，则需将调换到第一个的元素进行下沉ihh</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间复杂度:插入lgN+1 删除2lgN</p>
 
       
     </div>
@@ -542,8 +540,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/17/arithmetic/huffmancoding/" rel="prev" title="Huffman Coding Greedy Algorithm">
-                Huffman Coding Greedy Algorithm <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/17/arithmetic/2017-12-18/" rel="prev" title="EightQueen">
+                EightQueen <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
