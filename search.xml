@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[zookeeper 源码浅析一 zookeeper启动]]></title>
+    <url>%2F2018%2F03%2F24%2Fzookeeper%2F2018-03-24%2F</url>
+    <content type="text"><![CDATA[Zookeeper究竟是什么&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在我理解它就是一个协调中心,一个很重要的单元就是节点。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;就dubbo而言,服务提供者注册的时候会创建节点/服务名/providers,服务消费者在消费的时候回创建节点/服务名/consumer等一系列节点,并且获取父级服务下面所有节点,这样就可以获取对应提供者数据(ip),最终获取对应invoker调用相应的方法。至于监听唤醒,本质上是采用zookeeper的watcher机制。在节点变化的时候会调用相应Process,从而调用所有的监听句柄。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另一种场景是分布式锁,加锁的过程是向注册中心创建节点,创建节点通过zookeeper的有序性。如果当前节点是最小节点获取成功，反之等待利用监听机制,当有节点被删除的时候,再次尝试获取。释放锁的过程则是删除节点。 zookeeper启动类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #zookeeper的启动流程 zookeeper的启动通过调用zkServer.sh start启动，这个过程实际上是以QuorumPeerMain的main方法为函数入口,具体步骤如下: 1调用初始化方法 1.1初始化过程中实例化QuorumPeerConfig解析配置文件 1.2创建文件清理器DatadirCleanupManager并启动 1.3判断启动方式，验证条件如果是有参数或者解析配置文件过程中给config的Server句柄具有相应的集群服务则通过运行配置文件启动，否则就是一个伪分布式直接通过ZooKeeperServerMain主函数启动服务 2.正常退出程序 runFromConfig利用配置文件启动过程位置: QuorumPeerMain.java runFromConfig &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 运行配置文件的过程中，主要将quorumPeer启动。具体步骤如下: 1.注册JMX,作用是可以通过jconsole或者浏览器来管理各个对象 2.创建ServerCnxnFactory这个server工厂,默认是NIOServerCnxnFactory,可以在配置文件中进行配置, 属性名是zookeeper.serverCnxnFactory, 在zookeeper中还提供另一种工程NettyServerCnxnFactory 3.根据传入的地址通过configure方法打开socket通道，绑定ip地址,并注册相应的选择键。注意在这个过程中实例化了三个线程（启动过程在第四步）： AcceptThread : 处理接受请求 此时只是创建线程但是没有运行 SelectorThread: 处理读写请求 此时只是创建线程但是没有运行 cnxnExpiryQueue: 清除无会话时间超过sessionlessCnxnTimeout的NIOServerCnxn并关闭 4.实例化QuorumPeer并启动-在这过程就会执行大名鼎鼎的选举机制了。并且这个过程同时会启动上面三个线程 启动QuorumPeerQuorumPeerMain.java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.加载基础数据2.创建相应的服务工厂3.startLeaderElection设置选举算法4.调用start开始进行选举 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个过程中我们先忽略选举算法,看看AcceptThread线程和SelectorThread线程做的什么事情。 AcceptThread线程处理机制&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以run方法开头,核心调用select.在这个过程中主要是等待请求如果具有相应Accept请求,会获取对应选择键,最终调用selectorThread.addAcceptedConnection(sc)会将对应通道添加到acceptedQueue队列。 SelectorThread线程处理机制&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同样在线程中,也是通过select方法获取对应读写事件调用handleIO进行处理。 1234LOOKING，竞选状态。这里是进行选举算法，将票投给谁setCurrentVote(makeLEStrategy().lookForLeader());FOLLOWING，随从状态，同步leader状态，参与投票。OBSERVING，观察状态,同步leader状态，不参与投票。LEADING，领导者状态。 quorumPeer.joinQuorumPeerMain.java 主要目的是为了让quorumPeer启动完毕,才继续向下执行。]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Linux中shell编程]]></title>
     <url>%2F2018%2F03%2F06%2Flinux%2F2018-03-06-1%2F</url>
     <content type="text"><![CDATA[grep 在文件中搜寻字符串匹配的行并输出(&lt;em style=&quot;color:red;&quot;&gt;会输出整个行&lt;/em&gt;) grep 【选项】【指定字串】【文件】 -i 不区分大小写 -v 排除指定字串 －c：只输出匹配行的计数。 －n：显示匹配行及 行号。 －s：不显示不存在或无匹配文本的错误信息。 这个的意思就是输出a所存在的相关行。 cut cut是一个选取命令，就是将一段数据经过分析，取出我们想要的。一般来说，选取信息通常是针对“行”来进行分析的，并不是整篇信息分析的 cut[选项] 文件名 -f列号提取第几列 -d分隔符按照指定分隔符分割列（默认使用的是制表符tab键） 按空格进行切分获取每行第三列。 awk 和cut命令作用一样，截取符合条件的列，grep是截取符合条件的行，但cut有些局限，awk也可以通过制表符，冒号等分隔符截取，功能远比cut强大，但awk是一个非常复杂的命令，不但可以实现字符串的截取，还可以在awk命令中进行编程调用，最常见的可以进行函数，判断等。所以把awk一直说是awk编程。但仅仅是简单的截取列，又不是用空格作分割的话，cut命令更简单。awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。 awk ‘条件1｛动作1｝条件2｛动作2｝...’文件名 条件 一般使用关系表达式作为条件 x&gt;10判断变量x是否大于10 x&gt;=10大于等于 x&lt;=10小于等于 获取每一行第二列 printf printf是在awk中的标准输出格式 输出格式： \a：输出警告声音 \b：输出退格符，也就是backspace键 \f：清楚屏幕 \n：换行 \r：回车，也就是Enter键 \t：水平输出退格键，也就是Tab键 \v：垂直输出退格键，也就是Tab键]]></content>
@@ -155,17 +166,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[zookeeper选举机制]]></title>
-    <url>%2F2018%2F01%2F18%2Fzookeeper%2F2018-01-11%2F</url>
-    <content type="text"><![CDATA[znode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zookeeper集群自身维护了一套数据结构。这个存储结构是一个树形结构，其上的每一个节点，我们称之为“znode” lookForLeader方法:]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[SQLite简介]]></title>
     <url>%2F2018%2F01%2F13%2Fsqlite%2F2018-01-13%2F</url>
     <content type="text"><![CDATA[SQLite的组成 parser tokenize virtual machine SQLite的数据结构 Connections和Statements&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connection和statement是执行SQL命令涉及的两个主要数据结构，几乎所有通过API进行的操作都要用到它们。一个连接(Connection)代表在一个独立的事务环境下的一个连接A (connection represents a single connection to a database as well as a single transaction context)。每一个statement都和一个connection关联，它通常表示一个编译过的SQL语句，在内部，它以VDBE字节码表示。Statement包括执行一个命令所需要一切，包括保存VDBE程序执行状态所需的资源，指向硬盘记录的B-树游标，以及参数等等 B-tree和pager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个connection可以有多个database对象—一个主要的数据库以及附加的数据库，每一个数据库对象有一个B-tree对象，一个B-tree有一个pager对象(这里的对象不是面向对象的“对象”，只是为了说清楚问题)。 Statement最终都是通过connection的B-tree和pager从数据库读或者写数据，通过B-tree的游标(cursor)遍历存储在页面(page)中的记录。游标在访问页面之前要把数所从disk加载到内存，而这就是pager的任务。任何时候，如果B-tree需要页面，它都会请求pager从disk读取数据，然后把页面(page)加载到页面缓冲区(page cache)，之后，B-tree和与之关联的游标就可以访问位于page中的记录了。 如果cursor改变了page，为了防止事务回滚，pager必须采取特殊的方式保存原来的page。总的来说，pager负责读写数据库，管理内存缓存和页面（page），以及管理事务，锁和崩溃恢复(这些在事务一节会详细介绍)。 总之，关于connection和transaction，你必须知道两件事： (1)对数据库的任何操作，一个连接存在于一个事务下。 (2)一个连接决不会同时存在多个事务下。]]></content>
@@ -196,17 +196,6 @@
       </categories>
       <tags>
         <tag>SQLite</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[zookeeper 源码分析一 zookeeper启动]]></title>
-    <url>%2F2018%2F01%2F11%2Fzookeeper%2F2018-01-04%2F</url>
-    <content type="text"><![CDATA[zookeeper启动类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的org.apache.zookeeper.server.quorum.QuorumPeerMain #z ookeeper的启动流程 zookeeper的启动通过调用zkServer.sh start启动，这个过程实际上是以QuorumPeerMain的main方法为函数入口,具体步骤如下: 1调用初始化方法 1.1初始化过程中实例化QuorumPeerConfig解析配置文件 1.2创建文件清理器DatadirCleanupManager并启动 1.3判断启动方式，验证条件如果是有参数或者解析配置文件过程中给config的Server句柄具有相应的集群服务则通过运行配置文件启动，否则就是一个伪分布式直接通过ZooKeeperServerMain主函数启动服务 2.正常退出程序 runFromConfig利用配置文件启动过程位置: QuorumPeerMain.java runFromConfig &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 运行配置文件的过程中，主要将quorumPeer启动。具体步骤如下:1.注册JMX,作用是可以通过jconsole或者浏览器来管理各个对象2.创建ServerCnxnFactory这个server工厂,默认是NIOServerCnxnFactory,可以在配置文件中进行配置, 属性名是zookeeper.serverCnxnFactory, 在zookeeper中还提供另一种工程NettyServerCnxnFactory3.根据传入的地址通过configure方法打开socket通道，绑定ip地址,并注册相应的选择键4.实例化QuorumPeer并启动-待补录 启动QuorumPeerQuorumPeerMain.java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.加载基础数据&nbsp;&nbsp; 2.创建相应的服务工厂&nbsp;&nbsp; 3.startLeaderElection开始选举&nbsp;&nbsp; 4.调用start启动当前线程即本实例方法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1 利用JMX注册MbeanServer jmxQuorumBean和LocalPeerBean，RemotePeerBean 这里是根据myId来进行注册，myId是在加载属性实例化QuorumPeer的时候注入。id是QuorumServer的属性，其在解析属性的过程中解析server.0=SY-001:2888:3888 这个0就是解析的id所以如果myid 和这个id相等则采用LocalPeerBean, myid和这个id定义不同则是RemotePeerBean， 可以看出其实定义的主zookeeper节点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2在循环的过程中有四种 LOOKING, FOLLOWING, LEADING, OBSERVING针对当前状态执行相应的指令 1234LOOKING，竞选状态。这里是进行选举算法，将票投给谁setCurrentVote(makeLEStrategy().lookForLeader());FOLLOWING，随从状态，同步leader状态，参与投票。OBSERVING，观察状态,同步leader状态，不参与投票。LEADING，领导者状态。 quorumPeer.joinQuorumPeerMain.java 主要目的是为了让quorumPeer启动完毕,才继续向下执行。]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -287,9 +276,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux修改ip为静态ip]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-3%2F</url>
-    <content type="text"><![CDATA[#修改网卡信息 vi /etc/sysconfig/network-scripts/ifcfg-eth0 123456BOOTPROTO=&quot;static&quot; #注意：原值为dhcpHWADDR=&quot;00:0c:29:ba:18:25&quot;IPV6INIT=&quot;yes&quot;NM_CONTROLLED=&quot;yes&quot;ONBOOT=&quot;yes&quot;TYPE=&quot;Ethernet&quot; 以下是修改为静态时需要加IPADDR=192.168.1.200GATEWAY=192.168.1.1NETMASK=255.255.255.0 重启网卡service network restart #设置DNS vim /ect/resolv.conf 12nameserver 8.8.8.8nameserver 114.114.114.114]]></content>
+    <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -309,9 +298,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux卸载openJDK安装sun下jdk]]></title>
-    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[卸载openJDK查看相应openJDK的信息rpm -qa | grep java 123tzdata-java-2014g-1.el6.noarchjava-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64 删除相应的文件123rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-11.1.13.4.el6.x86_64rpm -e --nodeps java-1.7.0-openjdk-1.7.0.65-2.5.1.2.el6_5.x86_64rpm -e --nodeps tzdata-java-2014g-1.el6.noarch 安装JDK找到相应的jdk资源，将其解压到指定目录 配置环境打开环境变量存储文件vi /etc/profile 12345JAVA_HOME=/usr/java/jdk1.7JRE_HOME=/usr/java/jdk1.7/jrePATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/binCLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/libexport JAVA_HOME JRE_HOME PATH CLASSPATH 编译环境变量存储文件source /etc/profile]]></content>
+    <title><![CDATA[linux修改ip为静态ip]]></title>
+    <url>%2F2018%2F01%2F01%2Flinux%2F2018-01-01-3%2F</url>
+    <content type="text"><![CDATA[#修改网卡信息 vi /etc/sysconfig/network-scripts/ifcfg-eth0 123456BOOTPROTO=&quot;static&quot; #注意：原值为dhcpHWADDR=&quot;00:0c:29:ba:18:25&quot;IPV6INIT=&quot;yes&quot;NM_CONTROLLED=&quot;yes&quot;ONBOOT=&quot;yes&quot;TYPE=&quot;Ethernet&quot; 以下是修改为静态时需要加IPADDR=192.168.1.200GATEWAY=192.168.1.1NETMASK=255.255.255.0 重启网卡service network restart #设置DNS vim /ect/resolv.conf 12nameserver 8.8.8.8nameserver 114.114.114.114]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -344,7 +333,7 @@
   <entry>
     <title><![CDATA[Working principle of the Netty]]></title>
     <url>%2F2017%2F12%2F20%2Fnetty%2Fnetty3%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[]]></content>
       <categories>
         <category>Netty</category>
       </categories>
@@ -408,17 +397,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux基本指令]]></title>
-    <url>%2F2017%2F12%2F11%2Flinux%2F2018-01-01%2F</url>
-    <content type="text"><![CDATA[解压1tar -zxvf 文件名 移动文件移动命令mv 命令格式：mv [-fiv] source destination 参数说明： -f:force，强制直接移动而不询问 -i:若目标文件(destination)已经存在，就会询问是否覆盖 -u:若目标文件已经存在，且源文件比较新，才会更新 如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令： mv /test1/file1 /test3/file2 重命名关机poweroff 立刻关机shutdown -h now 立刻关机shutdown -h 10 10分钟后自动关机 关闭防火墙关闭命令： service iptables stop永久关闭防火墙：chkconfig iptables off永久关闭需要两条语句都运行 关闭端口1lsof -i:]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[java NIO Selector]]></title>
     <url>%2F2017%2F12%2F11%2FNIO%2Fnio4%2F</url>
     <content type="text"><![CDATA[#The Selector, SelectableChannel, and SelectionKey Classes Selector&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Selector class manages information about a set of registered channel and their readies state. Channels are registered with selectors, and a selector can be asked to update readies state of channels. When doing so, the invoking thread can optionally indicate that it would prefer to be suspended until one of the registered channel is ready. ##]]></content>
@@ -427,6 +405,17 @@
       </categories>
       <tags>
         <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux基本指令]]></title>
+    <url>%2F2017%2F12%2F11%2Flinux%2F2018-01-01%2F</url>
+    <content type="text"><![CDATA[解压1tar -zxvf 文件名 移动文件移动命令mv 命令格式：mv [-fiv] source destination 参数说明： -f:force，强制直接移动而不询问 -i:若目标文件(destination)已经存在，就会询问是否覆盖 -u:若目标文件已经存在，且源文件比较新，才会更新 如将/test1目录下的file1复制到/test3 目录，并将文件名改为file2,可输入以下命令： mv /test1/file1 /test3/file2 重命名关机poweroff 立刻关机shutdown -h now 立刻关机shutdown -h 10 10分钟后自动关机 关闭防火墙关闭命令： service iptables stop永久关闭防火墙：chkconfig iptables off永久关闭需要两条语句都运行 关闭端口1lsof -i:]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
       </tags>
   </entry>
   <entry>
@@ -694,9 +683,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[ofbiz方法之FreeMarkerWorker的makeConfiguration]]></title>
-    <url>%2F2017%2F06%2F26%2Fofbiz%2Fofbiz10%2F</url>
-    <content type="text"><![CDATA[代码展示123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133public static Configuration makeConfiguration(BeansWrapper wrapper) &#123; /** * freemarker.template.Configuration实例并调整其设置。 * 一个Configuration实例是存储FreeMarker应用程序级别设置的中心。 * 另外，它处理预先解析的模板（即 对象）的创建和 缓存Template * */ Configuration newConfig = new Configuration(version); /** * @author jack * * 对象包装器 * wrapper == &gt;freemarker.ext.beans.BeansWrapper * 这是一个最原始的对象包装器，主要用来映射java * 虽然原始，但是也有使用的时候，比如collection-s和map-s被允许修改模板时执行 * 参考资料 http://freemarker.org/docs/pgui_misc_beanwrapper.html * */ newConfig.setObjectWrapper(wrapper); /** * @author jack * * 从beanswrapper返回TemplateHashModel。 * getstaticmodels()可以用来访问静态方法和任意一类的字段创建哈希模型。 * */ TemplateHashModel staticModels = wrapper.getStaticModels(); /** * @author jack * 将TemplateHashModel通过Static注入 以后就可以直接通过Static进行访问 * Shared variables共享变量是为所有模板定义的变量 * 形式：statics["java.lang.System"].currentTimeMillis() 这是一种调用java方法的处理方式 ftl中的用法 * */ newConfig.setSharedVariable("Static", staticModels); /** * @author jack * * #assign ls = EntityQuery.use(delegator).from("DictType").() ftl中的用法 * 注入后就可以直接使用EntityQuery了 * */ try &#123; newConfig.setSharedVariable("EntityQuery", staticModels.get("com.hanlin.fadp.entity.util.EntityQuery")); &#125; catch (TemplateModelException e) &#123; Debug.logError(e, module); &#125; /** * @author jack * * 当一个模板包含另一个模板时，它试图加载以相同的本地化环境加载模板。 * 假定你的模板以本地化en_US来加载，那就意味着是U.S. English。当你包含另外一个模板：那么引擎实际上就会寻找一些模板，并按照这个顺序： * footer_en_US.ftl * footer_en.ftl * footer.ftl * 设置成为false就不会有这些问题 * */ newConfig.setLocalizedLookup(false); //创建StringUtil这个工具类共享变量 newConfig.setSharedVariable("StringUtil", new BeanModel(StringUtil.INSTANCE, wrapper)); /** * @author jack * * 如果在这些内建的模版加载器中没有一个符合你的要求， * 那么你可以自己定制一个模版加载器，只需要实现freemarker.cache.TemplateLoader 接口就可以了， * 然后通过方法setTemplateLoader(TemplateLoader loader)把其传递给Configuration对象。 * 主要业务处理不是很清楚 * */ newConfig.setTemplateLoader(new FlexibleTemplateLoader()); /** * @author jack * * 导入库也就是说，它创建一个新的空命名空间 然后执行path在该命名空间中使用参数给出的模板 * 导入法则： * #import "/lib/example.ftl" as e * &lt;@e.copyright date="1999-2002"/&gt; * 属性文件中的模板就是通过这种方式加载进去 * 所以在调用的时候需要加入命令空间 * */ newConfig.setAutoImports(UtilProperties.getProperties("freemarkerImports")); /** * @author jack * * 自定义类实现TemplateExceptionHandler * 当ftl渲染出现异常调用这个类的handleTemplateException * */ newConfig.setTemplateExceptionHandler(new FreeMarkerWorker.OFBizTemplateExceptionHandler()); try &#123; newConfig.setSetting("datetime_format", "yyyy-MM-dd HH:mm:ss.SSS"); newConfig.setSetting("number_format", "0.##########"); &#125; catch (TemplateException e) &#123; Debug.logError("Unable to set date/time and number formats in FreeMarker: " + e, module); &#125; // Transforms properties file set up as key=transform name, property=transform class name /** * @author jack * * 获取上下文加载器，当前加载器在webapp,随意加载其中config的freemarkerTransforms.properties所有值 * */ ClassLoader loader = Thread.currentThread().getContextClassLoader(); Enumeration&lt;URL&gt; resources; try &#123; resources = loader.getResources("freemarkerTransforms.properties"); &#125; catch (IOException e) &#123; Debug.logError(e, "Could not load list of freemarkerTransforms.properties", module); throw UtilMisc.initCause(new InternalError(e.getMessage()), e); &#125; /** * @author jack * * 创建其中资源文件值得实例并通过key用setSharedVariable设置进入共享变量 * */ while (resources.hasMoreElements()) &#123; URL propertyURL = resources.nextElement(); Debug.logInfo("loading properties: " + propertyURL, module); Properties props = UtilProperties.getProperties(propertyURL); if (UtilValidate.isEmpty(props)) &#123; Debug.logError("Unable to locate properties file " + propertyURL, module); &#125; else &#123; loadTransforms(loader, props, newConfig); &#125; &#125; return newConfig; &#125; 用例说明1&lt;#assign displayApps = Static[&quot;org.ofbiz.webapp.control.LoginWorker&quot;].getAppBarWebInfos(security, userLogin, ofbizServerName, &quot;main&quot;)&gt; StringUtil1&lt;link rel=&quot;shortcut icon&quot; href=&quot;&lt;@ofbizContentUrl&gt;$&#123;StringUtil.wrapString(shortcutIcon)&#125;&lt;/@ofbizContentUrl&gt;&quot; /&gt;]]></content>
+    <title><![CDATA[Core Technologies]]></title>
+    <url>%2F2017%2F07%2F02%2Fspring%2F2018-07-02%2F</url>
+    <content type="text"><![CDATA[The IoC container&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IoC is also known as dependency injection (DI). It is a process whereby objects define their dependencies, that is, the other objects they work with, only through constructor arguments, arguments to a factory method, or properties that are set on the object instance after it is constructed or returned from a factory method. The container then injects those dependencies when it creates the bean. This process is fundamentally the inverse, hence the name Inversion of Control (IoC), of the bean itself controlling the instantiation or location of its dependencies by using direct construction of classes, or a mechanism such as the Service Locator pattern &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The BeanFactory provides the configuration framework and basic functionality, and the ApplicationContext adds more enterprise-specific functionality. The ApplicationContext is a complete superset of the BeanFactory, and is used exclusively in this chapter in descriptions of Spring’s IoC container. #]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ofbiz方法之条件查询createConditionList]]></title>
+    <url>%2F2017%2F06%2F26%2Fofbiz%2Fofbiz11%2F</url>
+    <content type="text"><![CDATA[方法代码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110/** * Parses input parameters and returns an &lt;code&gt;EntityCondition&lt;/code&gt; list. * * @param parameters * @param fieldList * @param queryStringMap * @param delegator * @param context * @return returns an EntityCondition list * * @author jack * 第一步：获取所有字段信息 存入到Map&lt;String, ModelField&gt; fieldMap * 第二步：将上下文这个map进行遍历,这个map是传进来的参数 * 由于是根据参数，一个字段最多具有三个条件 _op _fld0_op _fld1_op * 第三步: 调用createSingleCondition创造条件，添加到集合 * * @param parameters 获取传入的参数 * @param fieldList 传入当前实体所有字段 * @param queryStringMap * @param delegator 操作数据库的实例 * @param context 获取上下文 */ public static List&lt;EntityCondition&gt; createConditionList(Map&lt;String, ? extends Object&gt; parameters, List&lt;ModelField&gt; fieldList, Map&lt;String, Object&gt; queryStringMap, Delegator delegator, Map&lt;String, ?&gt; context) &#123; Set&lt;String&gt; processed = new LinkedHashSet&lt;String&gt;(); Set&lt;String&gt; keys = new LinkedHashSet&lt;String&gt;(); Map&lt;String, ModelField&gt; fieldMap = new LinkedHashMap&lt;String, ModelField&gt;(); for (ModelField modelField : fieldList) &#123; fieldMap.put(modelField.getName(), modelField); &#125; List&lt;EntityCondition&gt; result = new LinkedList&lt;EntityCondition&gt;(); for (Map.Entry&lt;String, ? extends Object&gt; entry : parameters.entrySet()) &#123; String parameterName = entry.getKey(); //获取上下文中的键值 //如果已经有了这个键值在进程中就不在对它进行处理 if (processed.contains(parameterName)) &#123; continue; &#125; keys.clear(); String fieldName = parameterName; Object fieldValue = null; String operation = null; boolean ignoreCase = false; /** * 将参数名截断对应实体中的字段名，这样做的方式是先获取字段名 * (如果包含fld0 fld1下面则需要再截断）， * 下面进行连接，针对几种不同的情况进行处理 */ if (parameterName.endsWith("_ic") || parameterName.endsWith("_op")) &#123; fieldName = parameterName.substring(0, parameterName.length() - 3); &#125; else if (parameterName.endsWith("_value")) &#123; fieldName = parameterName.substring(0, parameterName.length() - 6); &#125; //_ic连接 是判断条件查找是否忽略大小写 String key = fieldName.concat("_ic"); if (parameters.containsKey(key)) &#123; keys.add(key); ignoreCase = "Y".equals(parameters.get(key)); &#125; //获取字段要进行的操作 key = fieldName.concat("_op"); if (parameters.containsKey(key)) &#123; keys.add(key); operation = (String) parameters.get(key); &#125; //获取字段的值,如果具有_fld0 这些可能获取不到，后面会进一步截断获取 key = fieldName.concat("_value"); if (parameters.containsKey(key)) &#123; keys.add(key); fieldValue = parameters.get(key); &#125; //主要是对时间进行处理，一个条件大于多少 小于多少 if (fieldName.endsWith("_fld0") || fieldName.endsWith("_fld1")) &#123; if (parameters.containsKey(fieldName)) &#123; keys.add(fieldName); &#125; fieldName = fieldName.substring(0, fieldName.length() - 5); &#125; //将字段名，之所以这样不断截断是为了获取对应与实体中的真实字段名 if (parameters.containsKey(fieldName)) &#123; keys.add(fieldName); &#125; processed.addAll(keys); ModelField modelField = fieldMap.get(fieldName); if (modelField == null) &#123; continue; &#125; //获取字段值 if (fieldValue == null) &#123; fieldValue = parameters.get(fieldName); &#125; //如果值为空，则不进行任何操作 if (ObjectType.isEmpty(fieldValue) &amp;&amp; !"empty".equals(operation)) &#123; continue; &#125; //将创建的条件加入list集合 即AND关系 result.add(createSingleCondition(modelField, operation, fieldValue, ignoreCase, delegator, context)); for (String mapKey : keys) &#123; queryStringMap.put(mapKey, parameters.get(mapKey)); &#125; &#125; return result; &#125; 方法使用1234567&lt;select name=&quot;visitId_op&quot; class=&quot;selectBox&quot;&gt; &lt;option value=&quot;equals&quot;&gt;等于&lt;/option&gt; &lt;option value=&quot;like&quot;&gt;开头字符&lt;/option&gt; &lt;option value=&quot;contains&quot; selected=&quot;selected&quot;&gt;包含&lt;/option&gt; &lt;option value=&quot;empty&quot;&gt;为空&lt;/option&gt; &lt;option value=&quot;notEqual&quot;&gt;不等于&lt;/option&gt;&lt;/select&gt;]]></content>
       <categories>
         <category>OFBiz</category>
       </categories>
@@ -705,9 +705,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[ofbiz方法之条件查询createConditionList]]></title>
-    <url>%2F2017%2F06%2F26%2Fofbiz%2Fofbiz11%2F</url>
-    <content type="text"><![CDATA[方法代码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110/** * Parses input parameters and returns an &lt;code&gt;EntityCondition&lt;/code&gt; list. * * @param parameters * @param fieldList * @param queryStringMap * @param delegator * @param context * @return returns an EntityCondition list * * @author jack * 第一步：获取所有字段信息 存入到Map&lt;String, ModelField&gt; fieldMap * 第二步：将上下文这个map进行遍历,这个map是传进来的参数 * 由于是根据参数，一个字段最多具有三个条件 _op _fld0_op _fld1_op * 第三步: 调用createSingleCondition创造条件，添加到集合 * * @param parameters 获取传入的参数 * @param fieldList 传入当前实体所有字段 * @param queryStringMap * @param delegator 操作数据库的实例 * @param context 获取上下文 */ public static List&lt;EntityCondition&gt; createConditionList(Map&lt;String, ? extends Object&gt; parameters, List&lt;ModelField&gt; fieldList, Map&lt;String, Object&gt; queryStringMap, Delegator delegator, Map&lt;String, ?&gt; context) &#123; Set&lt;String&gt; processed = new LinkedHashSet&lt;String&gt;(); Set&lt;String&gt; keys = new LinkedHashSet&lt;String&gt;(); Map&lt;String, ModelField&gt; fieldMap = new LinkedHashMap&lt;String, ModelField&gt;(); for (ModelField modelField : fieldList) &#123; fieldMap.put(modelField.getName(), modelField); &#125; List&lt;EntityCondition&gt; result = new LinkedList&lt;EntityCondition&gt;(); for (Map.Entry&lt;String, ? extends Object&gt; entry : parameters.entrySet()) &#123; String parameterName = entry.getKey(); //获取上下文中的键值 //如果已经有了这个键值在进程中就不在对它进行处理 if (processed.contains(parameterName)) &#123; continue; &#125; keys.clear(); String fieldName = parameterName; Object fieldValue = null; String operation = null; boolean ignoreCase = false; /** * 将参数名截断对应实体中的字段名，这样做的方式是先获取字段名 * (如果包含fld0 fld1下面则需要再截断）， * 下面进行连接，针对几种不同的情况进行处理 */ if (parameterName.endsWith("_ic") || parameterName.endsWith("_op")) &#123; fieldName = parameterName.substring(0, parameterName.length() - 3); &#125; else if (parameterName.endsWith("_value")) &#123; fieldName = parameterName.substring(0, parameterName.length() - 6); &#125; //_ic连接 是判断条件查找是否忽略大小写 String key = fieldName.concat("_ic"); if (parameters.containsKey(key)) &#123; keys.add(key); ignoreCase = "Y".equals(parameters.get(key)); &#125; //获取字段要进行的操作 key = fieldName.concat("_op"); if (parameters.containsKey(key)) &#123; keys.add(key); operation = (String) parameters.get(key); &#125; //获取字段的值,如果具有_fld0 这些可能获取不到，后面会进一步截断获取 key = fieldName.concat("_value"); if (parameters.containsKey(key)) &#123; keys.add(key); fieldValue = parameters.get(key); &#125; //主要是对时间进行处理，一个条件大于多少 小于多少 if (fieldName.endsWith("_fld0") || fieldName.endsWith("_fld1")) &#123; if (parameters.containsKey(fieldName)) &#123; keys.add(fieldName); &#125; fieldName = fieldName.substring(0, fieldName.length() - 5); &#125; //将字段名，之所以这样不断截断是为了获取对应与实体中的真实字段名 if (parameters.containsKey(fieldName)) &#123; keys.add(fieldName); &#125; processed.addAll(keys); ModelField modelField = fieldMap.get(fieldName); if (modelField == null) &#123; continue; &#125; //获取字段值 if (fieldValue == null) &#123; fieldValue = parameters.get(fieldName); &#125; //如果值为空，则不进行任何操作 if (ObjectType.isEmpty(fieldValue) &amp;&amp; !"empty".equals(operation)) &#123; continue; &#125; //将创建的条件加入list集合 即AND关系 result.add(createSingleCondition(modelField, operation, fieldValue, ignoreCase, delegator, context)); for (String mapKey : keys) &#123; queryStringMap.put(mapKey, parameters.get(mapKey)); &#125; &#125; return result; &#125; 方法使用1234567&lt;select name=&quot;visitId_op&quot; class=&quot;selectBox&quot;&gt; &lt;option value=&quot;equals&quot;&gt;等于&lt;/option&gt; &lt;option value=&quot;like&quot;&gt;开头字符&lt;/option&gt; &lt;option value=&quot;contains&quot; selected=&quot;selected&quot;&gt;包含&lt;/option&gt; &lt;option value=&quot;empty&quot;&gt;为空&lt;/option&gt; &lt;option value=&quot;notEqual&quot;&gt;不等于&lt;/option&gt;&lt;/select&gt;]]></content>
+    <title><![CDATA[ofbiz方法之FreeMarkerWorker的makeConfiguration]]></title>
+    <url>%2F2017%2F06%2F26%2Fofbiz%2Fofbiz10%2F</url>
+    <content type="text"><![CDATA[代码展示123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133public static Configuration makeConfiguration(BeansWrapper wrapper) &#123; /** * freemarker.template.Configuration实例并调整其设置。 * 一个Configuration实例是存储FreeMarker应用程序级别设置的中心。 * 另外，它处理预先解析的模板（即 对象）的创建和 缓存Template * */ Configuration newConfig = new Configuration(version); /** * @author jack * * 对象包装器 * wrapper == &gt;freemarker.ext.beans.BeansWrapper * 这是一个最原始的对象包装器，主要用来映射java * 虽然原始，但是也有使用的时候，比如collection-s和map-s被允许修改模板时执行 * 参考资料 http://freemarker.org/docs/pgui_misc_beanwrapper.html * */ newConfig.setObjectWrapper(wrapper); /** * @author jack * * 从beanswrapper返回TemplateHashModel。 * getstaticmodels()可以用来访问静态方法和任意一类的字段创建哈希模型。 * */ TemplateHashModel staticModels = wrapper.getStaticModels(); /** * @author jack * 将TemplateHashModel通过Static注入 以后就可以直接通过Static进行访问 * Shared variables共享变量是为所有模板定义的变量 * 形式：statics["java.lang.System"].currentTimeMillis() 这是一种调用java方法的处理方式 ftl中的用法 * */ newConfig.setSharedVariable("Static", staticModels); /** * @author jack * * #assign ls = EntityQuery.use(delegator).from("DictType").() ftl中的用法 * 注入后就可以直接使用EntityQuery了 * */ try &#123; newConfig.setSharedVariable("EntityQuery", staticModels.get("com.hanlin.fadp.entity.util.EntityQuery")); &#125; catch (TemplateModelException e) &#123; Debug.logError(e, module); &#125; /** * @author jack * * 当一个模板包含另一个模板时，它试图加载以相同的本地化环境加载模板。 * 假定你的模板以本地化en_US来加载，那就意味着是U.S. English。当你包含另外一个模板：那么引擎实际上就会寻找一些模板，并按照这个顺序： * footer_en_US.ftl * footer_en.ftl * footer.ftl * 设置成为false就不会有这些问题 * */ newConfig.setLocalizedLookup(false); //创建StringUtil这个工具类共享变量 newConfig.setSharedVariable("StringUtil", new BeanModel(StringUtil.INSTANCE, wrapper)); /** * @author jack * * 如果在这些内建的模版加载器中没有一个符合你的要求， * 那么你可以自己定制一个模版加载器，只需要实现freemarker.cache.TemplateLoader 接口就可以了， * 然后通过方法setTemplateLoader(TemplateLoader loader)把其传递给Configuration对象。 * 主要业务处理不是很清楚 * */ newConfig.setTemplateLoader(new FlexibleTemplateLoader()); /** * @author jack * * 导入库也就是说，它创建一个新的空命名空间 然后执行path在该命名空间中使用参数给出的模板 * 导入法则： * #import "/lib/example.ftl" as e * &lt;@e.copyright date="1999-2002"/&gt; * 属性文件中的模板就是通过这种方式加载进去 * 所以在调用的时候需要加入命令空间 * */ newConfig.setAutoImports(UtilProperties.getProperties("freemarkerImports")); /** * @author jack * * 自定义类实现TemplateExceptionHandler * 当ftl渲染出现异常调用这个类的handleTemplateException * */ newConfig.setTemplateExceptionHandler(new FreeMarkerWorker.OFBizTemplateExceptionHandler()); try &#123; newConfig.setSetting("datetime_format", "yyyy-MM-dd HH:mm:ss.SSS"); newConfig.setSetting("number_format", "0.##########"); &#125; catch (TemplateException e) &#123; Debug.logError("Unable to set date/time and number formats in FreeMarker: " + e, module); &#125; // Transforms properties file set up as key=transform name, property=transform class name /** * @author jack * * 获取上下文加载器，当前加载器在webapp,随意加载其中config的freemarkerTransforms.properties所有值 * */ ClassLoader loader = Thread.currentThread().getContextClassLoader(); Enumeration&lt;URL&gt; resources; try &#123; resources = loader.getResources("freemarkerTransforms.properties"); &#125; catch (IOException e) &#123; Debug.logError(e, "Could not load list of freemarkerTransforms.properties", module); throw UtilMisc.initCause(new InternalError(e.getMessage()), e); &#125; /** * @author jack * * 创建其中资源文件值得实例并通过key用setSharedVariable设置进入共享变量 * */ while (resources.hasMoreElements()) &#123; URL propertyURL = resources.nextElement(); Debug.logInfo("loading properties: " + propertyURL, module); Properties props = UtilProperties.getProperties(propertyURL); if (UtilValidate.isEmpty(props)) &#123; Debug.logError("Unable to locate properties file " + propertyURL, module); &#125; else &#123; loadTransforms(loader, props, newConfig); &#125; &#125; return newConfig; &#125; 用例说明1&lt;#assign displayApps = Static[&quot;org.ofbiz.webapp.control.LoginWorker&quot;].getAppBarWebInfos(security, userLogin, ofbizServerName, &quot;main&quot;)&gt; StringUtil1&lt;link rel=&quot;shortcut icon&quot; href=&quot;&lt;@ofbizContentUrl&gt;$&#123;StringUtil.wrapString(shortcutIcon)&#125;&lt;/@ofbizContentUrl&gt;&quot; /&gt;]]></content>
       <categories>
         <category>OFBiz</category>
       </categories>
@@ -735,28 +735,6 @@
       </categories>
       <tags>
         <tag>spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[dubbo环境搭建]]></title>
-    <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-02%2F</url>
-    <content type="text"><![CDATA[#解压dubbo-admin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面 解压命令unzip dubbo-admin.war -d dubbp-admin #修改属性文件 1.将用户密码都改成root2.修改相应地址 截图如下: #启动tomcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，启动命令：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行startup.sh日志命令:tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[git基本指令]]></title>
-    <url>%2F2017%2F01%2F02%2Fgit%2F2017-12-29%2F</url>
-    <content type="text"><![CDATA[The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 objects:该目录存放所有的Git对象，对象的SHA1哈希值的前两位是文件夹名称，后38位作为对象文件名。比如前面log里的HEAD文件里有个哈希值5426426e3ccc9ab4e3330640862a7b96e28828af 5 refs:具体的引用，Reference Specification，这个目录一般包括三个子文件夹，heads、remotes和tags，比如，heads中的master文件标识了项目中的master分支指向的当前commit，其他类似。 6 COMMIT_EDITMSG:保存最新的commit message，Git系统不会用到这个文件，只是给用户一个参考 7 config:这个是GIt仓库的配置文件 8 description:仓库的描述信息，主要给gitweb等git托管系统使用 9 index:这个文件就是我们前面提到的暂存区（stage），是一个二进制文件 10 HEAD:这个文件包含了一个分支（branch）的引用，通过这个文件Git可以得到下一次commit的parent，什么是引用呢，你可以理解为指针，哪儿都可以指，但是不能指向没有的东西哦。详细介绍请看这里： ###git add git add . ：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。 git add -u ：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写） git add -A ：是上面两个功能的合集（git add –all的缩写） git remotegit remote add:命令用于添加远程主机 1git remote add &lt;主机名&gt; &lt;网址&gt; src refspec master does not match any.]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -804,14 +782,25 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[maven命令使用指南]]></title>
-    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-03%2F</url>
-    <content type="text"><![CDATA[#基本命令 编译源代码: mvn compile编译测试代码：mvn test-compile运行测试：mvn test产生site：mvn site打包：mvn package -Dmaven.test.skip=true(跳过测试) #编译jar到本地仓库 mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc]]></content>
+    <title><![CDATA[dubbo环境搭建]]></title>
+    <url>%2F2017%2F01%2F02%2Fdubbo%2F2018-01-02%2F</url>
+    <content type="text"><![CDATA[#解压dubbo-admin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将dubbo-admin解压到tomcat的webapps下面 解压命令unzip dubbo-admin.war -d dubbp-admin #修改属性文件 1.将用户密码都改成root2.修改相应地址 截图如下: #启动tomcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接将tomcat启动，启动之后可以查看相应的日志，启动命令：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相应的bin目录下执行startup.sh日志命令:tail -f -n 500 /usr/local/dubbo-tomcat/logs/catalina.out]]></content>
       <categories>
-        <category>other</category>
+        <category>dubbo</category>
       </categories>
       <tags>
-        <tag>jdk</tag>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git基本指令]]></title>
+    <url>%2F2017%2F01%2F02%2Fgit%2F2017-12-29%2F</url>
+    <content type="text"><![CDATA[The knowledge of gitbase codegit init在当前目录生成的一个管理git仓库的文件夹，这里包含所有git操作所需要的东西 1 hooks:这个目录存放一些shell脚本，可以设置特定的git命令后触发相应的脚本；在搭建gitweb系统或其他git托管系统会经常用到hook script。 2 info:包含仓库的一些信息 3 logs:保存所有更新的引用记录 4 objects:该目录存放所有的Git对象，对象的SHA1哈希值的前两位是文件夹名称，后38位作为对象文件名。比如前面log里的HEAD文件里有个哈希值5426426e3ccc9ab4e3330640862a7b96e28828af 5 refs:具体的引用，Reference Specification，这个目录一般包括三个子文件夹，heads、remotes和tags，比如，heads中的master文件标识了项目中的master分支指向的当前commit，其他类似。 6 COMMIT_EDITMSG:保存最新的commit message，Git系统不会用到这个文件，只是给用户一个参考 7 config:这个是GIt仓库的配置文件 8 description:仓库的描述信息，主要给gitweb等git托管系统使用 9 index:这个文件就是我们前面提到的暂存区（stage），是一个二进制文件 10 HEAD:这个文件包含了一个分支（branch）的引用，通过这个文件Git可以得到下一次commit的parent，什么是引用呢，你可以理解为指针，哪儿都可以指，但是不能指向没有的东西哦。详细介绍请看这里： ###git add git add . ：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。 git add -u ：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写） git add -A ：是上面两个功能的合集（git add –all的缩写） git remotegit remote add:命令用于添加远程主机 1git remote add &lt;主机名&gt; &lt;网址&gt; src refspec master does not match any.]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -845,6 +834,17 @@
       </categories>
       <tags>
         <tag>svn</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[maven命令使用指南]]></title>
+    <url>%2F2017%2F01%2F01%2Fmaven%2F2018-01-03%2F</url>
+    <content type="text"><![CDATA[#基本命令 编译源代码: mvn compile编译测试代码：mvn test-compile运行测试：mvn test产生site：mvn site打包：mvn package -Dmaven.test.skip=true(跳过测试) #编译jar到本地仓库 mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4.jar mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-sources.jar -Dclassifier=sources mvn install:install-file -DgroupId=com.alibaba -DartifactId=dubbo -Dversion=2.8.4-1.7 -Dpackaging=jar -Dfile=dubbo-2.8.4-javadoc.jar -Dclassifier=javadoc]]></content>
+      <categories>
+        <category>other</category>
+      </categories>
+      <tags>
+        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>

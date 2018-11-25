@@ -105,18 +105,22 @@
 
 
 
-<meta name="description" content="znode&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;zookeeper集群自身维护了一套数据结构。这个存储结构是一个树形结构，其上的每一个节点，我们称之为“znode” lookForLeader方法:">
+<meta name="description" content="Zookeeper究竟是什么&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在我理解它就是一个协调中心,一个很重要的单元就是节点。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;就dubbo而言,服务提供者注册的时候会创建节点/服务名/providers,服务消费者在消费的时候回创建节点/服务名/consumer等一系列节点,并且获取父级服务下面所有">
 <meta name="keywords" content="zookeeper">
 <meta property="og:type" content="article">
-<meta property="og:title" content="zookeeper选举机制">
-<meta property="og:url" content="www.cfad.tech/2018/01/18/zookeeper/2018-01-11/index.html">
+<meta property="og:title" content="zookeeper 源码浅析一 zookeeper启动">
+<meta property="og:url" content="www.cfad.tech/2018/03/24/zookeeper/2018-03-24/index.html">
 <meta property="og:site_name" content="敏而好学,乐以忘忧">
-<meta property="og:description" content="znode&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;zookeeper集群自身维护了一套数据结构。这个存储结构是一个树形结构，其上的每一个节点，我们称之为“znode” lookForLeader方法:">
+<meta property="og:description" content="Zookeeper究竟是什么&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在我理解它就是一个协调中心,一个很重要的单元就是节点。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;就dubbo而言,服务提供者注册的时候会创建节点/服务名/providers,服务消费者在消费的时候回创建节点/服务名/consumer等一系列节点,并且获取父级服务下面所有">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-12T05:35:27.000Z">
+<meta property="og:image" content="/media/15156493675289.jpg">
+<meta property="og:image" content="/media/15156549203100.jpg">
+<meta property="og:image" content="/media/15156591376460.jpg">
+<meta property="og:updated_time" content="2018-03-24T10:06:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zookeeper选举机制">
-<meta name="twitter:description" content="znode&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;zookeeper集群自身维护了一套数据结构。这个存储结构是一个树形结构，其上的每一个节点，我们称之为“znode” lookForLeader方法:">
+<meta name="twitter:title" content="zookeeper 源码浅析一 zookeeper启动">
+<meta name="twitter:description" content="Zookeeper究竟是什么&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在我理解它就是一个协调中心,一个很重要的单元就是节点。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;就dubbo而言,服务提供者注册的时候会创建节点/服务名/providers,服务消费者在消费的时候回创建节点/服务名/consumer等一系列节点,并且获取父级服务下面所有">
+<meta name="twitter:image" content="/media/15156493675289.jpg">
 
 
 
@@ -146,13 +150,13 @@
 
 
 
-  <link rel="canonical" href="www.cfad.tech/2018/01/18/zookeeper/2018-01-11/"/>
+  <link rel="canonical" href="www.cfad.tech/2018/03/24/zookeeper/2018-03-24/"/>
 
 
 
 
 
-  <title>zookeeper选举机制 | 敏而好学,乐以忘忧</title>
+  <title>zookeeper 源码浅析一 zookeeper启动 | 敏而好学,乐以忘忧</title>
   
 
 
@@ -325,7 +329,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/01/18/zookeeper/2018-01-11/">
+    <link itemprop="mainEntityOfPage" href="www.cfad.tech/2018/03/24/zookeeper/2018-03-24/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cfs">
@@ -342,7 +346,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">zookeeper选举机制</h1>
+          <h1 class="post-title" itemprop="name headline">zookeeper 源码浅析一 zookeeper启动</h1>
         
 
         <div class="post-meta">
@@ -354,8 +358,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-18T20:34:14+08:00">
-                2018-01-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-24T20:34:14+08:00">
+                2018-03-24
               </time>
             
 
@@ -408,7 +412,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  45
+                  979
                 </span>
               
 
@@ -424,7 +428,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  4
                 </span>
               
             </div>
@@ -445,8 +449,33 @@
       
 
       
-        <h1><span id="znode">znode</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zookeeper集群自身维护了一套数据结构。这个存储结构是一个树形结构，其上的每一个节点，我们称之为“znode”</p>
-<p>lookForLeader方法:</p>
+        <h1><span id="zookeeper-jiu-jing-shi-shi-me">Zookeeper究竟是什么</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在我理解它就是一个协调中心,一个很重要的单元就是节点。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;就dubbo而言,服务提供者注册的时候会创建节点<em style="color:red;">/服务名/providers</em>,服务消费者在消费的时候回创建节点<em style="color:red;">/服务名/consumer</em>等一系列节点,并且获取父级服务下面所有节点,这样就可以获取对应提供者数据(ip),最终获取对应invoker调用相应的方法。至于监听唤醒,本质上是采用zookeeper的watcher机制。在节点变化的时候会调用相应Process,从而调用所有的监听句柄。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另一种场景是分布式锁,加锁的过程是向注册中心创建节点,创建节点通过zookeeper的有序性。如果当前节点是最小节点获取成功，反之等待利用监听机制,当有节点被删除的时候,再次尝试获取。释放锁的过程则是删除节点。</p>
+<h1><span id="zookeeper-qi-dong-lei">zookeeper启动类</span></h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zookeeper的启动方式是调用目录下的zkServer.sh start 由此我们应该到这个文件下找相应的启动入口，最终我找到的<code>org.apache.zookeeper.server.quorum.QuorumPeerMain</code></p>
+<p>#zookeeper的启动流程</p>
+<p><img src="/media/15156493675289.jpg" alt=""></p>
+<p>   zookeeper的启动通过调用zkServer.sh start启动，这个过程实际上是以QuorumPeerMain的main方法为函数入口,具体步骤如下:</p>
+<blockquote>
+<p>   1调用初始化方法<br>   1.1初始化过程中实例化QuorumPeerConfig解析配置文件<br>   1.2创建文件清理器DatadirCleanupManager并启动<br>   1.3判断启动方式，验证条件如果是有参数或者解析配置文件过程中给config的Server句柄具有相应的集群服务则通过运行配置文件启动，否则就是一个伪分布式直接通过ZooKeeperServerMain主函数启动服务</p>
+<p>   2.正常退出程序</p>
+</blockquote>
+<h2><span id="runfromconfig-li-yong-pei-zhi-wen-jian-qi-dong-guo-cheng">runFromConfig利用配置文件启动过程</span></h2><p>位置: QuorumPeerMain.java runFromConfig<br><img src="/media/15156549203100.jpg" alt=""></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 运行配置文件的过程中，主要将quorumPeer启动。具体步骤如下:</p>
+<blockquote>
+<p>1.注册JMX,作用是可以通过jconsole或者浏览器来管理各个对象</p>
+<p>2.创建ServerCnxnFactory这个server工厂,默认是NIOServerCnxnFactory,可以在配置文件中进行配置, 属性名是zookeeper.serverCnxnFactory, 在zookeeper中还提供另一种工程NettyServerCnxnFactory</p>
+<p>3.根据传入的地址通过configure方法打开socket通道，绑定ip地址,并注册相应的选择键。注意在这个过程中实例化了三个线程（启动过程在第四步）：<br>    AcceptThread  :  处理接受请求   此时只是创建线程但是没有运行<br>    SelectorThread:  处理读写请求   此时只是创建线程但是没有运行<br>    cnxnExpiryQueue: 清除无会话时间超过sessionlessCnxnTimeout的NIOServerCnxn并关闭</p>
+<p>4.实例化QuorumPeer并启动-在这过程就会执行大名鼎鼎的选举机制了。并且这个过程同时会启动上面三个线程</p>
+</blockquote>
+<h3><span id="qi-dong-quorumpeer">启动QuorumPeer</span></h3><p>QuorumPeerMain.java<br><img src="/media/15156591376460.jpg" alt=""><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<blockquote>
+<p>1.加载基础数据<br>2.创建相应的服务工厂<br>3.startLeaderElection设置选举算法<br>4.调用start开始进行选举</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个过程中我们先忽略选举算法,看看AcceptThread线程和SelectorThread线程做的什么事情。</p>
+<h3><span id="acceptthread-xian-cheng-chu-li-ji-zhi">AcceptThread线程处理机制</span></h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以run方法开头,核心调用select.在这个过程中主要是等待请求如果具有相应Accept请求,会获取对应选择键,最终调用selectorThread.addAcceptedConnection(sc)会将对应通道添加到acceptedQueue队列。</p>
+<h3><span id="selectorthread-xian-cheng-chu-li-ji-zhi">SelectorThread线程处理机制</span></h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同样在线程中,也是通过select方法获取对应读写事件调用handleIO进行处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOOKING，竞选状态。这里是进行选举算法，将票投给谁setCurrentVote(makeLEStrategy().lookForLeader());</span><br><span class="line">FOLLOWING，随从状态，同步leader状态，参与投票。</span><br><span class="line">OBSERVING，观察状态,同步leader状态，不参与投票。</span><br><span class="line">LEADING，领导者状态。</span><br></pre></td></tr></table></figure>
+<h3><span id="quorumpeer-join">quorumPeer.join</span></h3><p>QuorumPeerMain.java</p>
+<p>主要目的是为了让quorumPeer启动完毕,才继续向下执行。</p>
 
       
     </div>
@@ -475,12 +504,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2018/01/18/zookeeper/2018-01-11/">zookeeper选举机制</a></p>
+  <p><span>本文标题:</span><a href="/2018/03/24/zookeeper/2018-03-24/">zookeeper 源码浅析一 zookeeper启动</a></p>
   <p><span>文章作者:</span><a href="/" title="cfs's Blog'">cfs</a></p>
-  <p><span>发布时间:</span>2018年01月18日 - 20:01</p>
-  <p><span>最后更新:</span>2018年01月12日 - 13:01</p>
-  <p><span>原始链接:</span><a href="/2018/01/18/zookeeper/2018-01-11/" title="zookeeper选举机制">www.cfad.tech/2018/01/18/zookeeper/2018-01-11/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2018/01/18/zookeeper/2018-01-11/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年03月24日 - 20:03</p>
+  <p><span>最后更新:</span>2018年03月24日 - 18:03</p>
+  <p><span>原始链接:</span><a href="/2018/03/24/zookeeper/2018-03-24/" title="zookeeper 源码浅析一 zookeeper启动">www.cfad.tech/2018/03/24/zookeeper/2018-03-24/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="www.cfad.tech/2018/03/24/zookeeper/2018-03-24/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -526,8 +555,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/13/sqlite/2018-01-13/" rel="next" title="SQLite简介">
-                <i class="fa fa-chevron-left"></i> SQLite简介
+              <a href="/2018/03/06/linux/2018-03-06-1/" rel="next" title="Linux中shell编程">
+                <i class="fa fa-chevron-left"></i> Linux中shell编程
               </a>
             
           </div>
@@ -535,10 +564,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/21/java/2018-01-21/" rel="prev" title="java的流设计模型-字节流/字符流">
-                java的流设计模型-字节流/字符流 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -740,7 +765,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="znode">znode</span></span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text"><span id="zookeeper-jiu-jing-shi-shi-me">Zookeeper&#x7A76;&#x7ADF;&#x662F;&#x4EC0;&#x4E48;</span></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text"><span id="zookeeper-qi-dong-lei">zookeeper&#x542F;&#x52A8;&#x7C7B;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.</span> <span class="nav-text"><span id="runfromconfig-li-yong-pei-zhi-wen-jian-qi-dong-guo-cheng">runFromConfig&#x5229;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x542F;&#x52A8;&#x8FC7;&#x7A0B;</span></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.1.</span> <span class="nav-text"><span id="qi-dong-quorumpeer">&#x542F;&#x52A8;QuorumPeer</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.2.</span> <span class="nav-text"><span id="acceptthread-xian-cheng-chu-li-ji-zhi">AcceptThread&#x7EBF;&#x7A0B;&#x5904;&#x7406;&#x673A;&#x5236;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.3.</span> <span class="nav-text"><span id="selectorthread-xian-cheng-chu-li-ji-zhi">SelectorThread&#x7EBF;&#x7A0B;&#x5904;&#x7406;&#x673A;&#x5236;</span></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.4.</span> <span class="nav-text"><span id="quorumpeer-join">quorumPeer.join</span></span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
